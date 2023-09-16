@@ -4,8 +4,10 @@ Record, track, and visualize your personal health data.
 ## About
 HealthRecord allows individuals to record, track and visualize vital measurements related to their personal health. HealthRecord data is stored in the browser's `localStorage` for basic privacy. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
 
+See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
+
 ### Built With
-[![Vue][Vue.js]][Vue-url] [![Vite][Vite]][Vite-url] [![Tailwind-CSS][Tailwind-CSS]][Tailwind-CSS-url] [![Chart.js][Chart.js]][Chartjs-url] [![PostCSS][PostCSS]][PostCSS-url]
+[![Vue][Vue.js]][Vue-url] [![Vite][Vite]][Vite-url] [![Tailwind-CSS][Tailwind-CSS]][Tailwind-CSS-url] [![PostCSS][PostCSS]][PostCSS-url] [![Chart.js][Chart.js]][Chartjs-url] [![Cloudflare-Pages][Cloudflare-Pages]][Cloudflare-Pages-url]
 
 ## Features
 * Track personal medical information and vitals for yourself or family members
@@ -73,3 +75,6 @@ Project Link: [https://github.com/roymckenzie/healthrecord](https://github.com/r
 
 [PostCSS]: https://img.shields.io/badge/postcss-DD3A0A?style=for-the-badge&logo=postcss&logoColor=white
 [PostCSS-url]: https://postcss.org/
+
+[Cloudflare-Pages]: https://img.shields.io/badge/Cloudflare%20Pages-F38020?style=for-the-badge&logo=Cloudflare%20Pages&logoColor=white
+[Cloudflare-Pages-url]: https://pages.cloudflare.com/
