@@ -20,9 +20,9 @@ const logout = () => {
 </script>
 
 <template>
-  <div>
-    <div class="md:grid md:grid-flow-col md:grid-cols-[200px_auto] bg-slate-50 h-screen">
-      <div class="sticky top-0 bg-gray-900 text-white p-4 py-3 md:py-6 md:grid md:gap-4 md:grid-rows-[min-content_auto_min-content]">
+  <div class="h-screen">
+    <div class="grid grid-rows-[min-content_auto] grid-cols-1 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto] bg-slate-50 h-full md:h-screen">
+      <div class="sticky self-start top-0 md:h-full bg-gray-900 text-white p-4 py-3 md:py-6 md:grid md:gap-4 md:grid-rows-[min-content_auto_min-content]">
         <h2 class="grid grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
           <RouterLink class="grid grid-flow-col items-center justify-start gap-1" :to="{ name: 'Dash' }">
             <SquaresPlusIcon class="h-5 w-5 stroke-2"/> HealthRecord
@@ -90,7 +90,7 @@ const logout = () => {
           </button>
         </nav>
       </div>
-      <div class="col-span-3 p-4 md:p-6 bg-gray-50">
+      <div class="grid grid-cols-1 bg-gray-50 md:h-full">
         <RouterView name="main" />
       </div>
     </div>

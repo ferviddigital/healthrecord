@@ -7,13 +7,13 @@ import pluralize from 'pluralize';
 
 <template>
   <div>
-    <div class="grid grid-flow-col items-start mb-10">
+    <div class="grid grid-flow-col items-start mb-10 p-4 pb-0 md:p-6 md:pb-0">
       <header>
         <h2 class="text-xl font-bold">Dashboard</h2>
         <p class="text-sm text-gray-500">HealthRecord data overview.</p>
       </header>
     </div>
-    <div class="grid grid-cols-2 grid-rows-2 gap-3">
+    <div class="grid grid-cols-2 grid-rows-2 gap-3 px-4 md:px-6">
       <div class="group bg-white shadow-sm border p-3 rounded-md cursor-pointer hover:shadow" @click="$router.push({ name: 'People' })">
         <h3 class="font-semibold group-hover:text-indigo-600 mb-1">People</h3>
         <p class="text-gray-500 text-sm">You are tracking {{ pluralize('person', people.length, true) }}.</p>
