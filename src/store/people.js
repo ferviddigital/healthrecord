@@ -2,10 +2,20 @@ import { computed, reactive } from "vue";
 import { record, store as recordStore } from "./record";
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * All tracked people
+ * 
+ * @since 0.1.0
+ */
 export const people = computed(() => {
   return record.value.people
 });
 
+/**
+ * People store
+ * 
+ * @since 0.1.0
+ */
 export const store = reactive({
   add({ firstName, lastName, sex, dob }) {
     const recordCopy = record.value;

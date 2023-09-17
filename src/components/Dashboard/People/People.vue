@@ -28,11 +28,11 @@ import dayjs from 'dayjs';
       </thead>
       <tbody>
         <tr class="border-b even:bg-gray-100" v-for="person in people" :key="person.id">
-          <td class="p-3 pl-4 md:pl-6"><RouterLink :to="{ name: 'Person', params: { id: person.id }}">{{ person.firstName + ' ' + person.lastName }}</RouterLink></td>
+          <td class="p-3 pl-4 md:pl-6"><RouterLink class="text-indigo-600 hover:underline" :to="{ name: 'Person', params: { id: person.id }}">{{ person.firstName + ' ' + person.lastName }}</RouterLink></td>
           <td class="text-sm p-3 text-center text-gray-400">{{ person.sex.charAt(0) }}</td>
           <td class="text-sm p-3 text-center text-gray-400">{{ dayjs().diff(dayjs(person.dob), 'year') }}</td>
-          <td class="p-3"><RouterLink class="text-indigo-800 hover:underline text-sm font-medium" :to="{ name: 'EditPerson', params: { id: person.id }}">Edit</RouterLink></td>
-          <td class="p-3 pr-4 md:pr-6"><button class="text-indigo-800 hover:underline text-sm font-medium" @click.prevent="peopleStore.delete(person.id)">Delete</button></td>
+          <td class="p-3"><RouterLink class="text-indigo-600 hover:underline text-sm font-medium" :to="{ name: 'EditPerson', params: { id: person.id }}">Edit</RouterLink></td>
+          <td class="p-3 pr-4 md:pr-6"><button class="text-indigo-600 hover:underline text-sm font-medium" @click.prevent="peopleStore.delete(person.id)">Delete</button></td>
         </tr>
       </tbody>
     </table>

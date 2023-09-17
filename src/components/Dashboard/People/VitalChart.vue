@@ -2,29 +2,39 @@
 import { Line } from 'vue-chartjs';
 import AnnotationPlugin from 'chartjs-plugin-annotation';
 import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
+import { computed } from 'vue';
 
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin)
 
 const props = defineProps([ 'vital', 'measurements' ]);
 
-const measurements = props.measurements.reverse();
-const measurementValues = measurements.map(measurement => measurement.value);
-const measurementDates  = measurements.map(measurement => measurement.date);
+const measurements = computed(() => {
+  return props.measurements.reverse()
+});
 
-const data = {
-  labels: measurementDates,
-  datasets: [
-    {
-      label: props.vital.name,
-      backgroundColor: '#4F46E5',
-      data: measurementValues,
-      borderColor: '#C7D2FE',
-      pointRadius: 4,
-      pointHitRadius: 10,
-      pointHoverBorderWidth: 3,
-    }
-  ]
-}
+const measurementValues = computed(() => {
+  return measurements.value.map(measurement => measurement.value);
+});
+const measurementDates = computed(() => {
+  return measurements.value.map(measurement => measurement.date);
+})
+
+const data = computed(() => {
+  return {
+    labels: measurementDates.value,
+    datasets: [
+      {
+        label: props.vital.name,
+        backgroundColor: '#4F46E5',
+        data: measurementValues.value,
+        borderColor: '#C7D2FE',
+        pointRadius: 4,
+        pointHitRadius: 10,
+        pointHoverBorderWidth: 3,
+      }
+    ]
+  }
+});
 
 const options = {
   plugins: {

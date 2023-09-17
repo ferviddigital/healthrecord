@@ -31,27 +31,27 @@ const vital = computed(() => {
     <label for="name">
       Name
     </label>
-    <input v-model="name" type="text" id="name" autocomplete="off" required>
+    <input v-model="name" type="text" id="name" autocomplete="off" placeholder="ex. Heart rate" required>
     <label for="description">
       Description
     </label>
-    <textarea v-model="description" id="description" />
+    <textarea v-model="description" id="description" placeholder="ex. Heart beats per minute."/>
     <label  for="unit">
       Unit of Measurement
     </label>
-    <input v-model="unit" type="text" id="unit" required>
+    <input v-model="unit" type="text" id="unit" placeholder="ex. bpm" autocapitalize="off" required>
     <div class="grid grid-flow-col gap-4">
       <div>
         <label for="high">High value</label>
         <div class="input-group">
-          <input v-model="high" type="text" id="high">
+          <input v-model="high" type="text" id="high" placeholder="ex. 101">
           <span v-if="unit.length > 0">{{ unit }}</span>
         </div>
       </div>
       <div>
         <label for="low">Low value</label>
         <div class="input-group">
-          <input v-model="low" type="text" id="low">
+          <input v-model="low" type="text" id="low" placeholder="ex. 59">
           <span v-if="unit.length > 0">{{ unit }}</span>
         </div>
       </div>
