@@ -137,6 +137,14 @@ const routes = [
         }
       },
       {
+        path: '/people/:id/measurement/add',
+        name: 'AddPersonMeasurement',
+        components: {
+          main: Person,
+          modal: AddMeasurement
+        }
+      },
+      {
         path: '/people/:id/edit',
         name: 'EditPerson',
         components: {

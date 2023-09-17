@@ -1,6 +1,7 @@
 <script setup>
 import { PlusIcon } from '@heroicons/vue/24/solid';
-import { vitals, store as vitalStore } from '../../../store/vitals';
+import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
+import { vitals, store as vitalStore, addBodyWeightVital, addHeartRateVital } from '../../../store/vitals';
 </script>
 
 <template>
@@ -33,11 +34,21 @@ import { vitals, store as vitalStore } from '../../../store/vitals';
             <td class="text-sm p-3 text-gray-400">{{ vital.unit }}</td>
             <td class="text-sm p-3 text-center text-gray-400">{{ vital.high }}</td>
             <td class="text-sm p-3 text-center text-gray-400">{{ vital.low }}</td>
-            <td class="p-3"><RouterLink class="text-indigo-800 hover:underline text-sm font-medium" :to="{ name: 'EditVital', params: { id: vital.id }}">Edit</RouterLink></td>
-            <td class="p-3 pr-4 md:pr-6"><button class="text-indigo-800 hover:underline text-sm font-medium" @click.prevent="vitalStore.delete(vital.id)">Delete</button></td>
+            <td class="p-3"><RouterLink class="text-indigo-600 hover:underline text-sm font-medium" :to="{ name: 'EditVital', params: { id: vital.id }}">Edit</RouterLink></td>
+            <td class="p-3 pr-4 md:pr-6"><button class="text-indigo-600 hover:underline text-sm font-medium" @click.prevent="vitalStore.delete(vital.id)">Delete</button></td>
           </tr>
         </tbody>
       </table>
+      <div v-else class="mx-6 border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
+        <p class="grid grid-flow-col items-center grid-cols-[min-content_auto] mb-4 pb-4 border-b border-amber-200">
+          <QuestionMarkCircleIcon class="h-6 w-6 mr-4" />
+          A Vital is a metric that can be measured like heart rate, body weight, or a lab result.
+        </p>
+        <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
+          <LightBulbIcon class="h-6 w-6 mr-3" />
+          <span>You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'AddVital' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="addBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="addHeartRateVital()">heart rate</span>.</span>
+        </p>
+      </div>
     </div>
   </div>
 </template>

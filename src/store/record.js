@@ -3,10 +3,20 @@ import { store as peopleStore } from './people';
 
 const recordVersion = 1;
 
+/**
+ * Browser stored health record
+ * 
+ * @since 0.1.0
+ */
 export const record = computed(() => {
   return store.record;
 });
 
+/**
+ * Record store
+ * 
+ * @since 0.1.0
+ */
 export const store  = reactive({
   record: JSON.parse(localStorage.getItem('healthRecord')),
   add({ person }) {

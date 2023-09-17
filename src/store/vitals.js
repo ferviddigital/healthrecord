@@ -2,10 +2,50 @@ import { computed, reactive } from "vue";
 import { record, store as recordStore } from './record';
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * All vitals
+ * 
+ * @since 0.1.0
+ */
 export const vitals = computed(() => {
   return record.value.vitals;
 });
 
+/**
+ * Heart rate sample vital
+ * 
+ * @since 0.1.2
+ */
+export const addHeartRateVital = () => {
+  store.add({
+    name: 'Heart Rate',
+    description: 'Heart beats per minute',
+    unit: 'bpm',
+    low: 59,
+    high: 101
+  });
+}
+
+/**
+ * Body weight sample vital
+ * 
+ * @since 0.1.2
+ */
+export const addBodyWeightVital = () => {
+  store.add({
+    name: 'Weight',
+    description: 'Body weight',
+    unit: 'lbs',
+    low: '',
+    high: ''
+  });
+}
+
+/**
+ * Vital store
+ * 
+ * @since 0.1.0
+ */
 export const store = reactive({
   add({ name, description, unit, low, high }) {
     const vital = {

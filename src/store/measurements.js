@@ -2,10 +2,20 @@ import { computed, reactive } from "vue";
 import { record, store as recordStore } from './record';
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * All recorded measurements
+ * 
+ * @since 0.1.0
+ */
 export const measurements = computed(() => {
   return record.value.measurements.sort((a, b) => b.date - a.date );
 });
 
+/**
+ * Measurement store
+ * 
+ * @since 0.1.0
+ */
 export const store = reactive({
   add({ value, date, personId, vitalId }) {
     const measurement = {
