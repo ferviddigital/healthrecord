@@ -17,6 +17,7 @@ See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 * Save, edit, and view vital measurements
 * Set low and high values for specific vitals
 * Identify trends with graph visualizations
+* Download and open passphrase encrypted data
 
 ## Getting Started
 To get a local copy up and running follow these simple steps.
