@@ -1,6 +1,5 @@
 import { computed, reactive } from "vue";
 import { record, store as recordStore } from "./record";
-import { v4 as uuidv4 } from 'uuid';
 
 /**
  * All tracked people
@@ -21,7 +20,7 @@ export const store = reactive({
     const recordCopy = record.value;
     
     recordCopy.people.push({
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       firstName,
       lastName,
       sex,

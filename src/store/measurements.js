@@ -1,6 +1,5 @@
 import { computed, reactive } from "vue";
 import { record, store as recordStore } from './record';
-import { v4 as uuidv4 } from 'uuid';
 
 /**
  * All recorded measurements
@@ -19,7 +18,7 @@ export const measurements = computed(() => {
 export const store = reactive({
   add({ value, date, personId, vitalId }) {
     const measurement = {
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       value,
       date,
       personId,
