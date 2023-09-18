@@ -3,10 +3,16 @@ import { SquaresPlusIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { store as recordStore } from '../../store/record';
+import { decrypt } from '../../helpers/encrypto';
+import PassphraseModal from '../Dashboard/Settings/PassphraseModal.vue';
 
 const filePicker = ref(null);
+const passphraseModalOpen = ref(false);
+const passphrase = ref();
 
 const openPicker = () => {
+  filePicker.value.value = null;
+  passphrase.value = null;
   filePicker.value.click();
 }
 
@@ -20,15 +26,30 @@ const processFile = () => {
 
   const reader = new FileReader();
 
-  reader.onload = () => {
+  reader.onload = async () => {
     const result = JSON.parse(reader.result);
     if (result.hasOwnProperty('type') && result.type === 'healthRecord') {
       recordStore.edit(result);
+      router.push({ name: 'Dash' });
+    } else if (result.hasOwnProperty('encrypted') && result.encrypted && !passphrase.value) {
+      passphraseModalOpen.value = true
+    } else if (result.hasOwnProperty('encrypted') && result.encrypted && passphrase.value) {
+      const data = await decrypt(result.data, passphrase.value);
+      if (! data) {
+        return alert('Passphrase was incorrect. Please try again.');
+      }
+      recordStore.edit(JSON.parse(data));
       router.push({ name: 'Dash' });
     }
   }
 
   reader.readAsText(filePicker.value.files[0]);
+}
+
+const passphraseSubmitted = (_passphrase) => {
+  passphraseModalOpen.value = false;
+  passphrase.value = _passphrase;
+  processFile();
 }
 </script>
 
@@ -43,5 +64,6 @@ const processFile = () => {
       <button @click.prevent="openPicker" class="block text-center mx-auto text-xs underline text-indigo-500 hover:text-indigo-600">Load from HealthRecord file</button>
       <input type="file" class="hidden" ref="filePicker" @change="processFile" accept="application/json" />
     </div>
+    <PassphraseModal v-if="passphraseModalOpen" @close="passphraseModalOpen = false" @passphraseSubmitted="passphraseSubmitted" />
   </div>
 </template>

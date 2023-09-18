@@ -1,6 +1,5 @@
 import { computed, reactive } from "vue";
 import { record, store as recordStore } from './record';
-import { v4 as uuidv4 } from 'uuid';
 
 /**
  * All vitals
@@ -49,7 +48,7 @@ export const addBodyWeightVital = () => {
 export const store = reactive({
   add({ name, description, unit, low, high }) {
     const vital = {
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       name,
       description,
       unit,
