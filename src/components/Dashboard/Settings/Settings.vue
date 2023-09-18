@@ -8,7 +8,7 @@ import { ref } from 'vue';
 
 const passphraseModalOpen = ref(false);
 
-const downloadHealthRecordFile = (record) => {
+const downloadHealthRecordFile = (data) => {
   const fileName  = 'healthRecord.json';
   const file      = new Blob([JSON.stringify(data)], {
     type: 'application/json'
