@@ -7,7 +7,7 @@ import { record, store as recordStore } from './record';
  * @since 0.1.0
  */
 export const vitals = computed(() => {
-  return record.value.vitals;
+  return record.value.vitals.sort((a,b) => a.name.localeCompare(b.name));
 });
 
 /**

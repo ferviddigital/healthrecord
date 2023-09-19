@@ -1,6 +1,5 @@
 <script setup>
-import { SquaresPlusIcon, UsersIcon, Cog8ToothIcon, Bars3Icon, XMarkIcon, HomeIcon, ChartBarIcon, HeartIcon } from '@heroicons/vue/24/outline';
-import { ArrowRightOnRectangleIcon } from '@heroicons/vue/20/solid';
+import { SquaresPlusIcon, UsersIcon, Cog8ToothIcon, Bars3Icon, XMarkIcon, HomeIcon, ChartBarIcon, HeartIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/20/solid';
 import { ref } from 'vue';
 import { store as recordStore } from '../../store/record';
 import { useRouter } from 'vue-router';
@@ -14,23 +13,26 @@ const scrollToTop = () => {
 }
 
 const logout = () => {
+  if (! confirm('Have you downloaded your health record?') ) {
+    return router.push({ name: 'Settings' });
+  }
   recordStore.delete();
   router.push({ name: 'Start' });
 }
 </script>
 
 <template>
-  <div class="h-screen">
-    <div class="grid grid-rows-[min-content_auto] grid-cols-1 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto] bg-slate-50 h-full md:h-screen">
-      <div class="sticky self-start top-0 md:h-full bg-gray-900 text-white p-4 py-3 md:py-6 md:grid md:gap-4 md:grid-rows-[min-content_auto_min-content]">
-        <h2 class="grid grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
+  <div class="min-h-screen">
+    <div class="grid grid-rows-[min-content_auto] grid-cols-1 p-6 py-1 md:gap-6 md:p-4 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto] h-full min-h-screen">
+      <div class="z-10 grid self-start fixed bottom-6 right-5 left-5 md:left-0 md:top-auto md:right-auto md:relative md:bottom-auto order-last md:order-none md:h-full bg-gray-900 text-white p-4 py-3 rounded-3xl md:rounded-xl md:py-6 md:gap-4 md:grid-rows-[min-content_auto_min-content]">
+        <h2 class="grid order-last md:order-first grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
           <RouterLink class="grid grid-flow-col items-center justify-start gap-1" :to="{ name: 'Dash' }">
             <SquaresPlusIcon class="h-5 w-5 stroke-2"/> HealthRecord
           </RouterLink>
           <Bars3Icon v-if="!menuOpen" @click="menuOpen = true" class="h-7 w-7 md:hidden justify-self-end" />
           <XMarkIcon v-else @click="menuOpen = false" class="h-7 w-7 md:hidden justify-self-end" />
         </h2>
-        <nav class="mt-3 mb-3 md:mb-0 md:mt-0 md:block" :class="{ 'block': menuOpen, 'hidden': !menuOpen }" @click="menuOpen = menuOpen ? false : true; scrollToTop();">
+        <nav class="mt-3 mb-4 md:mb-0 md:mt-0 md:block" :class="{ 'block': menuOpen, 'hidden': !menuOpen }" @click="menuOpen = menuOpen ? false : true; scrollToTop();">
           <ul class="grid gap-2">
             <li>
               <RouterLink 
@@ -84,13 +86,13 @@ const logout = () => {
             </li>
           </ul>
         </nav>
-        <nav class="ml-3 mb-3 md:mb-0 md:ml-0 md:block" :class="{ 'block': menuOpen, 'hidden': !menuOpen }">
-          <button class="text-sm text-gray-300 grid grid-flow-col gap-3 items-center" @click.prevent="logout">
+        <nav class="ml-3 mb-9 md:mb-0 md:ml-3 md:block" :class="{ 'block': menuOpen, 'hidden': !menuOpen }" @click="menuOpen = menuOpen ? false : true">
+          <button class="w-full text-sm text-gray-300 grid grid-flow-col gap-3 items-center justify-start" @click.prevent="logout">
             <ArrowRightOnRectangleIcon class="h-4 w-4" /> Logout
           </button>
         </nav>
       </div>
-      <div class="grid grid-cols-1 bg-gray-50 md:h-full">
+      <div class="grid grid-cols-1 md:h-full">
         <RouterView name="main" />
       </div>
     </div>

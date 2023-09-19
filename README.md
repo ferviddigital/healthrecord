@@ -18,6 +18,7 @@ See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 * Set low and high values for specific vitals
 * Identify trends with graph visualizations
 * Download and open passphrase encrypted data
+* Installs as PWA from browser
 
 ## Getting Started
 To get a local copy up and running follow these simple steps.
