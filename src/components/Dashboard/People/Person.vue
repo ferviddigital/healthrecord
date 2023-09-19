@@ -47,7 +47,7 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div>
-      <div v-if="trackedVitals.length > 0" class="grid md:grid-cols-2 md:grid-rows-2 gap-3">
+      <div v-if="trackedVitals.length > 0" class="grid md:grid-cols-2 gap-3">
         <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer hover:shadow">
           <h3 class="font-semibold group-hover:text-indigo-600 mb-1">{{ vital.name }}</h3>
           <p class="text-gray-500 text-sm">{{ pluralize('measurement', vitalMeasurements(vital.id).length, true) }}</p>
