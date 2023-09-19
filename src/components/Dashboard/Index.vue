@@ -22,9 +22,9 @@ const logout = () => {
 </script>
 
 <template>
-  <div class="min-h-screen">
-    <div class="grid grid-rows-[min-content_auto] grid-cols-1 p-6 py-1 md:gap-6 md:p-4 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto] h-full min-h-screen">
-      <div class="z-10 grid self-start fixed bottom-6 right-5 left-5 md:left-0 md:top-auto md:right-auto md:relative md:bottom-auto order-last md:order-none md:h-full bg-gray-900 text-white p-4 py-3 rounded-3xl md:rounded-xl md:py-6 md:gap-4 md:grid-rows-[min-content_auto_min-content]">
+  <div>
+    <div class="grid grid-rows-[min-content_auto] grid-cols-1 p-6 py-1 h-screen md:max-h-screen md:min-h-screen md:gap-6 md:p-4 md:pr-0 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto]">
+      <div class="bg-gray-900 text-white p-4 py-3 rounded-3xl z-10 order-last fixed grid self-start bottom-6 right-6 left-6 md:h-full md:sticky md:top-0 md:left-auto md:right-auto md:bottom-6 md:order-none md:rounded-xl md:py-6 md:gap-4 md:grid-rows-[min-content_auto_min-content]">
         <h2 class="grid order-last md:order-first grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
           <RouterLink class="grid grid-flow-col items-center justify-start gap-1" :to="{ name: 'Dash' }">
             <SquaresPlusIcon class="h-5 w-5 stroke-2"/> HealthRecord
@@ -92,7 +92,7 @@ const logout = () => {
           </button>
         </nav>
       </div>
-      <div class="grid grid-cols-1 md:h-full">
+      <div class="grid grid-cols-1 md:overflow-y-scroll md:pr-4 md:pb-4 md:-mb-4">
         <RouterView name="main" />
       </div>
     </div>

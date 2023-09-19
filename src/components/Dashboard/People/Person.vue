@@ -35,7 +35,7 @@ const vitalMeasurements = (vitalId) => {
 
 <template>
   <div>
-    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
+    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
       <header>
         <h2 class="text-2xl font-bold">{{ person.firstName + ' ' + person.lastName }}</h2>
         <p class="text-sm text-gray-500">{{ pluralize('measurement', userMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
@@ -63,7 +63,7 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div v-if="measurements.length > 0" class="pb-28 pt-9 md:pb-0 grid gap-3">
-      <h3 class="text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
+      <h3 class="z-10 text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
       <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
     </div>
   </div>
