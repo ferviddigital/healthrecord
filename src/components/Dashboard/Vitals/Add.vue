@@ -15,7 +15,7 @@ const addVital = (vital) => {
 <template>
   <Dialog :open="true" @close="$router.push({ name: 'Vitals' })" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-    <div class="fixed flex w-screen h-screen top-10 items-start md:items-center justify-center">
+    <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Vital</DialogTitle>
         <VitalForm @submit="addVital" class="p-6" />

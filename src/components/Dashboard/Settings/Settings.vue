@@ -37,33 +37,33 @@ const appVersion = APP_VERSION;
 
 <template>
   <div class="grid grid-rows-[min-content_auto_min-content]">
-    <div class="grid grid-flow-col items-start mb-10 p-4 pb-0 md:p-6 md:pb-0">
+    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
       <header>
-        <h2 class="text-xl font-bold">Settings</h2>
+        <h2 class="text-2xl font-bold">Settings</h2>
         <p class="text-sm text-gray-500">Update app settings and download data.</p>
       </header>
     </div>
     <div>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center md:mx-0 border-b p-3 px-4 md:px-6">
-        <h3 class="font-semibold">Owner</h3>
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+        <h3 class="font-semibold text-sm">Owner</h3>
         <span class="whitespace-nowrap">{{ record.firstName + ' ' + record.lastName }}</span>
       </section>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content]  items-center md:mx-0 border-b p-3 px-4 md:px-6">
-        <h3 class="font-semibold">Data file</h3>
-        <button class="btn" @click="downloadHealthRecordFile(record)">
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+        <h3 class="font-semibold text-sm">Data file</h3>
+        <button class="btn text-sm" @click="downloadHealthRecordFile(record)">
           <DocumentArrowDownIcon />
           Download
         </button>
       </section>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content]  items-center md:mx-0 border-b p-3 px-4 md:px-6">
-        <h3 class="font-semibold">Encrypted data file</h3>
-        <button class="btn" @click="passphraseModalOpen = true">
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+        <h3 class="font-semibold text-sm">Encrypted data file</h3>
+        <button class="btn text-sm" @click="passphraseModalOpen = true">
           <LockClosedIcon />
           Download
         </button>
       </section>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content]  items-center md:mx-0 border-b p-3 px-4 md:px-6">
-        <h3 class="font-semibold">Version</h3>
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+        <h3 class="font-semibold text-sm">Version</h3>
         <span>{{ appVersion }}</span>
       </section>
     </div>
