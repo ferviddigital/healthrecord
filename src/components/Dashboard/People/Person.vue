@@ -12,7 +12,7 @@ import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
 
 const route = useRoute();
 
-const personId = route.params.id;
+const personId = route.params.personId;
 
 const person = computed(() => {
   return people.value.find(person => person.id === personId);
@@ -41,7 +41,7 @@ const vitalMeasurements = (vitalId) => {
         <p class="text-sm text-gray-500">{{ pluralize('measurement', userMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'AddPersonMeasurement' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonMeasurementAdd' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>
@@ -57,8 +57,8 @@ const vitalMeasurements = (vitalId) => {
       <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
         <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
           <LightBulbIcon class="h-6 w-6 mr-3" />
-          <span v-if="vitals.length === 0">You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'AddVital' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="addBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="addHeartRateVital()">heart rate</span>.</span>
-          <span v-else>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'AddPersonMeasurement' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
+          <span v-if="vitals.length === 0">You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'VitalAdd' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="addBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="addHeartRateVital()">heart rate</span>.</span>
+          <span v-else>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'PersonMeasurementAdd' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
         </p>
       </div>
     </div>
@@ -66,5 +66,6 @@ const vitalMeasurements = (vitalId) => {
       <h3 class="z-10 text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
       <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
     </div>
+    <RouterView name="modal" />
   </div>
 </template>

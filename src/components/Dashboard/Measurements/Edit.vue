@@ -9,7 +9,7 @@ const route   = useRoute();
 const router  = useRouter();
 
 const measurement = computed(() => {
-  return measurements.value.find(measurement => measurement.id === route.params.id);
+  return measurements.value.find(measurement => measurement.id === route.params.measurementId);
 });
 
 const value     = ref(measurement.value.value);
@@ -18,7 +18,7 @@ const personId  = ref(measurement.value.personId);
 const vitalId   = ref(measurement.value.vitalId);
 
 const editMeasurement = (measurement) => {
-  measurementStore.edit(route.params.id, measurement);
+  measurementStore.edit(route.params.measurementId, measurement);
   router.back();
 }
 </script>

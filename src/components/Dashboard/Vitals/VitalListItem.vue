@@ -20,7 +20,7 @@ const props = defineProps(['vital']);
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'EditVital', params: { id: vital.id }});">
+              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'VitalEdit', params: { vitalId: vital.id }});">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

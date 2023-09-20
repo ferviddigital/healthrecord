@@ -12,7 +12,7 @@ import PersonListItem from './PersonListItem.vue';
         <p class="text-sm text-gray-500">Add, edit, and delete people to track.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'AddPerson' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PeopleAdd' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>
