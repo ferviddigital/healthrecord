@@ -1,5 +1,5 @@
 <script setup>
-import { LightBulbIcon } from '@heroicons/vue/24/outline';
+import { LightBulbIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed } from 'vue';
@@ -47,11 +47,14 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div>
-      <div v-if="trackedVitals.length > 0" class="grid md:grid-cols-2 gap-3">
-        <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer hover:shadow">
-          <h3 class="font-semibold group-hover:text-indigo-600 mb-1">{{ vital.name }}</h3>
+      <div v-if="trackedVitals.length > 0" class="grid grid-cols-2 gap-3">
+        <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer hover:shadow" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
+          <header class="grid grid-cols-[auto_min-content]">
+            <h3 class="font-semibold group-hover:text-indigo-600 mb-1">{{ vital.name }}</h3>
+            <ChevronRightIcon class="h-5 w-5 self-start group-hover:stroke-indigo-600" />
+          </header>
           <p class="text-gray-500 text-sm">{{ pluralize('measurement', vitalMeasurements(vital.id).length, true) }}</p>
-          <VitalChart class="mt-3" :vital="vital" :measurements="vitalMeasurements(vital.id)" />
+          <VitalChart class="mt-3" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true" />
         </div>
       </div>
       <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
@@ -63,7 +66,7 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div v-if="measurements.length > 0" class="pb-28 pt-9 md:pb-0 grid gap-3">
-      <h3 class="z-10 text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
+      <h3 class="z-10 text-xl font-bold sticky top-8 pb-1 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
       <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
     </div>
     <RouterView name="modal" />
