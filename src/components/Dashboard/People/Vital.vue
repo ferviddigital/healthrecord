@@ -1,0 +1,56 @@
+<script setup>
+import { vitals } from '../../../store/vitals';
+import { measurements } from '../../../store/measurements';
+import { people } from '../../../store/people';
+import { useRoute } from 'vue-router';
+import VitalChart from './VitalChart.vue';
+import { computed } from 'vue';
+import pluralize from 'pluralize';
+import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
+import { PlusIcon } from '@heroicons/vue/20/solid';
+import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
+
+const vitalId   = useRoute().params.vitalId;
+const personId  = useRoute().params.personId;
+
+const person = computed(() => {
+  return people.value.find(person => person.id === personId);
+});
+
+const vital = computed(() => {
+  return vitals.value.find(vital => vital.id === vitalId);
+});
+
+const vitalMeasurements = computed(() => {
+  return measurements.value.filter(measurement => {
+    return measurement.personId === personId && measurement.vitalId === vitalId;
+  });
+});
+</script>
+
+<template>
+  <div>
+    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
+      <header>
+        <RouterLink class="text-sm text-gray-500" :to="{ name: 'Person', params: { personId }}">
+          <ChevronLeftIcon class="w-4 h-4 inline -mt-0.5" /> {{ person.firstName + ' ' + person.lastName }}
+        </RouterLink>
+        <h2 class="text-2xl font-bold">{{ vital.name }}</h2>
+        <p class="text-sm text-gray-500">{{ pluralize('measurement', vitalMeasurements.length, true) }}.</p>
+      </header>
+      <div class="grid justify-end">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonVitalMeasurementAdd' }">
+          <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
+        </RouterLink>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl p-4">
+      <VitalChart :vital="vital" :measurements="vitalMeasurements" />
+    </div>
+    <div class="pb-28 pt-9 md:pb-0 grid gap-3">
+      <h3 class="z-10 text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
+      <MeasurementListItem v-for="measurement in vitalMeasurements" :key="measurement.id" :measurement="measurement" />
+    </div>
+    <RouterView name="modal" />
+  </div>
+</template>

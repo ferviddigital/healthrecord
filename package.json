@@ -1,7 +1,7 @@
 {
   "name": "healthrecord",
   "private": true,
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,9 @@
     "@heroicons/vue": "^2.0.18",
     "@tailwindcss/forms": "^0.5.6",
     "chart.js": "^4.4.0",
+    "chartjs-adapter-dayjs-4": "^1.0.4",
     "chartjs-plugin-annotation": "^3.0.1",
+    "chartjs-plugin-zoom": "^2.0.1",
     "dayjs": "^1.11.9",
     "file-saver": "^2.0.5",
     "pluralize": "^8.0.0",

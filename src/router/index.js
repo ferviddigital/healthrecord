@@ -4,6 +4,7 @@ import StartNew from '../components/Start/New.vue'
 import DashboardLayout from '../components/Dashboard/Layout.vue'
 import People from '../components/Dashboard/People/People.vue'
 import Person from '../components/Dashboard/People/Person.vue'
+import PersonVital from '../components/Dashboard/People/Vital.vue'
 import PeopleAdd from '../components/Dashboard/People/Add.vue'
 import PeopleEdit from '../components/Dashboard/People/Edit.vue'
 import Settings from '../components/Dashboard/Settings/Settings.vue'
@@ -78,7 +79,7 @@ const routes = [
         }
       },
       {
-        path: '/people/add',
+        path: 'add',
         name: 'PeopleAdd',
         components: {
           main: People,
@@ -86,7 +87,7 @@ const routes = [
         }
       },
       {
-        path: '/people/:personId',
+        path: ':personId',
         name: 'Person',
         components: {
           main: Person
@@ -98,16 +99,46 @@ const routes = [
             components: {
               modal: MeasurementAdd
             }
-          }
+          },
+          {
+            path: 'measurement/:measurementId/edit',
+            name: 'PersonMeasurementEdit',
+            components: {
+              modal: MeasurementEdit
+            }
+          },
         ]
       },
       {
-        path: '/people/:personId/edit',
+        path: ':personId/edit',
         name: 'PeopleEdit',
         components: {
           main: People,
           modal: PeopleEdit
         }
+      },
+      {
+        path: ':personId/vital/:vitalId',
+        name: 'PersonVital',
+        components: {
+          main: PersonVital
+        },
+        children: [
+          {
+            path: 'measurement/add',
+            name: 'PersonVitalMeasurementAdd',
+            components: {
+              modal: MeasurementAdd
+            }
+          },
+          {
+            path: 'measurement/:measurementId/edit',
+            name: 'PersonVitalMeasurementEdit',
+            components: {
+              modal: MeasurementEdit
+            }
+          },
+        ]
       },
     ]
   },

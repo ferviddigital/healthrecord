@@ -5,8 +5,11 @@ import { EllipsisHorizontalIcon, PencilIcon, TrashIcon, CalendarIcon, UserIcon, 
 import { vitals } from '../../../store/vitals';
 import { people } from '../../../store/people';
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const props = defineProps(['measurement']);
+
+const route = useRoute();
 
 const vital = computed(() => {
   return vitals.value.find(vital => vital.id === props.measurement.vitalId);
@@ -16,9 +19,31 @@ const person = computed(() => {
   return people.value.find(person => person.id === props.measurement.personId);
 });
 
-const isHigh = computed(() => {
+const editRoute = () => {
+  if (route.params.personId && route.params.vitalId) {
+    return {
+      name: 'PersonVitalMeasurementEdit',
+      params: {
+        measurementId: props.measurement.id
+      }
+    }
+  } else if (route.params.personId) {
+    return {
+      name: 'PersonMeasurementEdit',
+      params: {
+        measurementId: props.measurement.id
+      }
+    }
+  } else {
+    return {
+      name: 'MeasurementEdit',
+      params: {
+        measurementId: props.measurement.id
+      }
+    }
+  }
+}
 
-});
 </script>
 
 <template>
@@ -46,7 +71,7 @@ const isHigh = computed(() => {
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'MeasurementEdit', params: { measurementId: measurement.id }});">
+              <button class="menu-item group/menu-item" @click="close(); $router.push(editRoute());">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

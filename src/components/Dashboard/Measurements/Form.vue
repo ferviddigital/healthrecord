@@ -13,7 +13,7 @@ const emit  = defineEmits(['submit']);
 const value     = ref(props.value || '');
 const date      = ref(dayjs(props.date).format('YYYY-MM-DD') || '');
 const personId  = ref(props.personId || route.params.personId || '');
-const vitalId   = ref(props.vitalId || '');
+const vitalId   = ref(props.vitalId || route.params.vitalId || '');
 
 const isFormComplete = computed(() => {
   return value.value.length > 0 

@@ -1,12 +1,17 @@
 <script setup>
 import { Line } from 'vue-chartjs';
 import AnnotationPlugin from 'chartjs-plugin-annotation';
-import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
+import ZoomPlugin from 'chartjs-plugin-zoom';
+import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
 import { computed } from 'vue';
+import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
+import dayjs from 'dayjs';
 
-ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin)
+ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeScale)
 
-const props = defineProps([ 'vital', 'measurements' ]);
+ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+
+const props = defineProps([ 'vital', 'measurements', 'small' ]);
 
 const measurements = computed(() => {
   return props.measurements.reverse()
@@ -39,7 +44,7 @@ const data = computed(() => {
 const options = {
   plugins: {
     legend: {
-      display: false
+      display: false,
     },
     tooltip: {
       displayColors: false,
@@ -48,33 +53,63 @@ const options = {
           return context.formattedValue + ' ' + props.vital.unit;
         },
         title: (context) => {
-          return new Date(Number(context[0].label)).toLocaleDateString();
+          return new Date(Number(context[0].parsed.x)).toLocaleDateString();
         }
       }
     },
     annotation: {
       annotations: {}
-    }
+    },
+    zoom: {}
   },
   responsive: true,
   scales: {
     x: {
+      type: 'time',
+      time: {
+        unit: 'day',
+        tooltipFormat: 'MM/DD/YYYY'
+      },
+      // suggestedMin: dayjs().subtract(1, 'week').valueOf(),
+      bounds: 'ticks',
       grid: {
-        display: false
+        display: false,
+        color: '#efefef'
       },
       ticks: {
-        display: false
-      }
+        display: props.small ? false : true,
+        autoSkipPadding: 30,
+        color: '#aaa'
+      },
     },
     y: {
       grid: {
-        display: false
+        display: false 
       },
       ticks: {
-        display: false
+        color: '#aaa',
+        autoSkipPadding: 30,
+        major: {
+          enabled: true
+        },
+        display: props.small ? false : true,
+        callback: (value) => {
+          return Number(Number(value).toFixed(2)).toLocaleString() + ' ' + props.vital.unit;
+        }
       }
     }
   }
+}
+
+if (!props.small) {
+  options.plugins.zoom = {
+    pan: {
+      enabled: true,
+      mode: 'x'
+    }
+  }
+
+  options.scales.x.grid.display = true
 }
 
 if (props.vital.low.length > 0) {

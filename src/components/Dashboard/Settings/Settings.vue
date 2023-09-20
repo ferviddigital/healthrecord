@@ -9,7 +9,7 @@ import { ref } from 'vue';
 const passphraseModalOpen = ref(false);
 
 const downloadHealthRecordFile = (data) => {
-  const fileName  = 'healthRecord.json';
+  const fileName  = 'healthRecord-' + Date.now() + '.json';
   const file      = new Blob([JSON.stringify(data)], {
     type: 'application/json'
   });
