@@ -8,7 +8,7 @@ const router = useRouter();
 
 const addRecord = (person) => {
   recordStore.add({person});
-  router.push({name: 'Dash'});
+  router.push({name: 'Dashboard'});
 }
 </script>
 

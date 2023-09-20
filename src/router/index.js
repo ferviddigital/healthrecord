@@ -1,19 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Start from '../components/Start/Start.vue'
 import StartNew from '../components/Start/New.vue'
-import Dashboard from '../components/Dashboard/Index.vue'
+import DashboardLayout from '../components/Dashboard/Layout.vue'
 import People from '../components/Dashboard/People/People.vue'
 import Person from '../components/Dashboard/People/Person.vue'
-import AddPerson from '../components/Dashboard/People/Add.vue'
-import EditPerson from '../components/Dashboard/People/Edit.vue'
+import PeopleAdd from '../components/Dashboard/People/Add.vue'
+import PeopleEdit from '../components/Dashboard/People/Edit.vue'
 import Settings from '../components/Dashboard/Settings/Settings.vue'
-import Dash from '../components/Dashboard/Dash/Dash.vue'
+import Dashboard from '../components/Dashboard/Dash/Dash.vue'
 import Vitals from '../components/Dashboard/Vitals/Vitals.vue'
-import AddVital from '../components/Dashboard/Vitals/Add.vue'
-import EditVital from '../components/Dashboard/Vitals/Edit.vue'
+import VitalAdd from '../components/Dashboard/Vitals/Add.vue'
+import VitalEdit from '../components/Dashboard/Vitals/Edit.vue'
 import Measurements from '../components/Dashboard/Measurements/Measurements.vue'
-import AddMeasurement from '../components/Dashboard/Measurements/Add.vue'
-import EditMeasurement from '../components/Dashboard/Measurements/Edit.vue'
+import MeasurementAdd from '../components/Dashboard/Measurements/Add.vue'
+import MeasurementEdit from '../components/Dashboard/Measurements/Edit.vue'
 import { record } from '../store/record'
 
 const checkRecordExists = (to) => {
@@ -49,73 +49,29 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Dashboard',
-    components: {
-      default: Dashboard,
-    },
+    redirect: {
+      name: 'Dashboard'
+    }
+  },
+  {
+    path: '/dashboard',
+    component: DashboardLayout,
     children: [
       {
-        path: '/dashboard',
-        name: 'Dash',
+        path: '',
+        name: 'Dashboard',
         components: {
-          main: Dash
+          main: Dashboard
         }
-      },
+      }
+    ]
+  },
+  {
+    path: '/people',
+    component: DashboardLayout,
+    children: [
       {
-        path: '/vitals',
-        name: 'Vitals',
-        components: {
-          main: Vitals
-        }
-      },
-      {
-        path: '/vitals/add',
-        name: 'AddVital',
-        components: {
-          main: Vitals,
-          modal: AddVital
-        }
-      },
-      {
-        path: '/vitals/:id/edit',
-        name: 'EditVital',
-        components: {
-          main: Vitals,
-          modal: EditVital
-        }
-      },
-      {
-        path: '/measurements',
-        name: 'Measurements',
-        components: {
-          main: Measurements
-        }
-      },
-      {
-        path: '/measurements/add',
-        name: 'AddMeasurement',
-        components: {
-          main: Measurements,
-          modal: AddMeasurement
-        }
-      },
-      {
-        path: '/measurement/:id/edit',
-        name: 'EditMeasurement',
-        components: {
-          main: Measurements,
-          modal: EditMeasurement
-        }
-      },
-      {
-        path: '/settings',
-        name: 'Settings',
-        components: {
-          main: Settings
-        }
-      },
-      {
-        path: '/people',
+        path: '',
         name: 'People',
         components: {
           main: People
@@ -123,37 +79,109 @@ const routes = [
       },
       {
         path: '/people/add',
-        name: 'AddPerson',
+        name: 'PeopleAdd',
         components: {
           main: People,
-          modal: AddPerson
+          modal: PeopleAdd
         }
       },
       {
-        path: '/people/:id',
+        path: '/people/:personId',
         name: 'Person',
         components: {
           main: Person
-        }
+        },
+        children: [
+          {
+            path: 'measurement/add',
+            name: 'PersonMeasurementAdd',
+            components: {
+              modal: MeasurementAdd
+            }
+          }
+        ]
       },
       {
-        path: '/people/:id/measurement/add',
-        name: 'AddPersonMeasurement',
-        components: {
-          main: Person,
-          modal: AddMeasurement
-        }
-      },
-      {
-        path: '/people/:id/edit',
-        name: 'EditPerson',
+        path: '/people/:personId/edit',
+        name: 'PeopleEdit',
         components: {
           main: People,
-          modal: EditPerson
+          modal: PeopleEdit
+        }
+      },
+    ]
+  },
+  {
+    path: '/vitals',
+    component: DashboardLayout,
+    children: [
+      {
+        path: '',
+        name: 'Vitals',
+        components: {
+          main: Vitals
+        },
+        children: [
+          {
+            path: 'add',
+            name: 'VitalAdd',
+            components: {
+              modal: VitalAdd
+            }
+          },
+          {
+            path: ':vitalId/edit',
+            name: 'VitalEdit',
+            components: {
+              modal: VitalEdit
+            }
+          },
+        ]
+      },
+    ]
+  },
+  {
+    path: '/measurements',
+    component: DashboardLayout,
+    children: [
+      {
+        path: '',
+        name: 'Measurements',
+        components: {
+          main: Measurements
+        },
+        children: [
+          {
+            path: 'add',
+            name: 'MeasurementAdd',
+            components: {
+              modal: MeasurementAdd
+            }
+          },
+          {
+            path: ':measurementId/edit',
+            name: 'MeasurementEdit',
+            components: {
+              modal: MeasurementEdit
+            }
+          }
+        ]
+      },
+    ]
+  },
+  {
+    path: '/settings',
+    component: DashboardLayout,
+    children: [
+      {
+        path: '',
+        name: 'Settings',
+        components: {
+          main: Settings
         }
       }
     ]
-  }
+  },
 ]
 
 const router = createRouter({
@@ -162,7 +190,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  return checkRecordExists(to);
+  if (to.meta.requiresAuth && !record.value) {
+    return {
+      name: 'Start'
+    }
+  }
 })
 
 export default router

@@ -9,7 +9,7 @@ const route   = useRoute();
 const router  = useRouter();
 
 const vital = computed(() => {
-  return vitals.value.find(vital => vital.id === route.params.id);
+  return vitals.value.find(vital => vital.id === route.params.vitalId);
 });
 
 const name        = ref(vital.value.name);
@@ -19,7 +19,7 @@ const high        = ref(vital.value.high);
 const low         = ref(vital.value.low);
 
 const editVital = (vital) => {
-  vitalStore.edit(route.params.id, vital);
+  vitalStore.edit(route.params.vitalId, vital);
   router.push({ name: 'Vitals' });
 }
 </script>

@@ -1,7 +1,7 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { store as measurementStore } from '../../../store/measurements';
-import { EllipsisHorizontalIcon, PencilIcon, TrashIcon, CalendarIcon, UserIcon } from '@heroicons/vue/20/solid';
+import { EllipsisHorizontalIcon, PencilIcon, TrashIcon, CalendarIcon, UserIcon, ArrowSmallDownIcon, ArrowSmallUpIcon } from '@heroicons/vue/20/solid';
 import { vitals } from '../../../store/vitals';
 import { people } from '../../../store/people';
 import { computed } from 'vue';
@@ -28,9 +28,9 @@ const isHigh = computed(() => {
         {{ Number(measurement.value).toLocaleString() }}
         <span class="text-xs text-gray-400 font-light">{{ vital.unit }}</span>
         <span v-if="vital.high.length > 0 && measurement.value >= Number(vital.high)"
-          class="border border-amber-200 p-1 py-0 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal">High</span>
+          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal cursor-default"><ArrowSmallUpIcon class="inline w-4 h-4 -mt-1" />High</span>
         <span v-if="vital.low.length > 0 && measurement.value <= Number(vital.low)"
-          class="border border-amber-200 p-1 py-0 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal">Low</span>
+          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal cursor-default"><ArrowSmallDownIcon class="inline w-4 h-4 -mt-0.5" />Low</span>
       </h3>
       <p class="text-gray-400 text-sm">{{ vital.name }}</p>
     </div>
@@ -46,7 +46,7 @@ const isHigh = computed(() => {
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'EditMeasurement', params: { id: measurement.id }});">
+              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'MeasurementEdit', params: { measurementId: measurement.id }});">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

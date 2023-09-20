@@ -3,13 +3,16 @@ import { computed, ref } from 'vue';
 import { people } from '../../../store/people';
 import { vitals } from '../../../store/vitals';
 import dayjs from 'dayjs';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const props = defineProps(['value', 'date', 'personId', 'vitalId']);
 const emit  = defineEmits(['submit']);
 
 const value     = ref(props.value || '');
 const date      = ref(dayjs(props.date).format('YYYY-MM-DD') || '');
-const personId  = ref(props.personId || '');
+const personId  = ref(props.personId || route.params.personId || '');
 const vitalId   = ref(props.vitalId || '');
 
 const isFormComplete = computed(() => {

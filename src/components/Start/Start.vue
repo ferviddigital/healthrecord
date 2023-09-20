@@ -30,7 +30,7 @@ const processFile = () => {
     const result = JSON.parse(reader.result);
     if (result.hasOwnProperty('type') && result.type === 'healthRecord') {
       recordStore.edit(result);
-      router.push({ name: 'Dash' });
+      router.push({ name: 'Dashboard' });
     } else if (result.hasOwnProperty('encrypted') && result.encrypted && !passphrase.value) {
       passphraseModalOpen.value = true
     } else if (result.hasOwnProperty('encrypted') && result.encrypted && passphrase.value) {
@@ -39,7 +39,7 @@ const processFile = () => {
         return alert('Passphrase was incorrect. Please try again.');
       }
       recordStore.edit(JSON.parse(data));
-      router.push({ name: 'Dash' });
+      router.push({ name: 'Dashboard' });
     }
   }
 

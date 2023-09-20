@@ -9,7 +9,7 @@ const props = defineProps(['person']);
 </script>
 
 <template>
-  <div class="group/person grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer hover:shadow" @click="$router.push({ name: 'Person', params: { id: person.id } })">
+  <div class="group/person grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer hover:shadow" @click="$router.push({ name: 'Person', params: { personId: person.id } })">
     <div>
       <h3 class="font-semibold group-hover/person:text-indigo-600 mb-1">{{ person.firstName + ' ' + person.lastName }}</h3>
       <p class="text-gray-400 text-sm">
@@ -25,7 +25,7 @@ const props = defineProps(['person']);
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'EditPerson', params: { id: person.id }});">
+              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'PeopleEdit', params: { personId: person.id }});">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

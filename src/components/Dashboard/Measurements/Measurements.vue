@@ -13,7 +13,7 @@ import MeasurementListItem from './MeasurementListItem.vue';
         <p class="text-sm text-gray-500">Add, edit, and delete measurements to record.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'AddMeasurement' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'MeasurementAdd' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>
@@ -28,8 +28,9 @@ import MeasurementListItem from './MeasurementListItem.vue';
       </p>
       <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
         <LightBulbIcon class="h-6 w-6 mr-3" />
-        <span>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'AddMeasurement' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
+        <span>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'MeasurementAdd' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
       </p>
     </div>
+    <RouterView name="modal" />
   </div>
 </template>

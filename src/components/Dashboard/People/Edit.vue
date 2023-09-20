@@ -9,7 +9,7 @@ const route   = useRoute();
 const router  = useRouter();
 
 const person = computed(() => {
-  return people.value.find(person => person.id === route.params.id);
+  return people.value.find(person => person.id === route.params.personId);
 });
 
 const firstName = ref(person.value.firstName);
@@ -18,7 +18,7 @@ const sex       = ref(person.value.sex);
 const dob       = ref(person.value.dob);
 
 const editPerson = (person) => {
-  peopleStore.edit(route.params.id, person);
+  peopleStore.edit(route.params.personId, person);
   router.push({ name: 'People' });
 }
 </script>
