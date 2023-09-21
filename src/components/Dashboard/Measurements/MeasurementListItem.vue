@@ -7,36 +7,50 @@ import { people } from '../../../store/people';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-const props = defineProps(['measurement']);
+const props = defineProps({
+  measurement: {
+    /** @type {import('vue').PropType<import("../../../typedefs").Measurement>} */
+    type: Object,
+    required: true
+  }
+});
 
 const route = useRoute();
 
 const vital = computed(() => {
-  return vitals.value.find(vital => vital.id === props.measurement.vitalId);
+  const vital = vitals.value.find(vital => vital.id === props.measurement.vitalId);
+
+  if (! vital) throw Error(`Could not find vital with ID: ${props.measurement.vitalId}.`);
+
+  return vital;
 });
 
 const person = computed(() => {
-  return people.value.find(person => person.id === props.measurement.personId);
+  const person = people.value.find(person => person.id === props.measurement.personId);
+
+  if (! person) throw Error(`Could not find person with ID: ${props.measurement.personId}.`);
+
+  return person;
 });
 
-const editRoute = () => {
+const updateRoute = () => {
   if (route.params.personId && route.params.vitalId) {
     return {
-      name: 'PersonVitalMeasurementEdit',
+      name: 'PersonVitalMeasurementUpdate',
       params: {
         measurementId: props.measurement.id
       }
     }
   } else if (route.params.personId) {
     return {
-      name: 'PersonMeasurementEdit',
+      name: 'PersonMeasurementUpdate',
       params: {
         measurementId: props.measurement.id
       }
     }
   } else {
     return {
-      name: 'MeasurementEdit',
+      name: 'MeasurementUpdate',
       params: {
         measurementId: props.measurement.id
       }
@@ -52,9 +66,9 @@ const editRoute = () => {
       <h3 class="font-semibold mb-1">
         {{ Number(measurement.value).toLocaleString() }}
         <span class="text-xs text-gray-400 font-light">{{ vital.unit }}</span>
-        <span v-if="vital.high.length > 0 && measurement.value >= Number(vital.high)"
+        <span v-if="vital.high && measurement.value >= Number(vital.high)"
           class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal cursor-default"><ArrowSmallUpIcon class="inline w-4 h-4 -mt-1" />High</span>
-        <span v-if="vital.low.length > 0 && measurement.value <= Number(vital.low)"
+        <span v-if="vital.low && measurement.value <= Number(vital.low)"
           class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal cursor-default"><ArrowSmallDownIcon class="inline w-4 h-4 -mt-0.5" />Low</span>
       </h3>
       <p class="text-gray-400 text-sm">{{ vital.name }}</p>
@@ -71,7 +85,7 @@ const editRoute = () => {
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push(editRoute());">
+              <button class="menu-item group/menu-item" @click="close(); $router.push(updateRoute());">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

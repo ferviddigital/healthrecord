@@ -16,19 +16,22 @@ const personId  = ref(props.personId || route.params.personId || '');
 const vitalId   = ref(props.vitalId || route.params.vitalId || '');
 
 const isFormComplete = computed(() => {
-  return value.value.length > 0 
+  return value.value 
     && date.value.length > 0
     && personId.value.length > 0
     && vitalId.value.length > 0
 });
 
 const measurement = computed(() => {
-  return {
-    value:    value.value,
+  /** @type {import('../../../typedefs').Measurement} */
+  const measurement = {
+    id:       crypto.randomUUID(),
+    value:    Number(value.value),
     date:     dayjs(date.value).valueOf(),
     personId: personId.value,
     vitalId:  vitalId.value,
   }
+  return measurement;
 });
 
 const vital = computed(() => {

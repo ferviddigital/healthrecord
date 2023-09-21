@@ -16,13 +16,16 @@ const isFormComplete = computed(() => {
 });
 
 const vital = computed(() => {
-  return {
+  /** @type {import('../../../typedefs').Vital} */
+  const vital = {
+    id:           crypto.randomUUID(),
     name:         name.value,
     description:  description.value,
     unit:         unit.value,
-    low:          low.value,
-    high:         high.value
+    low:          low.value ? Number(low.value) : null,
+    high:         high.value ? Number(high.value) : null
   }
+  return vital;
 });
 </script>
 

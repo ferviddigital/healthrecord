@@ -5,7 +5,7 @@ import VitalChart from './VitalChart.vue';
 import { computed } from 'vue';
 import { people } from '../../../store/people';
 import { measurements } from '../../../store/measurements';
-import { vitals, addBodyWeightVital, addHeartRateVital } from '../../../store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital } from '../../../store/vitals';
 import { useRoute } from 'vue-router';
 import pluralize from 'pluralize';
 import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
@@ -15,21 +15,25 @@ const route = useRoute();
 const personId = route.params.personId;
 
 const person = computed(() => {
-  return people.value.find(person => person.id === personId);
+  const person = people.value.find(person => person.id === personId);
+
+  if (! person) throw Error(`Could not find person with ID: ${route.params.personId}.`);
+
+  return person
 });
 
-const userMeasurements = computed(() => {
+const personMeasurements = computed(() => {
   return measurements.value.filter(measurement => measurement.personId === personId);
 });
 
 const trackedVitals = computed(() => {
-  var vitalIds = userMeasurements.value.map(measurement => measurement.vitalId);
+  var vitalIds = personMeasurements.value.map(measurement => measurement.vitalId);
   vitalIds = Array.from(new Set(vitalIds));
   return vitals.value.filter(vital => vitalIds.includes(vital.id));
 });
 
 const vitalMeasurements = (vitalId) => {
-  return userMeasurements.value.filter(measurement => measurement.vitalId === vitalId)
+  return personMeasurements.value.filter(measurement => measurement.vitalId === vitalId)
 }
 </script>
 
@@ -38,10 +42,10 @@ const vitalMeasurements = (vitalId) => {
     <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
       <header>
         <h2 class="text-2xl font-bold">{{ person.firstName + ' ' + person.lastName }}</h2>
-        <p class="text-sm text-gray-500">{{ pluralize('measurement', userMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
+        <p class="text-sm text-gray-500">{{ pluralize('measurement', personMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonMeasurementAdd' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonMeasurementCreate' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>
@@ -60,8 +64,8 @@ const vitalMeasurements = (vitalId) => {
       <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
         <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
           <LightBulbIcon class="h-6 w-6 mr-3" />
-          <span v-if="vitals.length === 0">You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'VitalAdd' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="addBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="addHeartRateVital()">heart rate</span>.</span>
-          <span v-else>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'PersonMeasurementAdd' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
+          <span v-if="vitals.length === 0">You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'VitalCreate' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="createBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="createHeartRateVital()">heart rate</span>.</span>
+          <span v-else>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'PersonMeasurementCreate' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
         </p>
       </div>
     </div>

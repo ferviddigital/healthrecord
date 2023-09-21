@@ -6,9 +6,14 @@ import PersonForm from './Form.vue';
 
 const router = useRouter();
 
-const addPerson = (person) => {
-  peopleStore.add(person);
-  router.push({name: 'People'});
+/**
+ * Create Person
+ * 
+ * @param {import("../../../typedefs").Person} person 
+ */
+const createPerson = (person) => {
+  peopleStore.create(person);
+  router.push({ name: 'People' });
 }
 </script>
 
@@ -18,7 +23,7 @@ const addPerson = (person) => {
     <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Person</DialogTitle>
-        <PersonForm @submit="addPerson" class="p-6" />
+        <PersonForm @submit="createPerson" class="p-6" />
       </DialogPanel>
     </div>
   </Dialog>

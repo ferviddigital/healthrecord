@@ -12,7 +12,7 @@ import PersonListItem from './PersonListItem.vue';
         <p class="text-sm text-gray-500">Add, edit, and delete people to track.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PeopleAdd' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonCreate' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>
@@ -20,5 +20,6 @@ import PersonListItem from './PersonListItem.vue';
     <div class="pb-28 md:pb-0 grid gap-3">
       <PersonListItem v-for="person in people" :key="person.id" :person="person" />
     </div>
+    <RouterView name="modal" />
   </div>
 </template>

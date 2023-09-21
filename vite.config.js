@@ -45,7 +45,7 @@ export default defineConfig({
       shortcuts: [
         {
           name: 'Add Measurement',
-          url: '/measurements/add',
+          url: '/measurements/create',
           description: 'Add new vital measurement'
         }
       ]

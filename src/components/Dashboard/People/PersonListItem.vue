@@ -5,7 +5,13 @@ import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid';
 import dayjs from 'dayjs';
 
-const props = defineProps(['person']);
+const props = defineProps({
+  person: {
+    /** @type {import('vue').PropType<import("../../../typedefs").Person>} */
+    type: Object,
+    required: true
+  }
+});
 </script>
 
 <template>
@@ -25,7 +31,7 @@ const props = defineProps(['person']);
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'PeopleEdit', params: { personId: person.id }});">
+              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'PersonUpdate', params: { personId: person.id }});">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

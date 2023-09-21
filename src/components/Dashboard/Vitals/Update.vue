@@ -9,7 +9,11 @@ const route   = useRoute();
 const router  = useRouter();
 
 const vital = computed(() => {
-  return vitals.value.find(vital => vital.id === route.params.vitalId);
+  const vital = vitals.value.find(vital => vital.id === route.params.vitalId);
+
+  if (! vital) throw new Error(`Could not find vital with ID: ${route.params.vitalId}.`);
+
+  return vital;
 });
 
 const name        = ref(vital.value.name);
@@ -18,8 +22,13 @@ const unit        = ref(vital.value.unit);
 const high        = ref(vital.value.high);
 const low         = ref(vital.value.low);
 
-const editVital = (vital) => {
-  vitalStore.edit(route.params.vitalId, vital);
+/**
+ * Update Vital
+ * 
+ * @param {import("../../../typedefs").Vital} vital 
+ */
+const updateVital = (vital) => {
+  vitalStore.update(route.params.vitalId, vital);
   router.push({ name: 'Vitals' });
 }
 </script>
@@ -30,7 +39,7 @@ const editVital = (vital) => {
     <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Vital</DialogTitle>
-        <VitalForm class="p-6" @submit="editVital" :name="name" :description="description" :unit="unit" :high="high" :low="low" />
+        <VitalForm class="p-6" @submit="updateVital" :name="name" :description="description" :unit="unit" :high="high" :low="low" />
       </DialogPanel>
     </div>
   </Dialog>

@@ -5,37 +5,17 @@ import DashboardLayout from '../components/Dashboard/Layout.vue'
 import People from '../components/Dashboard/People/People.vue'
 import Person from '../components/Dashboard/People/Person.vue'
 import PersonVital from '../components/Dashboard/People/Vital.vue'
-import PeopleAdd from '../components/Dashboard/People/Add.vue'
-import PeopleEdit from '../components/Dashboard/People/Edit.vue'
+import PersonCreate from '../components/Dashboard/People/Create.vue'
+import PersonUpdate from '../components/Dashboard/People/Update.vue'
 import Settings from '../components/Dashboard/Settings/Settings.vue'
 import Dashboard from '../components/Dashboard/Dash/Dash.vue'
 import Vitals from '../components/Dashboard/Vitals/Vitals.vue'
-import VitalAdd from '../components/Dashboard/Vitals/Add.vue'
-import VitalEdit from '../components/Dashboard/Vitals/Edit.vue'
+import VitalCreate from '../components/Dashboard/Vitals/Create.vue'
+import VitalUpdate from '../components/Dashboard/Vitals/Update.vue'
 import Measurements from '../components/Dashboard/Measurements/Measurements.vue'
-import MeasurementAdd from '../components/Dashboard/Measurements/Add.vue'
-import MeasurementEdit from '../components/Dashboard/Measurements/Edit.vue'
+import MeasurementCreate from '../components/Dashboard/Measurements/Create.vue'
+import MeasurementUpdate from '../components/Dashboard/Measurements/Update.vue'
 import { record } from '../store/record'
-
-const checkRecordExists = (to) => {
-  switch (to.name) {
-    case 'Start':
-    case 'StartNew':
-      if (!record.value) {
-        return true
-      }
-      return {
-        name: 'Dash'
-      }
-    default:
-      if (record.value) {
-        return true
-      }
-      return {
-        name: 'Start'
-      }      
-  }
-}
 
 const routes = [
   {
@@ -52,11 +32,17 @@ const routes = [
     path: '/',
     redirect: {
       name: 'Dashboard'
+    },
+    meta: {
+      requiresAuth: true
     }
   },
   {
     path: '/dashboard',
     component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: '',
@@ -70,21 +56,32 @@ const routes = [
   {
     path: '/people',
     component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: '',
         name: 'People',
         components: {
           main: People
-        }
-      },
-      {
-        path: 'add',
-        name: 'PeopleAdd',
-        components: {
-          main: People,
-          modal: PeopleAdd
-        }
+        },
+        children: [
+          {
+            path: 'create',
+            name: 'PersonCreate',
+            components: {
+              modal: PersonCreate
+            }
+          },
+          {
+            path: ':personId/update',
+            name: 'PersonUpdate',
+            components: {
+              modal: PersonUpdate
+            }
+          }
+        ]
       },
       {
         path: ':personId',
@@ -94,28 +91,20 @@ const routes = [
         },
         children: [
           {
-            path: 'measurement/add',
-            name: 'PersonMeasurementAdd',
+            path: 'measurement/create',
+            name: 'PersonMeasurementCreate',
             components: {
-              modal: MeasurementAdd
+              modal: MeasurementCreate
             }
           },
           {
-            path: 'measurement/:measurementId/edit',
-            name: 'PersonMeasurementEdit',
+            path: 'measurement/:measurementId/update',
+            name: 'PersonMeasurementUpdate',
             components: {
-              modal: MeasurementEdit
+              modal: MeasurementUpdate
             }
           },
         ]
-      },
-      {
-        path: ':personId/edit',
-        name: 'PeopleEdit',
-        components: {
-          main: People,
-          modal: PeopleEdit
-        }
       },
       {
         path: ':personId/vital/:vitalId',
@@ -125,17 +114,17 @@ const routes = [
         },
         children: [
           {
-            path: 'measurement/add',
-            name: 'PersonVitalMeasurementAdd',
+            path: 'measurement/create',
+            name: 'PersonVitalMeasurementCreate',
             components: {
-              modal: MeasurementAdd
+              modal: MeasurementCreate
             }
           },
           {
-            path: 'measurement/:measurementId/edit',
-            name: 'PersonVitalMeasurementEdit',
+            path: 'measurement/:measurementId/update',
+            name: 'PersonVitalMeasurementUpdate',
             components: {
-              modal: MeasurementEdit
+              modal: MeasurementUpdate
             }
           },
         ]
@@ -145,6 +134,9 @@ const routes = [
   {
     path: '/vitals',
     component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: '',
@@ -154,17 +146,17 @@ const routes = [
         },
         children: [
           {
-            path: 'add',
-            name: 'VitalAdd',
+            path: 'create',
+            name: 'VitalCreate',
             components: {
-              modal: VitalAdd
+              modal: VitalCreate
             }
           },
           {
-            path: ':vitalId/edit',
-            name: 'VitalEdit',
+            path: ':vitalId/update',
+            name: 'VitalUpdate',
             components: {
-              modal: VitalEdit
+              modal: VitalUpdate
             }
           },
         ]
@@ -174,6 +166,9 @@ const routes = [
   {
     path: '/measurements',
     component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: '',
@@ -183,17 +178,17 @@ const routes = [
         },
         children: [
           {
-            path: 'add',
-            name: 'MeasurementAdd',
+            path: 'create',
+            name: 'MeasurementCreate',
             components: {
-              modal: MeasurementAdd
+              modal: MeasurementCreate
             }
           },
           {
-            path: ':measurementId/edit',
-            name: 'MeasurementEdit',
+            path: ':measurementId/update',
+            name: 'MeasurementUpdate',
             components: {
-              modal: MeasurementEdit
+              modal: MeasurementUpdate
             }
           }
         ]
@@ -203,6 +198,9 @@ const routes = [
   {
     path: '/settings',
     component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: '',

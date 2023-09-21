@@ -9,7 +9,11 @@ const route   = useRoute();
 const router  = useRouter();
 
 const measurement = computed(() => {
-  return measurements.value.find(measurement => measurement.id === route.params.measurementId);
+  const measurement = measurements.value.find(measurement => measurement.id === route.params.measurementId);
+
+  if (! measurement) throw Error(`Could not find measurement with ID: ${route.params.measurementId}.`);
+
+  return measurement
 });
 
 const value     = ref(measurement.value.value);
@@ -17,8 +21,13 @@ const date      = ref(measurement.value.date);
 const personId  = ref(measurement.value.personId);
 const vitalId   = ref(measurement.value.vitalId);
 
-const editMeasurement = (measurement) => {
-  measurementStore.edit(route.params.measurementId, measurement);
+/**
+ * Update Measurement
+ * 
+ * @param {import("../../../typedefs").Measurement} measurement 
+ */
+const updateMeasurement = (measurement) => {
+  measurementStore.update(route.params.measurementId, measurement);
   router.back();
 }
 </script>
@@ -29,7 +38,7 @@ const editMeasurement = (measurement) => {
     <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Measurement</DialogTitle>
-        <MeasurementForm class="p-6" @submit="editMeasurement" :value="value" :date="date" :personId="personId" :vitalId="vitalId" />
+        <MeasurementForm class="p-6" @submit="updateMeasurement" :value="value" :date="date" :personId="personId" :vitalId="vitalId" />
       </DialogPanel>
     </div>
   </Dialog>

@@ -11,12 +11,13 @@ export const vitals = computed(() => {
 });
 
 /**
- * Heart rate sample vital
+ * Create heart rate sample vital
  * 
  * @since 0.1.2
  */
-export const addHeartRateVital = () => {
-  store.add({
+export const createHeartRateVital = () => {
+  store.create({
+    id: crypto.randomUUID(),
     name: 'Heart Rate',
     description: 'Heart beats per minute',
     unit: 'bpm',
@@ -26,12 +27,13 @@ export const addHeartRateVital = () => {
 }
 
 /**
- * Body weight sample vital
+ * Create body weight sample vital
  * 
  * @since 0.1.2
  */
-export const addBodyWeightVital = () => {
-  store.add({
+export const createBodyWeightVital = () => {
+  store.create({
+    id: crypto.randomUUID(),
     name: 'Weight',
     description: 'Body weight',
     unit: 'lbs',
@@ -46,23 +48,29 @@ export const addBodyWeightVital = () => {
  * @since 0.1.0
  */
 export const store = reactive({
-  add({ name, description, unit, low, high }) {
-    const vital = {
-      id: crypto.randomUUID(),
-      name,
-      description,
-      unit,
-      low,
-      high
-    }
-
+  /**
+   * Create Vital
+   * 
+   * @param {import("../typedefs").Vital} vital 
+   */
+  create(vital) {
     const recordCopy = record.value;
     recordCopy.vitals.push(vital);
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   },
-  edit(vitalId, vitalObject) {
+
+  /**
+   * Update Vital
+   * 
+   * @param {string} vitalId 
+   * @param {import("../typedefs").Vital} vitalObject 
+   */
+  update(vitalId, vitalObject) {
     const vital = vitals.value.find(vital => vital.id === vitalId);
+
+    if (! vital) throw new Error(`Could not find vital with ID: ${vitalId}.`);
+
     vital.name        = vitalObject.name;
     vital.description = vitalObject.description;
     vital.unit        = vitalObject.unit;
@@ -74,8 +82,14 @@ export const store = reactive({
     const recordCopy = record.value;
     recordCopy.vitals[index] = vital
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   },
+
+  /**
+   * Delete Vital
+   * 
+   * @param {string} vitalId 
+   */
   delete(vitalId) {
     if (! confirm('Are you sure you want to delete this vital?') ) {
       return;
@@ -86,6 +100,6 @@ export const store = reactive({
     const recordCopy = record.value;
     recordCopy.vitals = vitalsCopy;
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   }
 });
