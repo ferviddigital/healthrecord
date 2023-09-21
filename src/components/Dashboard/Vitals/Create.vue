@@ -6,9 +6,14 @@ import VitalForm from './Form.vue';
 
 const router = useRouter();
 
-const addVital = (vital) => {
-  vitalsStore.add(vital);
-  router.push({name: 'Vitals'});
+/**
+ * Create Vital
+ * 
+ * @param {import("../../../typedefs").Vital} vital 
+ */
+const createVital = (vital) => {
+  vitalsStore.create(vital);
+  router.push({ name: 'Vitals' });
 }
 </script>
 
@@ -18,7 +23,7 @@ const addVital = (vital) => {
     <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Vital</DialogTitle>
-        <VitalForm @submit="addVital" class="p-6" />
+        <VitalForm @submit="createVital" class="p-6" />
       </DialogPanel>
     </div>
   </Dialog>

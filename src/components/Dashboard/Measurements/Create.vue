@@ -6,8 +6,13 @@ import MeasurementForm from './Form.vue';
 
 const router = useRouter();
 
-const addMeasurement = (measurement) => {
-  measurementStore.add(measurement);
+/**
+ * Create Measurement
+ * 
+ * @param {import("../../../typedefs").Measurement} measurement 
+ */
+const createMeasurement = (measurement) => {
+  measurementStore.create(measurement);
   router.back();
 }
 </script>
@@ -18,7 +23,7 @@ const addMeasurement = (measurement) => {
     <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Measurement</DialogTitle>
-        <MeasurementForm @submit="addMeasurement" class="p-6" />
+        <MeasurementForm @submit="createMeasurement" class="p-6" />
       </DialogPanel>
     </div>
   </Dialog>

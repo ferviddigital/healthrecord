@@ -17,12 +17,15 @@ const isFormComplete = computed(() => {
 });
 
 const person = computed(() => {
-  return {
+  /** @type {import("../../../typedefs").Person} */
+  const person = {
+    id:         crypto.randomUUID(),
     firstName:  firstName.value,
     lastName:   lastName.value,
     sex:        sex.value,
     dob:        dob.value
   }
+  return person;
 });
 </script>
 

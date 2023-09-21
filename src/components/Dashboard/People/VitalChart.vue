@@ -5,13 +5,26 @@ import ZoomPlugin from 'chartjs-plugin-zoom';
 import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
 import { computed } from 'vue';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
-import dayjs from 'dayjs';
 
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeScale)
 
 ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
 
-const props = defineProps([ 'vital', 'measurements', 'small' ]);
+const props = defineProps({
+  vital: {
+    /** @type {import('vue').PropType<import("../../../typedefs").Vital>} */
+    type: Object,
+    required: true
+  },
+  measurements: {
+    /** @type {import('vue').PropType<import("../../../typedefs").Measurement[]>} */
+    type: Array,
+    required: true
+  },
+  small: {
+    type: Boolean
+  }
+});
 
 const measurements = computed(() => {
   return props.measurements.reverse()
@@ -27,6 +40,7 @@ const measurementDates = computed(() => {
 const data = computed(() => {
   return {
     labels: measurementDates.value,
+    /** @type {import('chart.js').LineControllerDatasetOptions[]} */
     datasets: [
       {
         label: props.vital.name,
@@ -41,6 +55,7 @@ const data = computed(() => {
   }
 });
 
+/** @type {import('chart.js').ChartOptions} */
 const options = {
   plugins: {
     legend: {
@@ -53,7 +68,7 @@ const options = {
           return context.formattedValue + ' ' + props.vital.unit;
         },
         title: (context) => {
-          return new Date(Number(context[0].parsed.x)).toLocaleDateString();
+          return new Date(context[0].parsed.x).toLocaleDateString();
         }
       }
     },
@@ -70,14 +85,13 @@ const options = {
         unit: 'day',
         tooltipFormat: 'MM/DD/YYYY'
       },
-      // suggestedMin: dayjs().subtract(1, 'week').valueOf(),
       bounds: 'ticks',
       grid: {
         display: false,
         color: '#efefef'
       },
       ticks: {
-        display: props.small ? false : true,
+        display: false,
         autoSkipPadding: 30,
         color: '#aaa'
       },
@@ -92,16 +106,16 @@ const options = {
         major: {
           enabled: true
         },
-        display: props.small ? false : true,
+        display: false,
         callback: (value) => {
-          return Number(Number(value).toFixed(2)).toLocaleString() + ' ' + props.vital.unit;
+          return Number(value.toFixed(2)).toLocaleString() + ' ' + props.vital.unit;
         }
       }
     }
   }
 }
 
-if (!props.small) {
+if (! props.small) {
   options.plugins.zoom = {
     pan: {
       enabled: true,
@@ -109,10 +123,12 @@ if (!props.small) {
     }
   }
 
-  options.scales.x.grid.display = true
+  options.scales.x.grid.display = true;
+  options.scales.x.ticks.display = true;
+  options.scales.y.ticks.display = true;
 }
 
-if (props.vital.low.length > 0) {
+if (props.vital.low) {
   options.plugins.annotation.annotations.lowLine = {
     type: 'line',
     scaleID: 'y',
@@ -121,7 +137,7 @@ if (props.vital.low.length > 0) {
     borderDash: [5, 3],
     borderWidth: 1,
     init: true,
-    z: 1
+    z: 1,
   }
 
   options.plugins.annotation.annotations.lowBox = {
@@ -147,7 +163,7 @@ if (props.vital.low.length > 0) {
   }
 }
 
-if (props.vital.high.length > 0) {
+if (props.vital.high) {
   options.plugins.annotation.annotations.highLine = {
     type: 'line',
     scaleID: 'y',
@@ -187,6 +203,5 @@ if (props.vital.high.length > 0) {
   <Line
     :options="options"
     :data="data"
-    class="bg-yell"
   />
 </template>

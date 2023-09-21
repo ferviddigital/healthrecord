@@ -14,11 +14,19 @@ const vitalId   = useRoute().params.vitalId;
 const personId  = useRoute().params.personId;
 
 const person = computed(() => {
-  return people.value.find(person => person.id === personId);
+  const person = people.value.find(person => person.id === personId);
+
+  if (! person) throw new Error(`Could not find person with ID: ${personId}.`);
+
+  return person;
 });
 
 const vital = computed(() => {
-  return vitals.value.find(vital => vital.id === vitalId);
+  const vital = vitals.value.find(vital => vital.id === vitalId);
+
+  if (! vital) throw new Error(`Could not find vital with ID: ${vitalId}.`)
+
+  return vital;
 });
 
 const vitalMeasurements = computed(() => {
@@ -39,7 +47,7 @@ const vitalMeasurements = computed(() => {
         <p class="text-sm text-gray-500">{{ pluralize('measurement', vitalMeasurements.length, true) }}.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonVitalMeasurementAdd' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonVitalMeasurementCreate' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>

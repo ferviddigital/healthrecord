@@ -6,9 +6,9 @@ import PersonForm from '../Dashboard/People/Form.vue';
 
 const router = useRouter();
 
-const addRecord = (person) => {
-  recordStore.add({person});
-  router.push({name: 'Dashboard'});
+const createRecord = (person) => {
+  recordStore.create({person});
+  router.push({ name: 'Dashboard' });
 }
 </script>
 
@@ -20,7 +20,7 @@ const addRecord = (person) => {
         HealthRecord
       </h1>
       <p class="text-center text-sm mb-10 text-gray-500">Setup new record. This record is stored in your browser. You will be reminded to download it periodically.</p>
-      <PersonForm @submit="addRecord" />
+      <PersonForm @submit="createRecord" />
     </div>
   </div>
 </template>

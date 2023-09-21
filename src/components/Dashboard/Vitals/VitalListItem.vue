@@ -3,7 +3,13 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { store as vitalStore } from '../../../store/vitals';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid';
 
-const props = defineProps(['vital']);
+const props = defineProps({
+  vital: {
+    /** @type {import('vue').PropType<import("../../../typedefs").Vital>} */
+    type: Object,
+    required: true
+  }
+});
 </script>
 
 <template>
@@ -20,7 +26,7 @@ const props = defineProps(['vital']);
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">
             <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'VitalEdit', params: { vitalId: vital.id }});">
+              <button class="menu-item group/menu-item" @click="close(); $router.push({ name: 'VitalUpdate', params: { vitalId: vital.id }});">
                 <PencilIcon class="group-hover/menu-item:text-indigo-200" />
                 Edit
               </button>

@@ -7,7 +7,7 @@ import { record, store as recordStore } from "./record";
  * @since 0.1.0
  */
 export const people = computed(() => {
-  return record.value.people
+  return record.value.people;
 });
 
 /**
@@ -16,21 +16,29 @@ export const people = computed(() => {
  * @since 0.1.0
  */
 export const store = reactive({
-  add({ firstName, lastName, sex, dob }) {
+  /**
+   * Create Person
+   * 
+   * @param {import("../typedefs").Person} person 
+   */
+  create(person) {
     const recordCopy = record.value;
-    
-    recordCopy.people.push({
-      id: crypto.randomUUID(),
-      firstName,
-      lastName,
-      sex,
-      dob
-    });
+    recordCopy.people.push(person);
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   },
-  edit(personId, personObject) {
+
+  /**
+   * Update Person
+   * 
+   * @param {string} personId 
+   * @param {import("../typedefs").Person} personObject 
+   */
+  update(personId, personObject) {
     const person = people.value.find(person => person.id === personId);
+
+    if (! person) throw new Error(`Could not find person with ID: ${personId}.`);
+
     person.firstName  = personObject.firstName;
     person.lastName   = personObject.lastName;
     person.sex        = personObject.sex;
@@ -41,18 +49,24 @@ export const store = reactive({
     const recordCopy = record.value;
     recordCopy.people[index] = person
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   },
+
+  /**
+   * Delete Person
+   * 
+   * @param {string} personId 
+   */
   delete(personId) {
     if (! confirm('Are you sure you want to delete this person?') ) {
       return;
     }
 
-    const peopleCopy = people.filter(person => person.id !== personId);
+    const peopleCopy = people.value.filter(person => person.id !== personId);
 
     const recordCopy = record.value;
     recordCopy.people = peopleCopy;
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   }
 });

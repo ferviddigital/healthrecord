@@ -16,22 +16,29 @@ export const measurements = computed(() => {
  * @since 0.1.0
  */
 export const store = reactive({
-  add({ value, date, personId, vitalId }) {
-    const measurement = {
-      id: crypto.randomUUID(),
-      value,
-      date,
-      personId,
-      vitalId
-    }
-
+  /**
+   * Create Measurement
+   * 
+   * @param {import("../typedefs").Measurement} measurement 
+   */
+  create(measurement) {
     const recordCopy = record.value;
     recordCopy.measurements.push(measurement);
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   },
-  edit(measurementId, measurementObject) {
+
+  /**
+   * Update Measurement
+   * 
+   * @param {string} measurementId 
+   * @param {import("../typedefs").Measurement} measurementObject 
+   */
+  update(measurementId, measurementObject) {
     const measurement = measurements.value.find(measurement => measurement.id === measurementId);
+
+    if (! measurement) throw new Error(`Could not find measurement with ID: ${measurementId}.`);
+
     measurement.value     = measurementObject.value;
     measurement.date      = measurementObject.date;
     measurement.personId  = measurementObject.personId;
@@ -42,8 +49,14 @@ export const store = reactive({
     const recordCopy = record.value;
     recordCopy.measurements[index] = measurement
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   },
+
+  /**
+   * Delete Measurement
+   * 
+   * @param {string} measurementId 
+   */
   delete(measurementId) {
     if (! confirm('Are you sure you want to delete this measurement?') ) {
       return;
@@ -54,6 +67,6 @@ export const store = reactive({
     const recordCopy = record.value;
     recordCopy.measurements = measurementsCopy;
 
-    recordStore.edit(recordCopy);
+    recordStore.update(recordCopy);
   }
 });

@@ -1,7 +1,7 @@
 <script setup>
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
-import { vitals, store as vitalStore, addBodyWeightVital, addHeartRateVital } from '../../../store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital } from '../../../store/vitals';
 import VitalListItem from './VitalListItem.vue';
 </script>
 
@@ -13,7 +13,7 @@ import VitalListItem from './VitalListItem.vue';
         <p class="text-sm text-gray-500">Add, edit, and delete vitals to measure.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'VitalAdd' }">
+        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'VitalCreate' }">
           <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
         </RouterLink>
       </div>
@@ -28,7 +28,7 @@ import VitalListItem from './VitalListItem.vue';
       </p>
       <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
         <LightBulbIcon class="h-6 w-6 mr-3" />
-        <span>You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'VitalAdd' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="addBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="addHeartRateVital()">heart rate</span>.</span>
+        <span>You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'VitalCreate' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="createBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="createHeartRateVital()">heart rate</span>.</span>
       </p>
     </div>
     <RouterView name="modal" />

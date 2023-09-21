@@ -9,7 +9,11 @@ const route   = useRoute();
 const router  = useRouter();
 
 const person = computed(() => {
-  return people.value.find(person => person.id === route.params.personId);
+  const person = people.value.find(person => person.id === route.params.personId);
+  
+  if (! person) throw Error(`Could not find person with ID: ${route.params.personId}.`);
+
+  return person;
 });
 
 const firstName = ref(person.value.firstName);
@@ -17,8 +21,13 @@ const lastName  = ref(person.value.lastName);
 const sex       = ref(person.value.sex);
 const dob       = ref(person.value.dob);
 
-const editPerson = (person) => {
-  peopleStore.edit(route.params.personId, person);
+/**
+ * Update Person
+ * 
+ * @param {import("../../../typedefs").Person} person 
+ */
+const updatePerson = (person) => {
+  peopleStore.update(route.params.personId, person);
   router.push({ name: 'People' });
 }
 </script>
@@ -29,7 +38,7 @@ const editPerson = (person) => {
     <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Person</DialogTitle>
-        <PersonForm class="p-6" @submit="editPerson" :firstName="firstName" :lastName="lastName" :sex="sex" :dob="dob" />
+        <PersonForm class="p-6" @submit="updatePerson" :firstName="firstName" :lastName="lastName" :sex="sex" :dob="dob" />
       </DialogPanel>
     </div>
   </Dialog>
