@@ -8,7 +8,9 @@
   "scope": "/",
   "background_color": "rgb(229, 231, 235)",
   "theme_color": "rgb(229, 231, 235)",
-  "launch_handler": "navigate-existing",
+  "launch_handler": {
+    "client-mode": "navigate-existing"
+  },
   "categories": [
     "medical",
     "health",
