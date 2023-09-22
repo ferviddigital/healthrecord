@@ -38,13 +38,13 @@ const vitalMeasurements = computed(() => {
 
 <template>
   <div>
-    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
+    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
       <header>
         <RouterLink class="text-sm text-gray-500" :to="{ name: 'Person', params: { personId }}">
           <ChevronLeftIcon class="w-4 h-4 inline -mt-0.5" /> {{ person.firstName + ' ' + person.lastName }}
         </RouterLink>
         <h2 class="text-2xl font-bold">{{ vital.name }}</h2>
-        <p class="text-sm text-gray-500">{{ pluralize('measurement', vitalMeasurements.length, true) }}.</p>
+        <p class="text-sm text-gray-500">{{ vital.description }}</p>
       </header>
       <div class="grid justify-end">
         <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonVitalMeasurementCreate' }">
@@ -56,7 +56,10 @@ const vitalMeasurements = computed(() => {
       <VitalChart :vital="vital" :measurements="vitalMeasurements" />
     </div>
     <div class="pb-28 pt-9 md:pb-0 grid gap-3">
-      <h3 class="z-10 text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
+      <h3 class="z-10 text-xl font-bold sticky top-14 pb-3 bg-gradient-to-b from-gray-200 from-70%">
+        Measurements
+        <span class="text-xs font-normal text-gray-500 align-middle">({{ vitalMeasurements.length }})</span>
+      </h3>
       <MeasurementListItem v-for="measurement in vitalMeasurements" :key="measurement.id" :measurement="measurement" />
     </div>
     <RouterView name="modal" />

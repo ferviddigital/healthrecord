@@ -36,38 +36,38 @@ const appVersion = APP_VERSION;
 </script>
 
 <template>
-  <div class="grid grid-rows-[min-content_auto_min-content]">
-    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
+  <div>
+    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
       <header>
         <h2 class="text-2xl font-bold">Settings</h2>
         <p class="text-sm text-gray-500">Update app settings and download data.</p>
       </header>
     </div>
-    <div>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+    <div class="bg-white p-3 px-0 rounded-xl divide-y">
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center p-3">
         <h3 class="font-semibold text-sm">Owner</h3>
         <span class="whitespace-nowrap">{{ record.firstName + ' ' + record.lastName }}</span>
       </section>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center p-3">
         <h3 class="font-semibold text-sm">Data file</h3>
         <button class="btn text-sm" @click="downloadHealthRecordFile(record)">
           <DocumentArrowDownIcon />
           Download
         </button>
       </section>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center p-3">
         <h3 class="font-semibold text-sm">Encrypted data file</h3>
         <button class="btn text-sm" @click="passphraseModalOpen = true">
           <LockClosedIcon />
           Download
         </button>
       </section>
-      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3 px-0">
+      <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3">
         <h3 class="font-semibold text-sm">Version</h3>
         <span>{{ appVersion }}</span>
       </section>
     </div>
     <PassphraseModal v-if="passphraseModalOpen" @close="passphraseModalOpen = false" @passphraseSubmitted="passphraseSubmitted" />
-    <p class="text-center self-end text-xs text-gray-300 mt-6 mb-3">HealthRecord Copyright &copy; {{ new Date().getFullYear() }}</p>
+    <p class="text-center self-end text-xs text-gray-400 mt-6 mb-3">HealthRecord Copyright &copy; {{ new Date().getFullYear() }}</p>
   </div>
 </template>

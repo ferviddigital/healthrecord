@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="grid grid-cols-[auto_min-content] bg-white p-3 rounded-md hover:shadow">
+  <div class="grid grid-cols-[auto_min-content] bg-white p-3 rounded-md">
     <div>
       <h3 class="font-semibold mb-1">{{ vital.name }} <span class="text-xs text-gray-400 font-light">({{ vital.unit }})</span></h3>
       <p class="text-gray-400 text-sm">{{ vital.description }}</p>

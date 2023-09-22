@@ -6,7 +6,7 @@ const recordVersion = 1;
 /**
  * Browser stored health record
  * 
- * @type {import('vue').ComputedRef<import('../typedefs').Record>}
+ * @type {import('vue').ComputedRef<import('../typedefs').HealthRecord>}
  * 
  * @since 0.1.0
  */
@@ -20,7 +20,7 @@ export const record = computed(() => {
  * @since 0.1.0
  */
 export const store  = reactive({
-  /** @type {import('../typedefs').Record} */
+  /** @type {import('../typedefs').HealthRecord} */
   record: JSON.parse(localStorage.getItem('healthRecord')),
 
   /**
@@ -29,7 +29,7 @@ export const store  = reactive({
    * @param {*} param0 
    */
   create({ person }) {
-    /** @type {import('../typedefs').Record} */
+    /** @type {import('../typedefs').HealthRecord} */
     const record = {
       type:         'healthRecord',
       version:      recordVersion,
@@ -46,7 +46,7 @@ export const store  = reactive({
   /**
    * Update Record
    * 
-   * @param {import('../typedefs').Record} record 
+   * @param {import('../typedefs').HealthRecord} record 
    */
   update(record) {
     record.updated = Date.now();
