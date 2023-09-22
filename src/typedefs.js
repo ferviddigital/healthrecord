@@ -1,5 +1,5 @@
 /**
- * @typedef {object} Record
+ * @typedef {object} HealthRecord
  * @property {string} type
  * @property {number} version
  * @property {string} firstName

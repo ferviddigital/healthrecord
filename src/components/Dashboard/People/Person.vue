@@ -39,7 +39,7 @@ const vitalMeasurements = (vitalId) => {
 
 <template>
   <div>
-    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-100 from-90%">
+    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
       <header>
         <h2 class="text-2xl font-bold">{{ person.firstName + ' ' + person.lastName }}</h2>
         <p class="text-sm text-gray-500">{{ pluralize('measurement', personMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
@@ -52,7 +52,7 @@ const vitalMeasurements = (vitalId) => {
     </div>
     <div>
       <div v-if="trackedVitals.length > 0" class="grid grid-cols-2 gap-3">
-        <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer hover:shadow" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
+        <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
           <header class="grid grid-cols-[auto_min-content]">
             <h3 class="font-semibold group-hover:text-indigo-600 mb-1">{{ vital.name }}</h3>
             <ChevronRightIcon class="h-5 w-5 self-start group-hover:stroke-indigo-600" />
@@ -70,7 +70,10 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div v-if="measurements.length > 0" class="pb-28 pt-9 md:pb-0 grid gap-3">
-      <h3 class="z-10 text-xl font-bold sticky top-8 pb-1 bg-gradient-to-b from-gray-100 from-70%">Measurements</h3>
+      <h3 class="z-10 text-xl font-bold sticky top-8 pb-1 bg-gradient-to-b from-gray-200 from-70%">
+        Measurements
+        <span class="text-xs font-normal text-gray-500 align-middle">({{ measurements.length }})</span>
+      </h3>
       <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
     </div>
     <RouterView name="modal" />

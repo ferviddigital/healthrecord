@@ -7,7 +7,7 @@ import VitalListItem from './VitalListItem.vue';
 
 <template>
   <div>
-    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col gap-2 items-start bg-gradient-to-b from-gray-100 from-90%">
+    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col gap-2 items-start bg-gradient-to-b from-gray-200 from-90%">
       <header>
         <h2 class="text-2xl font-bold">Vitals</h2>
         <p class="text-sm text-gray-500">Add, edit, and delete vitals to measure.</p>
