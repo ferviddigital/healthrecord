@@ -85,7 +85,7 @@ export const store = reactive({
       return;
     }
 
-    const index = vitals.value.findIndex(vital => vital.id !== vitalId);
+    const index = record.value.vitals.findIndex(vital => vital.id === vitalId);
     record.value.vitals.splice(index, 1);
   }
 });

@@ -52,7 +52,7 @@ export const store = reactive({
       return;
     }
 
-    const index = people.value.findIndex(person => person.id === personId);
+    const index = record.value.people.findIndex(person => person.id === personId);
     record.value.people.splice(index, 1);
   }
 });

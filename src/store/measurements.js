@@ -52,7 +52,7 @@ export const store = reactive({
       return;
     }
 
-    const index = measurements.value.findIndex(measurement => measurement.id !== measurementId);
+    const index = record.value.measurements.findIndex(measurement => measurement.id === measurementId);
     record.value.measurements.splice(index, 1);
   }
 });
