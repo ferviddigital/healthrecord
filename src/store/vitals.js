@@ -1,5 +1,5 @@
 import { computed, reactive } from "vue";
-import { record, store as recordStore } from './record';
+import { record } from './record';
 
 /**
  * All vitals
@@ -7,7 +7,7 @@ import { record, store as recordStore } from './record';
  * @since 0.1.0
  */
 export const vitals = computed(() => {
-  return record.value.vitals.sort((a,b) => a.name.localeCompare(b.name));
+  return [...record.value.vitals].sort((a,b) => a.name.localeCompare(b.name));
 });
 
 /**
@@ -54,10 +54,7 @@ export const store = reactive({
    * @param {import("../typedefs").Vital} vital 
    */
   create(vital) {
-    const recordCopy = record.value;
-    recordCopy.vitals.push(vital);
-
-    recordStore.update(recordCopy);
+    record.value.vitals.push(vital);
   },
 
   /**
@@ -67,22 +64,15 @@ export const store = reactive({
    * @param {import("../typedefs").Vital} vitalObject 
    */
   update(vitalId, vitalObject) {
-    const vital = vitals.value.find(vital => vital.id === vitalId);
-
-    if (! vital) throw new Error(`Could not find vital with ID: ${vitalId}.`);
-
-    vital.name        = vitalObject.name;
-    vital.description = vitalObject.description;
-    vital.unit        = vitalObject.unit;
-    vital.low         = vitalObject.low;
-    vital.high        = vitalObject.high;
-
     const index = vitals.value.findIndex(vital => vital.id === vitalId);
 
-    const recordCopy = record.value;
-    recordCopy.vitals[index] = vital
+    if (index === -1) throw new Error(`Could not find vital with ID: ${vitalId}.`);
 
-    recordStore.update(recordCopy);
+    record.value.vitals[index].name        = vitalObject.name;
+    record.value.vitals[index].description = vitalObject.description;
+    record.value.vitals[index].unit        = vitalObject.unit;
+    record.value.vitals[index].low         = vitalObject.low;
+    record.value.vitals[index].high        = vitalObject.high;
   },
 
   /**
@@ -95,11 +85,7 @@ export const store = reactive({
       return;
     }
 
-    const vitalsCopy = vitals.value.filter(vital => vital.id !== vitalId);
-
-    const recordCopy = record.value;
-    recordCopy.vitals = vitalsCopy;
-
-    recordStore.update(recordCopy);
+    const index = vitals.value.findIndex(vital => vital.id !== vitalId);
+    record.value.vitals.splice(index, 1);
   }
 });

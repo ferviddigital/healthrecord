@@ -3,7 +3,7 @@ import { LightBulbIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed } from 'vue';
-import { people } from '../../../store/people';
+import { record } from '../../../store/record';
 import { measurements } from '../../../store/measurements';
 import { vitals, createBodyWeightVital, createHeartRateVital } from '../../../store/vitals';
 import { useRoute } from 'vue-router';
@@ -15,11 +15,7 @@ const route = useRoute();
 const personId = route.params.personId;
 
 const person = computed(() => {
-  const person = people.value.find(person => person.id === personId);
-
-  if (! person) throw Error(`Could not find person with ID: ${route.params.personId}.`);
-
-  return person
+  return record.value.people.find(person => person.id === personId)
 });
 
 const personMeasurements = computed(() => {
@@ -28,7 +24,7 @@ const personMeasurements = computed(() => {
 
 const trackedVitals = computed(() => {
   var vitalIds = personMeasurements.value.map(measurement => measurement.vitalId);
-  vitalIds = Array.from(new Set(vitalIds));
+  vitalIds = [...new Set(vitalIds)];
   return vitals.value.filter(vital => vitalIds.includes(vital.id));
 });
 
@@ -38,7 +34,7 @@ const vitalMeasurements = (vitalId) => {
 </script>
 
 <template>
-  <div>
+  <div v-if="person">
     <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
       <header>
         <h2 class="text-2xl font-bold">{{ person.firstName + ' ' + person.lastName }}</h2>

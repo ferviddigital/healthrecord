@@ -2,7 +2,7 @@
 Record, track, and visualize your personal health data.
 
 ## About
-HealthRecord allows individuals to record, track and visualize vital measurements related to their personal health. HealthRecord data is stored in the browser's `localStorage` for basic privacy. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
+HealthRecord allows individuals to record, track and visualize vital measurements related to their personal health. HealthRecord data is stored in the browser for basic privacy using CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
 
 See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 
@@ -19,6 +19,7 @@ See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 * Identify trends with graph visualizations
 * Download and open passphrase encrypted data
 * Installs as PWA from browser
+* Uses CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture.
 
 ## Getting Started
 To get a local copy up and running follow these simple steps.
@@ -46,7 +47,6 @@ Visit [localhost:5173](http://localhost:5173) in your browser.
 ## Roadmap
 - [ ] Track medications
 - [ ] AI insights and vitals suggestions
-- [ ] Implement [Automerge](https://automerge.org/)
 - [ ] Add cloud hosting option
 
 ## Contributing

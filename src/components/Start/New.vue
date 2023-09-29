@@ -1,15 +1,7 @@
 <script setup>
 import { SquaresPlusIcon } from '@heroicons/vue/20/solid'
-import { useRouter } from 'vue-router';
-import { store as recordStore } from '../../store/record';
 import PersonForm from '../Dashboard/People/Form.vue';
-
-const router = useRouter();
-
-const createRecord = (person) => {
-  recordStore.create({person});
-  router.push({ name: 'Dashboard' });
-}
+import { create } from '../../helpers/storage';
 </script>
 
 <template>
@@ -20,7 +12,7 @@ const createRecord = (person) => {
         HealthRecord
       </h1>
       <p class="text-center text-sm mb-10 text-gray-500">Setup new record. This record is stored in your browser. You will be reminded to download it periodically.</p>
-      <PersonForm @submit="createRecord" />
+      <PersonForm @submit="create" />
     </div>
   </div>
 </template>

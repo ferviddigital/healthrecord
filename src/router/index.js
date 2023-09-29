@@ -15,7 +15,7 @@ import VitalUpdate from '../components/Dashboard/Vitals/Update.vue'
 import Measurements from '../components/Dashboard/Measurements/Measurements.vue'
 import MeasurementCreate from '../components/Dashboard/Measurements/Create.vue'
 import MeasurementUpdate from '../components/Dashboard/Measurements/Update.vue'
-import { record } from '../store/record'
+import { record } from '../store/record';
 
 const routes = [
   {
