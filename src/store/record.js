@@ -1,18 +1,7 @@
-import { computed, reactive } from 'vue';
-import { store as peopleStore } from './people';
+import { reactive, watch, shallowRef } from 'vue';
 
-const recordVersion = 1;
-
-/**
- * Browser stored health record
- * 
- * @type {import('vue').ComputedRef<import('../typedefs').HealthRecord>}
- * 
- * @since 0.1.0
- */
-export const record = computed(() => {
-  return store.record;
-});
+/** @type {ShallowRef<import("@syncedstore/core/types/doc").MappedTypeDescription<{id: string, firstName: string, lastName: string, people: import('../typedefs').Person[], vitals: import('../typedefs').Vital[], measurements: import('../typedefs').Measurement[]}> | undefined>} store SyncedStore object */
+export const record = shallowRef();
 
 /**
  * Record store
@@ -20,45 +9,24 @@ export const record = computed(() => {
  * @since 0.1.0
  */
 export const store  = reactive({
-  /** @type {import('../typedefs').HealthRecord} */
-  record: JSON.parse(localStorage.getItem('healthRecord')),
 
-  /**
-   * Create Record
-   * 
-   * @param {*} param0 
-   */
-  create({ person }) {
-    /** @type {import('../typedefs').HealthRecord} */
-    const record = {
-      type:         'healthRecord',
-      version:      recordVersion,
-      firstName:    person.firstName,
-      lastName:     person.lastName,
-      people:       [],
-      vitals:       [],
-      measurements: []
-    }
-    this.update(record);
-    peopleStore.create(person);
-  },
+  record,
 
-  /**
-   * Update Record
-   * 
-   * @param {import('../typedefs').HealthRecord} record 
-   */
-  update(record) {
-    record.updated = Date.now();
-    localStorage.setItem('healthRecord', JSON.stringify(record));
-    this.record = record
-  },
+  isActive: false,
 
-  /**
-   * Delete Record
-   */
-  delete() {
-    this.record = null;
-    localStorage.removeItem('healthRecord');
+  downloadable() {
+    const exportable = this.record.toJSON();
+    exportable.type = 'healthRecord';
+    return exportable;
+  }
+});
+
+watch(record, (value) => {
+  if (value) {
+    store.isActive = true;
+    localStorage.setItem('isActive', true);
+  } else {
+    store.isActive = false;
+    localStorage.removeItem('isActive');
   }
 });

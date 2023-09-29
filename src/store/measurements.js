@@ -1,5 +1,5 @@
 import { computed, reactive } from "vue";
-import { record, store as recordStore } from './record';
+import { record } from './record';
 
 /**
  * All recorded measurements
@@ -7,7 +7,7 @@ import { record, store as recordStore } from './record';
  * @since 0.1.0
  */
 export const measurements = computed(() => {
-  return record.value.measurements.sort((a, b) => b.date - a.date );
+  return [...record.value.measurements].sort((a, b) => b.date - a.date );
 });
 
 /**
@@ -22,10 +22,7 @@ export const store = reactive({
    * @param {import("../typedefs").Measurement} measurement 
    */
   create(measurement) {
-    const recordCopy = record.value;
-    recordCopy.measurements.push(measurement);
-
-    recordStore.update(recordCopy);
+    record.value.measurements.push(measurement);
   },
 
   /**
@@ -35,21 +32,14 @@ export const store = reactive({
    * @param {import("../typedefs").Measurement} measurementObject 
    */
   update(measurementId, measurementObject) {
-    const measurement = measurements.value.find(measurement => measurement.id === measurementId);
-
-    if (! measurement) throw new Error(`Could not find measurement with ID: ${measurementId}.`);
-
-    measurement.value     = measurementObject.value;
-    measurement.date      = measurementObject.date;
-    measurement.personId  = measurementObject.personId;
-    measurement.vitalId   = measurementObject.vitalId;
-
     const index = measurements.value.findIndex(measurement => measurement.id === measurementId);
 
-    const recordCopy = record.value;
-    recordCopy.measurements[index] = measurement
+    if (index === -1) throw new Error(`Could not find measurement with ID: ${measurementId}.`);
 
-    recordStore.update(recordCopy);
+    record.value.measurements[index].value     = measurementObject.value;
+    record.value.measurements[index].date      = measurementObject.date;
+    record.value.measurements[index].personId  = measurementObject.personId;
+    record.value.measurements[index].vitalId   = measurementObject.vitalId;
   },
 
   /**
@@ -62,11 +52,7 @@ export const store = reactive({
       return;
     }
 
-    const measurementsCopy = measurements.value.filter(measurement => measurement.id !== measurementId);
-
-    const recordCopy = record.value;
-    recordCopy.measurements = measurementsCopy;
-
-    recordStore.update(recordCopy);
+    const index = measurements.value.findIndex(measurement => measurement.id !== measurementId);
+    record.value.measurements.splice(index, 1);
   }
 });

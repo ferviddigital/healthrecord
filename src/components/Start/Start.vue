@@ -1,12 +1,11 @@
 <script setup>
 import { SquaresPlusIcon } from '@heroicons/vue/20/solid'
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { store as recordStore } from '../../store/record';
 import { decrypt } from '../../helpers/encrypto';
 import PassphraseModal from '../Dashboard/Settings/PassphraseModal.vue';
+import { load } from '../../helpers/storage';
 
-const filePicker = ref(null);
+const filePicker = ref();
 const passphraseModalOpen = ref(false);
 const passphrase = ref();
 
@@ -15,8 +14,6 @@ const openPicker = () => {
   passphrase.value = null;
   filePicker.value.click();
 }
-
-const router = useRouter();
 
 const processFile = () => {
 
@@ -29,8 +26,7 @@ const processFile = () => {
   reader.onload = async () => {
     const result = JSON.parse(reader.result);
     if (result.hasOwnProperty('type') && result.type === 'healthRecord') {
-      recordStore.update(result);
-      router.push({ name: 'Dashboard' });
+      load(JSON.stringify(result));
     } else if (result.hasOwnProperty('encrypted') && result.encrypted && !passphrase.value) {
       passphraseModalOpen.value = true
     } else if (result.hasOwnProperty('encrypted') && result.encrypted && passphrase.value) {
@@ -38,8 +34,9 @@ const processFile = () => {
       if (! data) {
         return alert('Passphrase was incorrect. Please try again.');
       }
-      recordStore.update(JSON.parse(data));
-      router.push({ name: 'Dashboard' });
+      load(data)
+    } else {
+      return alert('File does not appear to valid.');
     }
   }
 

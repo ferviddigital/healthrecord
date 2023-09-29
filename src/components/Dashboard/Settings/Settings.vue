@@ -1,5 +1,5 @@
 <script setup>
-import { record } from '../../../store/record';
+import { record, store as recordStore } from '../../../store/record';
 import { saveAs } from 'file-saver';
 import { DocumentArrowDownIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
 import { encrypt } from '../../../helpers/encrypto';
@@ -18,7 +18,7 @@ const downloadHealthRecordFile = (data) => {
 
 const passphraseSubmitted = async (passphrase) => {
   passphraseModalOpen.value = false;
-  const encryptedData = await encrypt(JSON.stringify(record.value), passphrase);
+  const encryptedData = await encrypt(JSON.stringify(recordStore.downloadable()), passphrase);
 
   if (! encryptedData) {
     return alert('Could not encrypt data.');
@@ -50,7 +50,7 @@ const appVersion = APP_VERSION;
       </section>
       <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center p-3">
         <h3 class="font-semibold text-sm">Data file</h3>
-        <button class="btn text-sm" @click="downloadHealthRecordFile(record)">
+        <button class="btn text-sm" @click="downloadHealthRecordFile(recordStore.downloadable())">
           <DocumentArrowDownIcon />
           Download
         </button>

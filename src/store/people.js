@@ -1,5 +1,5 @@
 import { computed, reactive } from "vue";
-import { record, store as recordStore } from "./record";
+import { record } from "./record";
 
 /**
  * All tracked people
@@ -22,10 +22,7 @@ export const store = reactive({
    * @param {import("../typedefs").Person} person 
    */
   create(person) {
-    const recordCopy = record.value;
-    recordCopy.people.push(person);
-
-    recordStore.update(recordCopy);
+    record.value.people.push(person);
   },
 
   /**
@@ -35,21 +32,14 @@ export const store = reactive({
    * @param {import("../typedefs").Person} personObject 
    */
   update(personId, personObject) {
-    const person = people.value.find(person => person.id === personId);
-
-    if (! person) throw new Error(`Could not find person with ID: ${personId}.`);
-
-    person.firstName  = personObject.firstName;
-    person.lastName   = personObject.lastName;
-    person.sex        = personObject.sex;
-    person.dob        = personObject.dob;
-
     const index = people.value.findIndex(person => person.id === personId);
 
-    const recordCopy = record.value;
-    recordCopy.people[index] = person
+    if (index === -1) throw new Error(`Could not find person with ID: ${personId}.`);
 
-    recordStore.update(recordCopy);
+    record.value.people[index].firstName  = personObject.firstName
+    record.value.people[index].lastName   = personObject.lastName
+    record.value.people[index].sex        = personObject.sex
+    record.value.people[index].dob        = personObject.dob
   },
 
   /**
@@ -62,11 +52,7 @@ export const store = reactive({
       return;
     }
 
-    const peopleCopy = people.value.filter(person => person.id !== personId);
-
-    const recordCopy = record.value;
-    recordCopy.people = peopleCopy;
-
-    recordStore.update(recordCopy);
+    const index = people.value.findIndex(person => person.id === personId);
+    record.value.people.splice(index, 1);
   }
 });

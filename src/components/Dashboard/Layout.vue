@@ -1,8 +1,9 @@
 <script setup>
 import { SquaresPlusIcon, UsersIcon, Cog8ToothIcon, Bars3Icon, XMarkIcon, HomeIcon, ChartBarIcon, HeartIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/20/solid';
 import { ref } from 'vue';
-import { store as recordStore } from '../../store/record';
+import { clear } from '../../helpers/storage'
 import { useRouter } from 'vue-router';
+import { record } from '../../store/record';
 
 const router = useRouter();
 
@@ -12,17 +13,16 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0 });
 }
 
-const logout = () => {
+const logout = async () => {
   if (! confirm('Have you downloaded your health record?') ) {
     return router.push({ name: 'Settings' });
   }
-  router.push({ name: 'Start' });
-  recordStore.delete();
+  clear();
 }
 </script>
 
 <template>
-  <div>
+  <div v-if="record">
     <div class="grid grid-rows-[min-content_auto] grid-cols-1 p-6 py-1 h-screen md:max-h-screen md:min-h-screen md:gap-6 md:p-4 md:pr-0 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto]">
       <div class="z-20 bg-gray-900 text-white p-4 py-3 rounded-3xl order-last fixed grid self-start bottom-6 right-6 left-6 md:h-full md:sticky md:top-0 md:left-auto md:right-auto md:bottom-6 md:order-none md:rounded-xl md:py-6 md:gap-4 md:grid-rows-[min-content_auto_min-content]">
         <h2 class="grid order-last md:order-first grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
