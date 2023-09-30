@@ -7,7 +7,7 @@ import { record } from './record';
  * @since 0.1.0
  */
 export const measurements = computed(() => {
-  return [...record.value.measurements].sort((a, b) => b.date - a.date );
+  return record.value.measurements.toSorted((a, b) => b.date - a.date );
 });
 
 /**
@@ -54,10 +54,5 @@ export const store = reactive({
 
     const index = record.value.measurements.findIndex(measurement => measurement.id === measurementId);
     record.value.measurements.splice(index, 1);
-  },
-
-  deletePersons(personId) {
-
-    record.value.measurements.filter
   }
 });

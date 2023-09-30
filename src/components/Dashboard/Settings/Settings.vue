@@ -43,7 +43,7 @@ const appVersion = APP_VERSION;
         <p class="text-sm text-gray-500">Update app settings and download data.</p>
       </header>
     </div>
-    <div class="bg-white p-3 px-0 rounded-xl divide-y">
+    <div class="bg-white rounded-xl divide-y">
       <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center p-3">
         <h3 class="font-semibold text-sm">Owner</h3>
         <span class="whitespace-nowrap">{{ record.firstName + ' ' + record.lastName }}</span>

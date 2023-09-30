@@ -45,14 +45,27 @@ export const store = reactive({
   /**
    * Delete Person
    * 
-   * @param {string} personId 
+   * @param {string} personId ID of Person to delete
    */
   delete(personId) {
     if (! confirm('Are you sure you want to delete this person?') ) {
       return;
     }
-
+    deletePersonMeasurements(personId);
     const index = record.value.people.findIndex(person => person.id === personId);
     record.value.people.splice(index, 1);
   }
 });
+
+/**
+ * Delete Measurements for a specific Person ID
+ * 
+ * @param {string} personId ID of Person to delete measurements for
+ */
+const deletePersonMeasurements = (personId) => {
+  record.value.measurements.slice().forEach( _ => {
+    const lastIndex = record.value.measurements.findLastIndex(measurement => measurement.personId === personId);
+    if (lastIndex === -1) return;
+    record.value.measurements.splice(lastIndex, 1);
+  });
+}

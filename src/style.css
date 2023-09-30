@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media all and (display-mode: standalone) {
+  .dash-layout {
+    @apply md:pt-0 !important;
+  }
+}
+
 .btn {
   @apply p-2 px-4 rounded bg-indigo-500 text-white grid grid-flow-col gap-2;
 

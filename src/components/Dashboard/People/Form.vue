@@ -51,7 +51,7 @@ const person = computed(() => {
     </label>
     <input v-model="dob" type="date" id="dob" required>
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
-      <RouterLink :to="{ name: 'People' }" class="text-sm text-gray-500 font-light">Cancel</RouterLink>
+      <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>
   </form>
