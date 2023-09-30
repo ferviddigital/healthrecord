@@ -7,7 +7,7 @@ import { record } from './record';
  * @since 0.1.0
  */
 export const vitals = computed(() => {
-  return [...record.value.vitals].sort((a,b) => a.name.localeCompare(b.name));
+  return record.value.vitals.toSorted((a,b) => a.name.localeCompare(b.name));
 });
 
 /**
@@ -78,14 +78,28 @@ export const store = reactive({
   /**
    * Delete Vital
    * 
-   * @param {string} vitalId 
+   * @param {string} vitalId ID of Vital to delete
    */
   delete(vitalId) {
     if (! confirm('Are you sure you want to delete this vital?') ) {
       return;
     }
 
+    deleteVitalMeasurements(vitalId);
     const index = record.value.vitals.findIndex(vital => vital.id === vitalId);
     record.value.vitals.splice(index, 1);
   }
 });
+
+/**
+ * Delete Measurements for a specific Vital ID
+ * 
+ * @param {string} vitalId ID of Vital to delete measurements for
+ */
+const deleteVitalMeasurements = (vitalId) => {
+  record.value.measurements.slice().forEach( _ => {
+    const lastIndex = record.value.measurements.findLastIndex(measurement => measurement.vitalId === vitalId);
+    if (lastIndex === -1) return;
+    record.value.measurements.splice(lastIndex, 1);
+  });
+}

@@ -41,8 +41,8 @@ const vitalMeasurements = (vitalId) => {
         <p class="text-sm text-gray-500">{{ pluralize('measurement', personMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonMeasurementCreate' }">
-          <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
+        <RouterLink class="rounded-full hover:bg-gray-300" :to="{ name: 'PersonMeasurementCreate' }">
+          <PlusIcon class="h-10 w-10" />
         </RouterLink>
       </div>
     </div>
@@ -65,12 +65,12 @@ const vitalMeasurements = (vitalId) => {
         </p>
       </div>
     </div>
-    <div v-if="measurements.length > 0" class="pb-28 pt-9 md:pb-0 grid gap-3">
+    <div v-if="personMeasurements.length > 0" class="pb-28 pt-9 md:pb-0 grid gap-3">
       <h3 class="z-10 text-xl font-bold sticky top-8 pb-1 bg-gradient-to-b from-gray-200 from-70%">
         Measurements
-        <span class="text-xs font-normal text-gray-500 align-middle">({{ measurements.length }})</span>
+        <span class="text-xs font-normal text-gray-500 align-middle">({{ personMeasurements.length }})</span>
       </h3>
-      <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
+      <MeasurementListItem v-for="measurement in personMeasurements" :key="measurement.id" :measurement="measurement" />
     </div>
     <RouterView name="modal" />
   </div>

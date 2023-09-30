@@ -5,7 +5,6 @@ import { people } from '../../../store/people';
 import { useRoute } from 'vue-router';
 import VitalChart from './VitalChart.vue';
 import { computed } from 'vue';
-import pluralize from 'pluralize';
 import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
@@ -47,8 +46,8 @@ const vitalMeasurements = computed(() => {
         <p class="text-sm text-gray-500">{{ vital.description }}</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'PersonVitalMeasurementCreate' }">
-          <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
+        <RouterLink class="rounded-full hover:bg-gray-300" :to="{ name: 'PersonVitalMeasurementCreate' }">
+          <PlusIcon class="h-10 w-10" />
         </RouterLink>
       </div>
     </div>

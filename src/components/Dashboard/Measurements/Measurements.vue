@@ -13,15 +13,15 @@ import MeasurementListItem from './MeasurementListItem.vue';
         <p class="text-sm text-gray-500">Add, edit, and delete measurements to record.</p>
       </header>
       <div class="grid justify-end">
-        <RouterLink class="group rounded-full hover:bg-gray-200" :to="{ name: 'MeasurementCreate' }">
-          <PlusIcon class="group-hover:text-indigo-600 h-10 w-10" />
+        <RouterLink class="rounded-full hover:bg-gray-300" :to="{ name: 'MeasurementCreate' }">
+          <PlusIcon class="h-10 w-10" />
         </RouterLink>
       </div>
     </div>
     <div v-if="measurements.length > 0" class="pb-28 md:pb-0 grid gap-3">
       <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
     </div>
-    <div v-else class="mx-6 border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
+    <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
       <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center mb-4 pb-4 border-b border-amber-200">
         <QuestionMarkCircleIcon class="h-6 w-6 mr-3" />
         A Measurement is a recording of a specific person's Vital.
