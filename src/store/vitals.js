@@ -64,7 +64,7 @@ export const store = reactive({
    * @param {import("../typedefs").Vital} vitalObject 
    */
   update(vitalId, vitalObject) {
-    const index = vitals.value.findIndex(vital => vital.id === vitalId);
+    const index = record.value.vitals.findIndex(vital => vital.id === vitalId);
 
     if (index === -1) throw new Error(`Could not find vital with ID: ${vitalId}.`);
 

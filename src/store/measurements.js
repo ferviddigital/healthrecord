@@ -32,7 +32,7 @@ export const store = reactive({
    * @param {import("../typedefs").Measurement} measurementObject 
    */
   update(measurementId, measurementObject) {
-    const index = measurements.value.findIndex(measurement => measurement.id === measurementId);
+    const index = record.value.measurements.findIndex(measurement => measurement.id === measurementId);
 
     if (index === -1) throw new Error(`Could not find measurement with ID: ${measurementId}.`);
 
@@ -54,5 +54,10 @@ export const store = reactive({
 
     const index = record.value.measurements.findIndex(measurement => measurement.id === measurementId);
     record.value.measurements.splice(index, 1);
+  },
+
+  deletePersons(personId) {
+
+    record.value.measurements.filter
   }
 });

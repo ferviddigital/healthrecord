@@ -32,7 +32,7 @@ export const store = reactive({
    * @param {import("../typedefs").Person} personObject 
    */
   update(personId, personObject) {
-    const index = people.value.findIndex(person => person.id === personId);
+    const index = record.value.people.findIndex(person => person.id === personId);
 
     if (index === -1) throw new Error(`Could not find person with ID: ${personId}.`);
 

@@ -1,6 +1,6 @@
 import { reactive, watch, shallowRef } from 'vue';
 
-/** @type {ShallowRef<import("@syncedstore/core/types/doc").MappedTypeDescription<{id: string, firstName: string, lastName: string, people: import('../typedefs').Person[], vitals: import('../typedefs').Vital[], measurements: import('../typedefs').Measurement[]}> | undefined>} store SyncedStore object */
+/** @type {ShallowRef<import("@syncedstore/core/types/doc").MappedTypeDescription<{id: string, firstName: string, lastName: string, people: import('../typedefs').Person[], vitals: import('../typedefs').Vital[], measurements: import('../typedefs').Measurement[]}>>} */
 export const record = shallowRef();
 
 /**
