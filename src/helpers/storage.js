@@ -1,15 +1,21 @@
-import { record } from "../store/record";
-import { computed } from 'vue';
+import { record } from '../store/record';
+import { Doc } from 'yjs';
 import * as Vue from 'vue';
-import { enableVueBindings, getYjsDoc, syncedStore } from '@syncedstore/core';
-import { connect as webRTCConnect, disconnect as webRTCDisconnect } from "../providers/webrtc";
-import { connect as iDBConnect, disconnect as iDBDisconnect } from "../providers/indexeddb";
+import { enableVueBindings, syncedStore } from '@syncedstore/core';
+import { connect as webRTCConnect, disconnect as webRTCDisconnect } from '../providers/webrtc';
+import { connect as iDBConnect, disconnect as iDBDisconnect } from '../providers/indexeddb';
+import { watch } from 'vue';
+import { Y } from '@syncedstore/core';
+import { Buffer } from 'buffer';
 
 enableVueBindings(Vue);
 
 const recordVersion = "2";
 
-const docShape = {
+const doc = new Doc();
+
+/** @type {import('@syncedstore/core/types/doc').DocTypeDescription} */
+const shape = {
   id: 'text',
   version: 'text',
   firstName: 'text',
@@ -22,15 +28,9 @@ const docShape = {
   measurements: []
 }
 
-const yDoc = computed(() => {
-  return getYjsDoc(record.value);
-});
-
 const connectProviders = () => {
-  const indexedDBConnection = iDBConnect(yDoc.value);
-
-  indexedDBConnection.on('synced', () => {
-    webRTCConnect(record.value.id, yDoc.value)
+  iDBConnect(doc).on('synced', () => {
+    webRTCConnect(record.value.id.toString(), doc);
   });
 }
 
@@ -40,40 +40,50 @@ const disconnectProviders = () => {
 }
 
 /**
- * Imports HealthRecord data into a SyncedStore
+ * Imports HealthRecord data into a SyncedStore, extracts doc, and applies to existing as Doc update
  * 
- * @param {string} recordData Stringified HealthRecord data
- * 
- * @returns {import("@syncedstore/core/types/doc").MappedTypeDescription<import("@syncedstore/core/types/doc").DocTypeDescription>}
+ * @param {import('../typedefs').HealthRecord} recordData Stringified HealthRecord data
  */
 const importRecord = (recordData) => {
-  const recordSyncedStore = syncedStore(docShape);
 
-  /** @type {import("../typedefs").HealthRecord} */
-  const importedRecord = JSON.parse(recordData);
+  const newDoc = new Y.Doc();
 
+  const recordSyncedStore = syncedStore(shape, newDoc);
   recordSyncedStore.version.insert(0, recordVersion);
-  recordSyncedStore.firstName.insert(0, importedRecord.firstName);
-  recordSyncedStore.lastName.insert(0, importedRecord.lastName);
-  recordSyncedStore.people.push(...importedRecord.people);
-  recordSyncedStore.vitals.push(...importedRecord.vitals);
-  recordSyncedStore.measurements.push(...importedRecord.measurements);
+  recordSyncedStore.firstName.insert(0, recordData.firstName);
+  recordSyncedStore.lastName.insert(0, recordData.lastName);
+  recordSyncedStore.people.push(...recordData.people);
+  recordSyncedStore.vitals.push(...recordData.vitals);
+  recordSyncedStore.measurements.push(...recordData.measurements);
 
-  migrate(importedRecord, recordSyncedStore);
+  migrate(recordData, recordSyncedStore);
 
-  return recordSyncedStore;
+  const encoded = Y.encodeStateAsUpdate(newDoc);
+
+  Y.applyUpdate(doc, encoded);
 }
 
 /**
+ * Import state from Yjs Doc Uint8Array state
  * 
- * @param {import("../typedefs").HealthRecord} importedRecord 
- * @param {import("@syncedstore/core/types/doc").MappedTypeDescription<import("@syncedstore/core/types/doc").DocTypeDescription>} syncedRecordStore 
+ * @param {{type: string, state: Uint8Array}} recordData 
  */
-const migrate = (importedRecord, recordSyncedStore) => {
+const importState = (recordData) => {
+  const state = recordData.state;
+  const update = Buffer.from(state, 'base64');
+  Y.applyUpdate(doc, update);
+}
+
+/**
+ * Run migrations for older record versions
+ * @param {import("../typedefs").HealthRecord} importedRecord 
+ * @param {import('@syncedstore/core/types/doc').MappedTypeDescription<import('../typedefs').HealthRecord>} syncedStore 
+ */
+const migrate = (importedRecord, syncedStore) => {
   if (! importedRecord.version || importedRecord.version <= 1) {
-    recordSyncedStore.id.insert(0, crypto.randomUUID());
+    syncedStore.id.insert(0, crypto.randomUUID());
   } else {
-    recordSyncedStore.id.insert(0, importedRecord.id);
+    syncedStore.id.insert(0, importedRecord.id);
   }
 }
 
@@ -83,13 +93,17 @@ const migrate = (importedRecord, recordSyncedStore) => {
  * @param {string} recordData Record JSON stringified
  */
 export const load = (recordData) => {
-  disconnectProviders();
-  record.value = importRecord(recordData);
-  connectProviders();
+  const recordObject = JSON.parse(recordData);
+  if ('state' in recordObject) {
+    importState(recordObject);
+  } else {
+    importRecord(recordObject)
+  }
+  record.value = syncedStore(shape, doc);
 }
 
 export const clear = () => {
-  disconnectProviders()
+  doc.destroy();
   record.value = null;
 }
 
@@ -110,11 +124,18 @@ export const create = (person) => {
   load(JSON.stringify(record));
 }
 
+watch(record, (value) => {
+  if (value) {
+    connectProviders();
+  } else {
+    disconnectProviders();
+  }
+});
+
 if (localStorage.getItem('healthRecord')) {
   // Support pulling in original storage
   load(localStorage.getItem('healthRecord'));
   localStorage.removeItem('healthRecord');
 } else if (localStorage.getItem('isActive')) {
-  record.value = syncedStore(docShape);
-  connectProviders();
+  record.value = syncedStore(shape, doc);
 }
