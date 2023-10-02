@@ -34,7 +34,7 @@ const passphraseSubmitted = async (passphrase) => {
 
 const logout = async () => {
   if (! confirm('Have you downloaded your health record?') ) {
-    return router.push({ name: 'Settings' });
+    return
   }
   clear();
 }
