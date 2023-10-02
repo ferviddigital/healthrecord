@@ -48,10 +48,10 @@ const vitalMeasurements = (vitalId) => {
     </div>
     <div>
       <div v-if="trackedVitals.length > 0" class="grid grid-cols-2 gap-3">
-        <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
+        <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
           <header class="grid grid-cols-[auto_min-content]">
-            <h3 class="font-semibold group-hover:text-indigo-600 mb-1">{{ vital.name }}</h3>
-            <ChevronRightIcon class="h-5 w-5 self-start group-hover:stroke-indigo-600" />
+            <h3 class="font-semibold mb-1">{{ vital.name }}</h3>
+            <ChevronRightIcon class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all" />
           </header>
           <p class="text-gray-500 text-sm">{{ pluralize('measurement', vitalMeasurements(vital.id).length, true) }}</p>
           <VitalChart class="mt-3" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true" />

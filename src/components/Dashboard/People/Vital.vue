@@ -39,7 +39,7 @@ const vitalMeasurements = computed(() => {
   <div>
     <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
       <header>
-        <RouterLink class="text-sm text-gray-500" :to="{ name: 'Person', params: { personId }}">
+        <RouterLink class="text-sm text-gray-500 -ml-1" :to="{ name: 'Person', params: { personId }}">
           <ChevronLeftIcon class="w-4 h-4 inline -mt-0.5" /> {{ person.firstName + ' ' + person.lastName }}
         </RouterLink>
         <h2 class="text-2xl font-bold">{{ vital.name }}</h2>

@@ -79,8 +79,8 @@ const updateRoute = () => {
     </div>
     <div class="grid">
       <Menu as="div" class="menu">
-        <MenuButton class="menu-button group/menu-button -mt-1.5" @click.stop>
-          <EllipsisHorizontalIcon class="group-hover/menu-button:text-indigo-600"/>
+        <MenuButton class="menu-button -mt-1.5" @click.stop>
+          <EllipsisHorizontalIcon />
         </MenuButton>
         <MenuItems @click.stop class="menu-items">
           <div class="p-1">

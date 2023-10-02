@@ -32,6 +32,13 @@ const passphraseSubmitted = async (passphrase) => {
   downloadHealthRecordFile(data);
 }
 
+const logout = async () => {
+  if (! confirm('Have you downloaded your health record?') ) {
+    return
+  }
+  clear();
+}
+
 const appVersion = APP_VERSION;
 </script>
 
@@ -65,6 +72,9 @@ const appVersion = APP_VERSION;
       <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center border-b p-3">
         <h3 class="font-semibold text-sm">Version</h3>
         <span>{{ appVersion }}</span>
+      </section>
+      <section class="grid">
+        <h3 class="font-semibold text-sm text-red-600 cursor-pointer p-3 py-4 text-center" @click="logout">Logout</h3>
       </section>
     </div>
     <PassphraseModal v-if="passphraseModalOpen" @close="passphraseModalOpen = false" @passphraseSubmitted="passphraseSubmitted" />

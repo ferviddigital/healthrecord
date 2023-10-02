@@ -10,5 +10,8 @@ export default {
   plugins: [
     require('@tailwindcss/forms')
   ],
+  future: {
+    hoverOnlyWhenSupported: true
+  }
 }
 

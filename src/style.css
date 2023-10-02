@@ -8,6 +8,12 @@
   }
 }
 
+.main-nav {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .btn {
   @apply p-2 px-4 rounded bg-indigo-500 text-white grid grid-flow-col gap-2;
 
@@ -28,10 +34,10 @@
   @apply relative inline-block;
 
   .menu-button {
-    @apply block rounded-full hover:bg-gray-100 focus:outline-none;
+    @apply block rounded-full text-gray-400 hover:text-black hover:bg-gray-200 focus:outline-none transition-all;
 
     &[aria-expanded=true] {
-      @apply bg-gray-100 text-indigo-600;
+      @apply bg-gray-200 text-black;
     }
 
     svg {

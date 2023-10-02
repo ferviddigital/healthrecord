@@ -10,7 +10,7 @@ const router = useRouter();
 const menuOpen = ref(false);
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0 });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 const logout = async () => {
@@ -23,72 +23,70 @@ const logout = async () => {
 
 <template>
   <div v-if="record">
-    <div class="dash-layout grid grid-rows-[min-content_auto] grid-cols-1 p-6 py-1 h-screen md:max-h-screen md:min-h-screen md:gap-6 md:p-4 md:pr-0 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto]">
-      <div class="main-nav z-20 bg-gray-900 text-white p-4 py-3 rounded-3xl order-last fixed grid self-start bottom-6 right-6 left-6 md:h-full md:sticky md:top-0 md:left-auto md:right-auto md:bottom-6 md:order-none md:rounded-xl md:py-6 md:gap-4 md:grid-rows-[min-content_auto_min-content]">
-        <h2 class="grid order-last md:order-first grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
-          <RouterLink class="grid grid-flow-col items-center justify-start gap-1" :to="{ name: 'Dashboard' }">
-            <SquaresPlusIcon class="h-5 w-5 stroke-2"/> HealthRecord
+    <div class="dash-layout grid grid-rows-[min-content_auto] grid-cols-1 p-4 py-1 h-screen md:max-h-screen md:min-h-screen md:gap-6 md:py-4 md:pr-0 md:grid-rows-none md:grid-flow-col md:grid-cols-[200px_auto]">
+      <div class="main-nav overflow-scroll md:overflow-visible items-center md:items-start z-20 justify-start md:justify-normal bg-gray-900 text-white p-4 py-2 rounded-3xl order-last fixed grid grid-flow-col self-start bottom-6 right-4 left-4 md:h-full md:sticky md:top-0 md:left-auto md:right-auto md:bottom-6 md:order-none md:rounded-xl md:py-6 gap-2 md:gap-4 md:grid-rows-[min-content_auto_min-content]">
+        <h2 class="grid grid-flow-col items-center md:block self-start font-bold text-xl md:mb-3">
+          <RouterLink class="grid grid-flow-col items-center md:justify-start gap-1 p-2 md:p-0" :to="{ name: 'Dashboard' }">
+            <SquaresPlusIcon class="h-6 w-6 md:h-5 md:w-5"/> <span class="hidden md:inline">HealthRecord</span>
           </RouterLink>
-          <Bars3Icon v-if="!menuOpen" @click="menuOpen = true" class="h-7 w-7 md:hidden justify-self-end" />
-          <XMarkIcon v-else @click="menuOpen = false" class="h-7 w-7 md:hidden justify-self-end" />
         </h2>
-        <nav class="mt-3 mb-4 md:mb-0 md:mt-0 md:block" :class="{ 'block': menuOpen, 'hidden': !menuOpen }" @click="menuOpen = menuOpen ? false : true; scrollToTop();">
-          <ul class="grid gap-2">
+        <nav @click="scrollToTop();">
+          <ul class="grid gap-2 md:gap-2 grid-flow-col md:grid-flow-row">
             <li>
               <RouterLink 
-                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" 
+                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-400 hover:bg-gray-800 hover:text-white" 
                 :to="{ name: 'Dashboard' }"
                 active-class="bg-gray-700 text-white hover:bg-gray-700 active"
                 exact-active-class="bg-gray-700 text-white exact-active"
               >
-                <HomeIcon class="h-4 w-4" /> Dashboard
+                <HomeIcon class="h-6 w-6 md:h-4 md:w-4" /> <span class="hidden md:inline">Dashboard</span>
               </RouterLink>
             </li>
             <li>
               <RouterLink 
-                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" 
+                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-400 hover:bg-gray-800 hover:text-white" 
                 :to="{ name: 'People' }"
                 active-class="bg-gray-700 text-white hover:bg-gray-700 active"
                 exact-active-class="bg-gray-700 text-white exact-active"
               >
-                <UsersIcon class="h-4 w-4" /> People
+                <UsersIcon class="h-6 w-6 md:h-4 md:w-4" /> <span class="hidden md:inline">People</span>
               </RouterLink>
             </li>
             <li>
               <RouterLink 
-                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" 
+                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-400 hover:bg-gray-800 hover:text-white" 
                 :to="{ name: 'Vitals' }"
                 active-class="bg-gray-700 text-white hover:bg-gray-700 active"
                 exact-active-class="bg-gray-700 text-white exact-active"
               >
-                <HeartIcon class="h-4 w-4" /> Vitals
+                <HeartIcon class="h-6 w-6 md:h-4 md:w-4" /> <span class="hidden md:inline">Vitals</span>
               </RouterLink>
             </li>
             <li>
               <RouterLink 
-                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" 
+                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-400 hover:bg-gray-800 hover:text-white" 
                 :to="{ name: 'Measurements' }"
                 active-class="bg-gray-700 text-white hover:bg-gray-700 active"
                 exact-active-class="bg-gray-700 text-white exact-active"
               >
-                <ChartBarIcon class="h-4 w-4" /> Measurements
+                <ChartBarIcon class="h-6 w-6 md:h-4 md:w-4" /> <span class="hidden md:inline">Measurements</span>
               </RouterLink>
             </li>
             <li>
               <RouterLink 
-                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" 
+                class="grid grid-flow-col gap-3 p-2 px-3 text-sm justify-start items-center rounded-md text-gray-400 hover:bg-gray-800 hover:text-white" 
                 :to="{ name: 'Settings' }"
                 active-class="bg-gray-700 text-white hover:bg-gray-700 active"
                 exact-active-class="bg-gray-700 text-white exact-active"
               >
-                <Cog8ToothIcon class="h-4 w-4" /> Settings
+                <Cog8ToothIcon class="h-6 w-6 md:h-4 md:w-4" /> <span class="hidden md:inline">Settings</span>
               </RouterLink>
             </li>
           </ul>
         </nav>
-        <nav class="ml-3 mb-9 md:mb-0 md:ml-3 md:block" :class="{ 'block': menuOpen, 'hidden': !menuOpen }" @click="menuOpen = menuOpen ? false : true">
-          <button class="w-full text-sm text-gray-300 grid grid-flow-col gap-3 items-center justify-start" @click.prevent="logout">
-            <ArrowRightOnRectangleIcon class="h-4 w-4" /> Logout
+        <nav class="hidden md:mb-0 md:ml-3 md:block" @click="menuOpen = menuOpen ? false : true">
+          <button class="w-full text-sm text-gray-500 grid grid-flow-col p-2 pl-0 md:p-0 gap-3 items-center justify-start" @click.prevent="logout">
+            <ArrowRightOnRectangleIcon class="h-6 w-6 md:h-4 md:w-4" /> <span class="hidden md:inline">Logout</span>
           </button>
         </nav>
       </div>

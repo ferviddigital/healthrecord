@@ -16,6 +16,7 @@
     "@heroicons/vue": "^2.0.18",
     "@syncedstore/core": "^0.6.0-alpha.0",
     "@tailwindcss/forms": "^0.5.6",
+    "buffer": "^6.0.3",
     "chart.js": "^4.4.0",
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "chartjs-plugin-annotation": "^3.0.1",
