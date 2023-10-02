@@ -13,7 +13,7 @@ export const connect = (recordId, doc) => {
   const signaling = [];
 
   if (import.meta.env.DEV) {
-    // See {@link https://github.com/roymckenzie/y-webrtc-signaling} for sample signaling server implementation
+    // See {@link https://github.com/roymckenzie/y-webrtc-signaler ywebrtc-signaler} for sample signaling server implementation
     signaling.push('ws://localhost:8787');
   }
 

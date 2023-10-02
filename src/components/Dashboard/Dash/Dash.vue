@@ -15,26 +15,26 @@ import pluralize from 'pluralize';
       </header>
     </div>
     <div class="grid md:grid-cols-2 grid-rows-2 gap-3">
-      <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow" @click="$router.push({ name: 'People' })">
+      <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'People' })">
         <div>
-          <h3 class="font-semibold group-hover:text-indigo-600 mb-1">People</h3>
+          <h3 class="font-semibold mb-1">People</h3>
           <p class="text-gray-500 text-sm">You are tracking {{ pluralize('person', people.length, true) }}.</p>
         </div>
-        <ChevronRightIcon class="h-5 w-5 group-hover:stroke-indigo-600" />
+        <ChevronRightIcon class="h-5 w-5 text-gray-400 group-hover:text-black transition-all" />
       </div>
-      <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow" @click="$router.push({ name: 'Vitals' })">
+      <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'Vitals' })">
         <div>
-          <h3 class="font-semibold group-hover:text-indigo-600 mb-1">Vitals</h3>
+          <h3 class="font-semibold mb-1">Vitals</h3>
           <p class="text-gray-500 text-sm">You are measuring {{ pluralize('vital', vitals.length, true) }}.</p>
         </div>
-        <ChevronRightIcon class="h-5 w-5 group-hover:stroke-indigo-600" />
+        <ChevronRightIcon class="h-5 w-5 text-gray-400 group-hover:text-black transition-all" />
       </div>
-      <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow" @click="$router.push({ name: 'Measurements' })">
+      <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'Measurements' })">
         <div>
-          <h3 class="font-semibold group-hover:text-indigo-600 mb-1">Measurements</h3>
+          <h3 class="font-semibold mb-1">Measurements</h3>
           <p class="text-gray-500 text-sm">You have recorded {{ pluralize('measurement', measurements.length, true) }}.</p>
         </div>
-        <ChevronRightIcon class="h-5 w-5 group-hover:stroke-indigo-600" />
+        <ChevronRightIcon class="h-5 w-5 text-gray-400 group-hover:text-black transition-all" />
       </div>
     </div>
   </div>
