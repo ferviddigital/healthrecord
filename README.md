@@ -81,5 +81,5 @@ Project Link: [https://github.com/roymckenzie/healthrecord](https://github.com/r
 [Cloudflare-Pages]: https://img.shields.io/badge/Cloudflare%20Pages-F38020?style=for-the-badge&logo=Cloudflare%20Pages&logoColor=white
 [Cloudflare-Pages-url]: https://pages.cloudflare.com/
 
-[Yjs]: https://img.shields.io/badge/yjs-6beb84?style=for-the-badge
+[Yjs]: https://img.shields.io/badge/Yjs-6beb84?style=for-the-badge
 [Yjs-url]: https://docs.yjs.dev/

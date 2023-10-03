@@ -1,4 +1,4 @@
-import { record } from '../store/record';
+import { record, preferences, store as recordStore } from '../store/record';
 import { Doc } from 'yjs';
 import * as Vue from 'vue';
 import { enableVueBindings, syncedStore } from '@syncedstore/core';
@@ -9,6 +9,8 @@ import { Y } from '@syncedstore/core';
 import { Buffer } from 'buffer';
 
 enableVueBindings(Vue);
+
+localStorage.log = 'y-webrtc'
 
 const recordVersion = "2";
 
@@ -29,9 +31,7 @@ const shape = {
 }
 
 const connectProviders = () => {
-  iDBConnect(doc).on('synced', () => {
-    webRTCConnect(record.value.id.toString(), doc);
-  });
+  iDBConnect(doc);
 }
 
 const disconnectProviders = () => {
@@ -66,7 +66,7 @@ const importRecord = (recordData) => {
 /**
  * Import state from Yjs Doc Uint8Array state
  * 
- * @param {{type: string, state: Uint8Array}} recordData 
+ * @param {{type: string, state: Uint8Array, prefs: import('../typedefs').PersonPreferences}} recordData 
  */
 const importState = (recordData) => {
   const state = recordData.state;
@@ -103,6 +103,7 @@ export const load = (recordData) => {
 }
 
 export const clear = () => {
+  disconnectProviders();
   doc.destroy();
   record.value = null;
 }
@@ -132,10 +133,33 @@ watch(record, (value) => {
   }
 });
 
+watch([() => preferences.value.webRTC.enabled, () => preferences.value.webRTC.signalerUrl], () => {
+  localStorage.setItem('preferences', JSON.stringify(preferences.value));
+  if (preferences.value.webRTC.enabled) {
+    webRTCConnect(doc);
+  } else {
+    webRTCDisconnect();
+  }
+});
+
 if (localStorage.getItem('healthRecord')) {
   // Support pulling in original storage
   load(localStorage.getItem('healthRecord'));
   localStorage.removeItem('healthRecord');
 } else if (localStorage.getItem('isActive')) {
   record.value = syncedStore(shape, doc);
+}
+
+if (localStorage.getItem('preferences')) {
+  /** @type {import('../typedefs').PersonPreferences} */
+  const prefs = JSON.parse(localStorage.getItem('preferences'));
+  preferences.value = prefs;
+} else {
+  const prefs = {
+    webRTC: {
+      enabled: false,
+      signalerUrl: null
+    }
+  }
+  preferences.value = prefs;
 }
