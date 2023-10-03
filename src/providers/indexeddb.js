@@ -1,4 +1,6 @@
+import { getYjsDoc } from '@syncedstore/core';
 import { IndexeddbPersistence } from 'y-indexeddb';
+import { record } from '../store/record';
 
 /** @type {IndexeddbPersistence | undefined} */
 let iDBProvider;
@@ -8,9 +10,9 @@ let iDBProvider;
  * 
  * @returns {IndexeddbPersistence}
  */
-export const connect = (doc) => {
+export const connect = () => {
+  const doc = getYjsDoc(record.value);
   iDBProvider = new IndexeddbPersistence('health-record', doc);
-  return iDBProvider;
 }
 
 export const disconnect = () => {

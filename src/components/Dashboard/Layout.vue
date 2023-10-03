@@ -1,9 +1,9 @@
 <script setup>
 import { SquaresPlusIcon, UsersIcon, Cog8ToothIcon, HomeIcon, ChartBarIcon, HeartIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/20/solid';
-import { record, preferences } from '../../store/record';
+import { record } from '../../store/record';
 import { peers, webrtcConnected } from '../../providers/webrtc';
 import pluralize from 'pluralize';
-
+import { store as preferencesStore } from '../../store/preferences';
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -84,7 +84,7 @@ const scrollToTop = () => {
               >
                 <span>
                   <span 
-                    v-if="preferences.webRTC.enabled && webrtcConnected"
+                    v-if="preferencesStore.webRTC.enabled && webrtcConnected"
                     class="h-2 w-2 inline-block bg-orange-300 rounded-full absolute shadow"
                     :class="{ '!bg-green-500' : peers > 0 }"
                     :title="peers > 0 ? pluralize('peer', peers, true) + ' connected' : 'Waiting for peers...'"

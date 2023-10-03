@@ -4,12 +4,6 @@ import { Buffer } from 'buffer';
 
 /** @type {import('vue').ShallowRef<import('@syncedstore/core/types/doc').MappedTypeDescription<import('../typedefs').HealthRecord>>} */
 export const record = shallowRef();
-export const preferences = ref({
-  webRTC: {
-    enabled: false,
-    signalerUrl: null
-  }
-});
 
 /**
  * Record store
@@ -19,8 +13,6 @@ export const preferences = ref({
 export const store  = reactive({
 
   record,
-
-  preferences,
 
   downloadable() {
     const doc = getYjsDoc(record.value);

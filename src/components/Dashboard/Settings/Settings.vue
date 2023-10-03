@@ -1,5 +1,5 @@
 <script setup>
-import { record, preferences, store as recordStore } from '../../../store/record';
+import { record, store as recordStore } from '../../../store/record';
 import { saveAs } from 'file-saver';
 import { clear } from '../../../helpers/storage';
 import { DocumentArrowDownIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
@@ -9,11 +9,12 @@ import { ref } from 'vue';
 import { Switch } from '@headlessui/vue';
 import { peers, webrtcConnected } from '../../../providers/webrtc';
 import pluralize from 'pluralize';
+import { store as preferencesStore } from '../../../store/preferences';
 
 const passphraseModalOpen = ref(false);
 
 /** @type {import('vue').Ref<string>} */
-const signalServerURL = ref(preferences.value.webRTC.signalerUrl || '');
+const signalServerURL = ref(preferencesStore.webRTC.signalerUrl || '');
 
 const downloadHealthRecordFile = (data) => {
   const fileName  = 'healthRecord-' + Date.now() + '.json';
@@ -57,7 +58,7 @@ const validateSocketUrl = (urlString) => {
 
 const updateWebRTC = () => {
   if (validateSocketUrl(signalServerURL.value)) {
-    preferences.value.webRTC.signalerUrl = signalServerURL.value;
+    preferencesStore.webRTC.signalerUrl = signalServerURL.value;
   }
 }
 
@@ -88,7 +89,7 @@ const appVersion = APP_VERSION;
     <h3 class="text-xs pl-3 mb-1 uppercase text-gray-500">
       Download Data
     </h3>
-    <p class="ml-3 mb-2 text-xs text-gray-400">Download your data to backup or share.</p>
+    <p class="ml-3 mb-2 text-xs text-gray-400">Download your data to backup or sharing.</p>
     <div class="bg-white rounded-xl divide-y overflow-hidden mb-5">
       <section class="grid grid-flow-col grid-cols-[auto_min-content] items-center p-3" :key="1">
         <h4 class="font-semibold text-sm">Unencrypted</h4>
@@ -127,8 +128,8 @@ const appVersion = APP_VERSION;
         </span>
         <span>
           <Switch
-            v-model="recordStore.preferences.webRTC.enabled"
-            :class="preferences.webRTC.enabled ? 'active' : ''"
+            v-model="preferencesStore.webRTC.enabled"
+            :class="preferencesStore.webRTC.enabled ? 'active' : ''"
             class="switch"
           >
             <span />
@@ -136,7 +137,7 @@ const appVersion = APP_VERSION;
         </span>
       </section>
       <section
-        v-if="preferences.webRTC.enabled"
+        v-if="preferencesStore.webRTC.enabled"
         class="grid grid-flow-row items-center p-3"
         :key="4"
       >

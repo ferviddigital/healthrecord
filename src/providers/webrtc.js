@@ -1,46 +1,63 @@
 import { WebrtcProvider } from 'y-webrtc';
-import { preferences, record } from '../store/record';
-import { computed, ref } from 'vue';
+import { record } from '../store/record';
+import { computed, ref, watch } from 'vue';
+import { store as preferencesStore } from '../store/preferences';
+import { getYjsDoc } from '@syncedstore/core';
 
 /** @type {WebrtcProvider | undefined} */
 let webRTCProvider;
 
+export const peers = ref(0);
+
 /**
  * @param {import('yjs').Doc} doc Underlying yDoc for active HealthRecord
  */
-export const connect = (doc) => {
+export const connect = () => {
+  if (!preferencesStore.webRTC.enabled) {
+    return;
+  }
+
+  const doc = getYjsDoc(record.value);
+
   const signaling = [];
 
-  // if (preferences.value.webRTC.enabled && preferences.value.webRTC.signalerUrl) {
-  //   signaling.push(preferences.value.webRTC.signalerUrl);
-  // } else if (import.meta.env.DEV) {
+  if (preferencesStore.webRTC.signalerUrl) {
+    signaling.push(preferencesStore.webRTC.signalerUrl);
+  } else if (import.meta.env.DEV) {
     // See {@link https://github.com/roymckenzie/y-webrtc-signaler ywebrtc-signaler} for sample signaling server implementation
     signaling.push('ws://localhost:8787');
-  // }
+  }
 
   webRTCProvider = new WebrtcProvider(record.value.id, doc, {
     signaling,
   });
 
   webRTCProvider.on('peers', ({ webrtcPeers }) => {
-    console.log('peeeeeers!');
+    console.log('got peers');
     peers.value = webrtcPeers.length
   });
 }
 
 export const disconnect = () => {
-  console.log('disconnecting webrtc');
   if (webRTCProvider) {
-    webRTCProvider.off('peers');
-    webRTCProvider.disconnect();
     webRTCProvider.destroy();
+    setTimeout(() => {
+      webRTCProvider.disconnect(); peers.value = 0;
+      webRTCProvider = null;
+      peers.value = 0;
+    }, 200);
   }
-  webRTCProvider = null;
-  peers.value = 0;
 }
 
 export const webrtcConnected = computed(() => {
   return webRTCProvider !== null;
-})
+});
 
-export const peers = ref(0);
+watch(preferencesStore, (preferences) => {
+  if (preferences.webRTC.enabled && !webRTCProvider) {
+    const doc = getYjsDoc(record.value);
+    connect();
+  } else {
+    disconnect();
+  }
+});

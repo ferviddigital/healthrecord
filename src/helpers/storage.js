@@ -1,4 +1,4 @@
-import { record, preferences, store as recordStore } from '../store/record';
+import { record } from '../store/record';
 import { Doc } from 'yjs';
 import * as Vue from 'vue';
 import { enableVueBindings, syncedStore } from '@syncedstore/core';
@@ -7,6 +7,7 @@ import { connect as iDBConnect, disconnect as iDBDisconnect } from '../providers
 import { watch } from 'vue';
 import { Y } from '@syncedstore/core';
 import { Buffer } from 'buffer';
+import '../store/preferences';
 
 enableVueBindings(Vue);
 
@@ -31,7 +32,8 @@ const shape = {
 }
 
 const connectProviders = () => {
-  iDBConnect(doc);
+  webRTCConnect();
+  iDBConnect();
 }
 
 const disconnectProviders = () => {
@@ -133,33 +135,10 @@ watch(record, (value) => {
   }
 });
 
-watch([() => preferences.value.webRTC.enabled, () => preferences.value.webRTC.signalerUrl], () => {
-  localStorage.setItem('preferences', JSON.stringify(preferences.value));
-  if (preferences.value.webRTC.enabled) {
-    webRTCConnect(doc);
-  } else {
-    webRTCDisconnect();
-  }
-});
-
 if (localStorage.getItem('healthRecord')) {
   // Support pulling in original storage
   load(localStorage.getItem('healthRecord'));
   localStorage.removeItem('healthRecord');
 } else if (localStorage.getItem('isActive')) {
   record.value = syncedStore(shape, doc);
-}
-
-if (localStorage.getItem('preferences')) {
-  /** @type {import('../typedefs').PersonPreferences} */
-  const prefs = JSON.parse(localStorage.getItem('preferences'));
-  preferences.value = prefs;
-} else {
-  const prefs = {
-    webRTC: {
-      enabled: false,
-      signalerUrl: null
-    }
-  }
-  preferences.value = prefs;
 }
