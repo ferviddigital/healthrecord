@@ -10,6 +10,17 @@
  */
 
 /**
+ * @typedef {object} PersonPreferences
+ * @property {WebRTCPreference} webRTC
+ */
+
+/**
+ * @typedef {object} WebRTCPreference
+ * @property {boolean} enabled
+ * @property {string | undefined} signalerUrl
+ */
+
+/**
  * @typedef {object} Person
  * @property {string} id
  * @property {string} firstName

@@ -14,7 +14,7 @@ import pluralize from 'pluralize';
         <p class="text-sm text-gray-500">HealthRecord data overview.</p>
       </header>
     </div>
-    <div class="grid md:grid-cols-2 grid-rows-2 gap-3">
+    <div class="grid grid-rows-2 md:grid-cols-2 xl:grid-cols-3 gap-3">
       <div class="group grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'People' })">
         <div>
           <h3 class="font-semibold mb-1">People</h3>

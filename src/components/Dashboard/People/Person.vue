@@ -47,7 +47,7 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div>
-      <div v-if="trackedVitals.length > 0" class="grid grid-cols-2 gap-3">
+      <div v-if="trackedVitals.length > 0" class="grid grid-cols-2 xl:grid-cols-3 gap-3">
         <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
           <header class="grid grid-cols-[auto_min-content]">
             <h3 class="font-semibold mb-1">{{ vital.name }}</h3>
