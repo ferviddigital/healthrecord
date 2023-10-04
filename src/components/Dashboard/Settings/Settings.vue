@@ -112,9 +112,9 @@ const appVersion = APP_VERSION;
       </section>
     </div>
     <h3 class="text-xs pl-3 mb-1 uppercase text-gray-500">
-      Collaboration
+      Syncing
     </h3>
-    <p class="ml-3 mb-2 text-xs text-gray-400">Synchronizes open instances of this HealthRecord.</p>
+    <p class="ml-3 mb-2 text-xs text-gray-400">Synchronize data between your devices.</p>
     <TransitionGroup
       name="list"
       tag="div"
@@ -155,7 +155,7 @@ const appVersion = APP_VERSION;
               ></span>
             </span>
           </span>
-          <p class="text-xs text-gray-400 mb-3">HealthRecord uses a <a href="https://antmedia.io/webrtc-signaling-servers-everything-you-need-to-know/" target="_blank" class="underline">signal server</a> to find other open instances of this record to synchronize. Synchronization happens peer-to-peer and your data is never transmitted to the signaling server.</p>
+          <p class="text-xs text-gray-400 mb-3">HealthRecord uses a <a href="https://antmedia.io/webrtc-signaling-servers-everything-you-need-to-know/" target="_blank" class="underline">signal server</a> to identify your other devices to synchronize. Your health data is synchronized peer-to-peer and is never transmitted to the signal server. <a href="https://github.com/ferviddigital/y-webrtc-signaler" target="_blank" class="underline">Host your own signal server</a>.</p>
         </span>
         <span>
           <input id="signal-server-url" class="w-full font-mono md:text-sm" type="url" placeholder="wss://signal-server.com" v-model="signalServerURL" @blur="updateWebRTC" />

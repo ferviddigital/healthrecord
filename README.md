@@ -2,7 +2,7 @@
 Record, track, and visualize your personal health data.
 
 ## About
-HealthRecord allows individuals to record, track and visualize vital measurements related to their personal health. HealthRecord data is stored in the browser for basic privacy using CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
+HealthRecord allows individuals to record, track and visualize vital measurements related to their personal health across their devices. HealthRecord data is stored in the browser for basic privacy using CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture and synced with other devices using WebRTC. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
 
 See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 
@@ -18,7 +18,7 @@ See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 * Set low and high values for specific vitals
 * Identify trends with graph visualizations
 * Download and open passphrase encrypted data
-* Sync health data peer-to-peer with WebRTC
+* Sync health data between devices peer-to-peer with WebRTC
 * Installs as PWA from browser
 * Uses CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture.
 
@@ -29,7 +29,7 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone repository
 ```sh
-git clone git@github.com:roymckenzie/healthrecord.git
+git clone git@github.com:ferviddigital/healthrecord.git
 ```
 
 2. Install NPM packages
@@ -48,19 +48,19 @@ Visit [localhost:5173](http://localhost:5173) in your browser.
 ## Roadmap
 - [ ] Track medications
 - [ ] AI insights and vitals suggestions
-- [ ] Sync file to iCloud Drive, Google Drive, NextCloud
+- [ ] Optionally sync file to iCloud Drive, Google Drive, NextCloud
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
-HealthRecord Copyright &copy; 2023 Roy McKenzie.
+HealthRecord Copyright &copy; 2023 Fervid Digital.
 
 ## Contact
 
 Roy McKenzie - roy@fervid.digital
 
-Project Link: [https://github.com/roymckenzie/healthrecord](https://github.com/roymckenzie/healthrecord)
+Project Link: [https://github.com/ferviddigital/healthrecord](https://github.com/ferviddigital/healthrecord)
 
 
 <!-- Badges -->

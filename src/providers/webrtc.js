@@ -53,7 +53,7 @@ const connect = () => {
   if (preferencesStore.webRTC.signalerUrl) {
     signaling.push(preferencesStore.webRTC.signalerUrl);
   } else if (import.meta.env.DEV) {
-    // See {@link https://github.com/roymckenzie/y-webrtc-signaler y-webrtc-signaler} for sample signaling server implementation
+    // See {@link https://github.com/ferviddigital/y-webrtc-signaler y-webrtc-signaler} for sample signaling server implementation
     signaling.push('ws://localhost:8787');
   }
 
