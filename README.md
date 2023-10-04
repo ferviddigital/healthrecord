@@ -18,6 +18,7 @@ See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 * Set low and high values for specific vitals
 * Identify trends with graph visualizations
 * Download and open passphrase encrypted data
+* Sync health data peer-to-peer with WebRTC
 * Installs as PWA from browser
 * Uses CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture.
 
@@ -47,7 +48,7 @@ Visit [localhost:5173](http://localhost:5173) in your browser.
 ## Roadmap
 - [ ] Track medications
 - [ ] AI insights and vitals suggestions
-- [ ] Add cloud hosting option
+- [ ] Sync file to iCloud Drive, Google Drive, NextCloud
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

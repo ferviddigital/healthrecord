@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2023-10-04
+
+### Added
+- User can turn peer-to-peer (WebRTC) syncing on and off
+- User can define their own WebRTC signaling server
+- USer can see how many peers are connected to record instance
+
+### Changed
+- Settings page is more organized and shows toggle for enabling syncing and setting custom signal server
+- User navigation is simpler with larger icons and more space
+- Logout option is moved to Settings screen
+
+### Fixed
+
+
 ## [0.2.0] - 2023-09-29
 
 ### Added
