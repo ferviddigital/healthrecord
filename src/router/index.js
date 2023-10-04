@@ -219,7 +219,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  if (to.meta.requiresAuth && !record.value) {
+  if (to.meta.requiresAuth && !localStorage.getItem('isActive')) {
     return {
       name: 'Start'
     }

@@ -12,6 +12,7 @@ export const load = _load;
 export const clear = () => {
   doc.destroy();
   record.value = null;
+  localStorage.clear();
 }
 
 export const create = (person) => {
