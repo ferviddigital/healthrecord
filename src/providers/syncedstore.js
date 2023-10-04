@@ -10,6 +10,14 @@ enableVueBindings(Vue);
 
 export const doc = new Doc();
 
+doc.on('update', () => {
+  if (record.value.id.toString().length > 0) {
+    localStorage.setItem('isActive', true);
+  } else {
+    localStorage.removeItem('isActive');
+  }
+});
+
 // /** @type {import('@syncedstore/core/types/doc').DocTypeDescription} */
 const shape = {
   id: 'text',

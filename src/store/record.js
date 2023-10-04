@@ -16,11 +16,3 @@ export const downloadable = () => {
   }
   return exportable;
 }
-
-watch(record, (value) => {
-  if (value) {
-    localStorage.setItem('isActive', true);
-  } else {
-    localStorage.removeItem('isActive');
-  }
-});

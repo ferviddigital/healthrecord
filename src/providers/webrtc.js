@@ -22,10 +22,22 @@ watch(
       disconnect();
     }
   }
-)
+);
 
-watch(record, () => {
-  if (record.value) {
+watch(
+  () => preferencesStore.webRTC.signalerUrl,
+  () => {
+    if (!preferencesStore.webRTC.signalerUrl) return;
+    
+    if (!webRTCProvider.signalingUrls.includes(preferencesStore.webRTC.signalerUrl)) {
+      disconnect();
+      connect();
+    }
+  }
+);
+
+doc.on('update', () => {
+  if (record.value.id.toString().length > 0) {
     connect();
   } else {
     disconnect();
@@ -61,5 +73,5 @@ const disconnect = () => {
   webRTCProvider.disconnect();
   webRTCProvider.destroy();
   webRTCProvider = null;
-  peers.value = 0
+  peers.value = 0;
 }
