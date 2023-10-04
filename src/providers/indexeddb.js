@@ -1,21 +1,24 @@
-import { getYjsDoc } from '@syncedstore/core';
 import { IndexeddbPersistence } from 'y-indexeddb';
+import { doc } from './syncedstore';
 import { record } from '../store/record';
+import { watch } from 'vue';
 
 /** @type {IndexeddbPersistence | undefined} */
 let iDBProvider;
 
-/**
- * @param {import('yjs').Doc} doc Underlying yDoc for active HealthRecord
- * 
- * @returns {IndexeddbPersistence}
- */
-export const connect = () => {
-  const doc = getYjsDoc(record.value);
+watch(record, () => {
+  if (record.value) {
+    connect();
+  } else {
+    disconnect();
+  }
+});
+
+const connect = () => {
   iDBProvider = new IndexeddbPersistence('health-record', doc);
 }
 
-export const disconnect = () => {
+const disconnect = () => {
   if (iDBProvider) {
     iDBProvider.clearData();
     iDBProvider.destroy()

@@ -7,17 +7,19 @@ export const store = reactive({
   }
 });
 
-watch(store, (value) => {
-  if (value) {
-    localStorage.setItem('preferences', JSON.stringify(value));
+if (localStorage.getItem('preferences')) {
+  
+  /** @type {import('../typedefs').PersonPreferences} */
+  const prefs = JSON.parse(localStorage.getItem('preferences'));
+
+  store.webRTC.enabled = prefs.webRTC.enabled;
+  store.webRTC.signalerUrl = prefs.webRTC.signalerUrl;
+}
+
+watch(store, () => {
+  if (store) {
+    localStorage.setItem('preferences', JSON.stringify(store));
   } else {
     localStorage.removeItem('preferences');
   }
 });
-
-if (localStorage.getItem('preferences')) {
-  /** @type {import('../typedefs').PersonPreferences} */
-  const prefs = JSON.parse(localStorage.getItem('preferences'));
-  store.webRTC.enabled = prefs.webRTC.enabled;
-  store.webRTC.signalerUrl = prefs.webRTC.signalerUrl;
-}
