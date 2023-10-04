@@ -14,9 +14,9 @@ export const webrtcConnected = computed(() => {
 });
 
 watch(
-  () => [preferencesStore.webRTC.enabled],
-  (enabled) => {
-    if (enabled) {
+  () => preferencesStore.webRTC.enabled,
+  () => {
+    if (preferencesStore.webRTC.enabled) {
       connect();
     } else {
       disconnect();
@@ -34,9 +34,8 @@ watch(record, () => {
 
 
 const connect = () => {  
-  if (!preferencesStore.webRTC.enabled || (webRTCProvider && webRTCProvider.connected)) {
-    return;
-  }
+  if (!preferencesStore.webRTC.enabled || (webRTCProvider && webRTCProvider.connected)) return;
+
   const signaling = [];
 
   if (preferencesStore.webRTC.signalerUrl) {
@@ -46,7 +45,7 @@ const connect = () => {
     signaling.push('ws://localhost:8787');
   }
 
-  const recordId = doc.getText('id');
+  const recordId = doc.getText('id').toString();
 
   webRTCProvider = new WebrtcProvider(recordId, doc, {
     signaling
@@ -58,12 +57,9 @@ const connect = () => {
 }
 
 const disconnect = () => {
-  if (webRTCProvider) {
-    webRTCProvider.destroy();
-    setTimeout(() => {
-      webRTCProvider.disconnect(); peers.value = 0;
-      webRTCProvider = null;
-      peers.value = 0;
-    }, 200);
-  }
+  if (!webRTCProvider) return;
+  webRTCProvider.disconnect();
+  webRTCProvider.destroy();
+  webRTCProvider = null;
+  peers.value = 0
 }

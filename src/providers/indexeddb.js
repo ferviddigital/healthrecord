@@ -19,9 +19,8 @@ const connect = () => {
 }
 
 const disconnect = () => {
-  if (iDBProvider) {
-    iDBProvider.clearData();
-    iDBProvider.destroy()
-  }
+  if (!iDBProvider) return;
+  iDBProvider.clearData();
+  iDBProvider.destroy()
   iDBProvider = null;
 }
