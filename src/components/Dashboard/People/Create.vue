@@ -13,15 +13,15 @@ const router = useRouter();
  */
 const createPerson = (person) => {
   peopleStore.create(person);
-  router.push({ name: 'People' });
+  router.push({ name: 'Person', params: { personId: person.id } });
 }
 </script>
 
 <template>
   <Dialog :open="true" @close="$router.push({ name: 'People' })" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-    <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
-      <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
+    <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
+      <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg my-10">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Person</DialogTitle>
         <PersonForm @submit="createPerson" class="p-6" />
       </DialogPanel>

@@ -24,10 +24,10 @@ const vitalId   = ref(measurement.value.vitalId);
 /**
  * Update Measurement
  * 
- * @param {import("../../../typedefs").Measurement} measurement 
+ * @param {import("../../../typedefs").Measurement} updatedMeasurement 
  */
-const updateMeasurement = (measurement) => {
-  measurementStore.update(route.params.measurementId, measurement);
+const updateMeasurement = (updatedMeasurement) => {
+  measurementStore.update(measurement.value.id, updatedMeasurement);
   router.back();
 }
 </script>
@@ -35,8 +35,8 @@ const updateMeasurement = (measurement) => {
 <template>
   <Dialog :open="true" @close="$router.back()" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-    <div class="fixed flex w-screen h-screen top-10 items-start justify-center">
-      <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg">
+    <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
+      <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg my-10">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Measurement</DialogTitle>
         <MeasurementForm class="p-6" @submit="updateMeasurement" :value="value" :date="date" :personId="personId" :vitalId="vitalId" />
       </DialogPanel>
