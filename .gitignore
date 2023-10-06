@@ -24,4 +24,4 @@ dev-dist
 *.njsproj
 *.sln
 *.sw?
-jsonconfig.json
+jsconfig.json

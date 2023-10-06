@@ -61,7 +61,7 @@ const updateRoute = () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-[auto_min-content_min-content] bg-white p-3 gap-6 md:gap-10 rounded-md">
+  <div class="grid grid-cols-[auto_min-content_min-content] bg-gray-50 p-3 gap-6 md:gap-10 rounded-xl">
     <div>
       <h3 class="font-semibold mb-1">
         {{ Number(measurement.value).toLocaleString() }}

@@ -8,10 +8,11 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
+      manifest: false,
       devOptions: {
-        enabled: true
-      },
-      manifest: false
+        enabled: process.env.NODE_ENV === 'development' ? true : false,
+        type: 'module'
+      }
     })
   ],
   define: {

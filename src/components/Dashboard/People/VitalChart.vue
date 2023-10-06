@@ -47,9 +47,10 @@ const data = computed(() => {
         backgroundColor: '#4F46E5',
         data: measurementValues.value,
         borderColor: '#C7D2FE',
-        pointRadius: 4,
+        pointRadius: 3,
         pointHitRadius: 10,
         pointHoverBorderWidth: 3,
+        tension: 0.3
       }
     ]
   }
@@ -108,7 +109,7 @@ const options = {
         },
         display: false,
         callback: (value) => {
-          return Number(value.toFixed(2)).toLocaleString() + ' ' + props.vital.unit;
+          return Number(Number(value).toFixed(2)).toLocaleString() + ' ' + props.vital.unit;
         }
       }
     }

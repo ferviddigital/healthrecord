@@ -18,7 +18,7 @@ import PersonListItem from './PersonListItem.vue';
         </RouterLink>
       </div>
     </div>
-    <div v-if="people.length > 0" class="pb-28 md:pb-0 grid gap-3">
+    <div v-if="people.length > 0" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
       <PersonListItem v-for="person in people" :key="person.id" :person="person" />
     </div>
     <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
