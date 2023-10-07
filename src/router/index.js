@@ -2,20 +2,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const Start = () => import(/* webpackChunkName: "group-start" */ '../components/Start/Start.vue');
 const StartNew = () => import(/* webpackChunkName: "group-start" */ '../components/Start/New.vue');
-const DashboardLayout = () => import(/* webpackChunkName: "group-dashboard" */ '../components/Dashboard/Layout.vue');
-const Dashboard = () => import(/* webpackChunkName: "group-dashboard" */ '../components/Dashboard/Dash/Dash.vue');
-const People = () => import(/* webpackChunkName: "group-people" */ '../components/Dashboard/People/People.vue');
-const PersonCreate = () => import(/* webpackChunkName: "group-people" */ '../components/Dashboard/People/Create.vue');
-const PersonUpdate = () => import(/* webpackChunkName: "group-people" */ '../components/Dashboard/People/Update.vue');
-const Vitals = () => import(/* webpackChunkName: "group-vitals" */ '../components/Dashboard/Vitals/Vitals.vue');
-const VitalCreate = () => import(/* webpackChunkName: "group-vitals" */ '../components/Dashboard/Vitals/Create.vue');
-const VitalUpdate = () => import(/* webpackChunkName: "group-vitals" */ '../components/Dashboard/Vitals/Update.vue');
-const Measurements = () => import(/* webpackChunkName: "group-measurements" */ '../components/Dashboard/Measurements/Measurements.vue');
-const MeasurementCreate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Dashboard/Measurements/Create.vue');
-const MeasurementUpdate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Dashboard/Measurements/Update.vue');
-const Person = () => import(/* webpackChunkName: "group-person" */ '../components/Dashboard/People/Person.vue');
-const PersonVital = () => import(/* webpackChunkName: "group-person" */ '../components/Dashboard/People/Vital.vue');
-const Settings = () => import('../components/Dashboard/Settings/Settings.vue');
+const DashboardLayout = () => import(/* webpackChunkName: "group-dashboard" */ '../components/Layout.vue');
+const Dashboard = () => import(/* webpackChunkName: "group-dashboard" */ '../components/Dashboard/Dashboard.vue');
+const People = () => import(/* webpackChunkName: "group-people" */ '../components/People/People.vue');
+const PersonCreate = () => import(/* webpackChunkName: "group-people" */ '../components/People/Create.vue');
+const PersonUpdate = () => import(/* webpackChunkName: "group-people" */ '../components/People/Update.vue');
+const Vitals = () => import(/* webpackChunkName: "group-vitals" */ '../components/Vitals/Vitals.vue');
+const VitalCreate = () => import(/* webpackChunkName: "group-vitals" */ '../components/Vitals/Create.vue');
+const VitalUpdate = () => import(/* webpackChunkName: "group-vitals" */ '../components/Vitals/Update.vue');
+const Measurements = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Measurements.vue');
+const MeasurementCreate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Create.vue');
+const MeasurementUpdate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Update.vue');
+const Person = () => import(/* webpackChunkName: "group-person" */ '../components/People/Person.vue');
+const PersonVital = () => import(/* webpackChunkName: "group-person" */ '../components/People/Vital.vue');
+const Settings = () => import('../components/Settings/Settings.vue');
 
 const routes = [
   {

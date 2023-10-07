@@ -12,12 +12,12 @@ ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMa
 
 const props = defineProps({
   vital: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Vital>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
     type: Object,
     required: true
   },
   measurements: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Measurement[]>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Measurement[]>} */
     type: Array,
     required: true
   },

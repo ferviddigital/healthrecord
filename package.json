@@ -23,6 +23,7 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "dayjs": "^1.11.9",
     "file-saver": "^2.0.5",
+    "number-to-words": "^1.2.4",
     "pluralize": "^8.0.0",
     "sass": "^1.66.1",
     "vite-plugin-pwa": "^0.16.5",

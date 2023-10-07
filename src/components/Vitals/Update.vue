@@ -2,7 +2,7 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { vitals, store as vitalStore } from '../../../store/vitals';
+import { vitals, store as vitalStore } from '../../store/vitals';
 import VitalForm from './Form.vue';
 
 const route   = useRoute();
@@ -25,7 +25,7 @@ const low         = ref(vital.value.low);
 /**
  * Update Vital
  * 
- * @param {import("../../../typedefs").Vital} updatedVital 
+ * @param {import("../../typedefs").Vital} updatedVital 
  */
 const updateVital = (updatedVital) => {
   vitalStore.update(vital.value.id, updatedVital);

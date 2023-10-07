@@ -3,12 +3,13 @@ import { LightBulbIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed } from 'vue';
-import { record } from '../../../store/record';
-import { measurements } from '../../../store/measurements';
-import { vitals, createBodyWeightVital, createHeartRateVital } from '../../../store/vitals';
+import { record } from '../../store/record';
+import { measurements } from '../../store/measurements';
+import { vitals, createBodyWeightVital, createHeartRateVital } from '../../store/vitals';
 import { useRoute } from 'vue-router';
 import pluralize from 'pluralize';
 import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
+import VitalSummary from './VitalSummary.vue';
 
 const route = useRoute();
 
@@ -47,6 +48,9 @@ const vitalMeasurements = (vitalId) => {
       </div>
     </div>
     <div>
+      <div v-if="trackedVitals.length > 0">
+        <VitalSummary :person="person" />
+      </div>
       <div v-if="trackedVitals.length > 0" class="grid grid-cols-2 xl:grid-cols-3 gap-3">
         <div v-for="vital in trackedVitals" :key="vital.id" class="group bg-gray-50 p-3 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all" @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
           <header class="grid grid-cols-[auto_min-content]">

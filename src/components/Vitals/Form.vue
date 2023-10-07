@@ -16,7 +16,7 @@ const isFormComplete = computed(() => {
 });
 
 const vital = computed(() => {
-  /** @type {import('../../../typedefs').Vital} */
+  /** @type {import('../../typedefs').Vital} */
   const vital = {
     id:           crypto.randomUUID(),
     name:         name.value,
@@ -47,14 +47,14 @@ const vital = computed(() => {
       <div>
         <label for="high">High value</label>
         <div class="input-group">
-          <input v-model="high" type="text" id="high" placeholder="ex. 101">
+          <input v-model="high" type="text" id="high" inputmode="decimal" placeholder="ex. 101">
           <span v-if="unit.length > 0">{{ unit }}</span>
         </div>
       </div>
       <div>
         <label for="low">Low value</label>
         <div class="input-group">
-          <input v-model="low" type="text" id="low" placeholder="ex. 59">
+          <input v-model="low" type="text" id="low" inputmode="decimal" placeholder="ex. 59">
           <span v-if="unit.length > 0">{{ unit }}</span>
         </div>
       </div>

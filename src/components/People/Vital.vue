@@ -1,13 +1,15 @@
 <script setup>
-import { vitals } from '../../../store/vitals';
-import { measurements } from '../../../store/measurements';
-import { people } from '../../../store/people';
+import { vitals } from '../../store/vitals';
+import { measurements } from '../../store/measurements';
+import { people } from '../../store/people';
 import { useRoute } from 'vue-router';
 import VitalChart from './VitalChart.vue';
 import { computed } from 'vue';
 import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
+import { VitalInsight } from '../../insights/insight';
+import Insight from '../Vitals/Insight.vue';
 
 const vitalId   = useRoute().params.vitalId;
 const personId  = useRoute().params.personId;
@@ -33,6 +35,8 @@ const vitalMeasurements = computed(() => {
     return measurement.personId === personId && measurement.vitalId === vitalId;
   });
 });
+
+const vitalInsight = new VitalInsight({...vital.value}, {...person.value});
 </script>
 
 <template>
@@ -51,6 +55,7 @@ const vitalMeasurements = computed(() => {
         </RouterLink>
       </div>
     </div>
+    <Insight :person="person" :vital="vital" />
     <div class="bg-white rounded-xl p-4">
       <VitalChart :vital="vital" :measurements="vitalMeasurements" />
     </div>

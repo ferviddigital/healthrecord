@@ -1,11 +1,11 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { store as vitalStore } from '../../../store/vitals';
+import { store as vitalStore } from '../../store/vitals';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({
   vital: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Vital>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
     type: Object,
     required: true
   }

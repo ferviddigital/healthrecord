@@ -1,9 +1,9 @@
 <script setup>
-import { SquaresPlusIcon, UsersIcon, Cog8ToothIcon, HomeIcon, ChartBarIcon, HeartIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/20/solid';
-import { record } from '../../store/record';
-import { peers, webrtcConnected } from '../../providers/webrtc';
+import { SquaresPlusIcon, UsersIcon, Cog8ToothIcon, HomeIcon, ChartBarIcon, HeartIcon } from '@heroicons/vue/20/solid';
+import { record } from '../store/record';
+import { peers, webrtcConnected } from '../providers/webrtc';
 import pluralize from 'pluralize';
-import { store as preferencesStore } from '../../store/preferences';
+import { store as preferencesStore } from '../store/preferences';
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
