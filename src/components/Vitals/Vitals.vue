@@ -1,7 +1,7 @@
 <script setup>
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
-import { vitals, createBodyWeightVital, createHeartRateVital } from '../../../store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital } from '../../store/vitals';
 import VitalListItem from './VitalListItem.vue';
 </script>
 

@@ -1,7 +1,7 @@
 <script setup>
-import { people } from '../../../store/people';
-import { vitals } from '../../../store/vitals';
-import { measurements } from '../../../store/measurements';
+import { people } from '../../store/people';
+import { vitals } from '../../store/vitals';
+import { measurements } from '../../store/measurements';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import pluralize from 'pluralize';
 </script>

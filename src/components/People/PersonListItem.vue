@@ -1,13 +1,13 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { store as peopleStore } from '../../../store/people';
+import { store as peopleStore } from '../../store/people';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid';
 import dayjs from 'dayjs';
 
 const props = defineProps({
   person: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Person>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Person>} */
     type: Object,
     required: true
   }

@@ -1,7 +1,7 @@
 <script setup>
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRoute, useRouter } from 'vue-router';
-import { store as measurementStore } from '../../../store/measurements';
+import { store as measurementStore } from '../../store/measurements';
 import MeasurementForm from './Form.vue';
 
 const router = useRouter();
@@ -10,7 +10,7 @@ const route = useRoute();
 /**
  * Create Measurement
  * 
- * @param {import("../../../typedefs").Measurement} measurement 
+ * @param {import("../../typedefs").Measurement} measurement 
  */
 const createMeasurement = (measurement) => {
   measurementStore.create(measurement);

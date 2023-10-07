@@ -1,15 +1,15 @@
 <script setup>
-import { record, downloadable } from '../../../store/record';
-import { saveAs } from 'file-saver';
-import { clear } from '../../../helpers/storage';
+import { record, downloadable } from '../../store/record';
+import FileSaver from 'file-saver';
+import { clear } from '../../helpers/storage';
 import { DocumentArrowDownIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
-import { encrypt } from '../../../helpers/encrypto';
+import { encrypt } from '../../helpers/encrypto';
 import PassphraseModal from './PassphraseModal.vue';
 import { ref } from 'vue';
 import { Switch } from '@headlessui/vue';
-import { peers, webrtcConnected } from '../../../providers/webrtc';
+import { peers, webrtcConnected } from '../../providers/webrtc';
 import pluralize from 'pluralize';
-import { store as preferencesStore } from '../../../store/preferences';
+import { store as preferencesStore } from '../../store/preferences';
 
 const passphraseModalOpen = ref(false);
 
@@ -21,7 +21,7 @@ const downloadHealthRecordFile = (data) => {
   const file      = new Blob([JSON.stringify(data)], {
     type: 'application/json'
   });
-  saveAs(file, fileName);
+  FileSaver.saveAs(file, fileName);
 }
 
 const passphraseSubmitted = async (passphrase) => {
@@ -62,6 +62,7 @@ const updateWebRTC = () => {
   }
 }
 
+// @ts-ignore
 const appVersion = APP_VERSION;
 </script>
 

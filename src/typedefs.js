@@ -1,7 +1,22 @@
 /**
+ * @typedef {import("@syncedstore/core/types/doc").MappedTypeDescription<HealthRecordDocType>} HealthRecordSyncedStore
+ */
+
+/**
+ * @typedef {object} HealthRecordDocType
+ * @property {"text"} id
+ * @property {"text"} version
+ * @property {"text"} firstName
+ * @property {"text"} lastName
+ * @property {Person[]} people
+ * @property {Vital[]} vitals
+ * @property {Measurement[]} measurements
+ */
+
+/**
  * @typedef {object} HealthRecord
  * @property {string} id
- * @property {number} version
+ * @property {string} version
  * @property {string} firstName
  * @property {string} lastName
  * @property {Person[]} people

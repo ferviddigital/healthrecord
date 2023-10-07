@@ -2,7 +2,7 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { measurements, store as measurementStore } from '../../../store/measurements';
+import { measurements, store as measurementStore } from '../../store/measurements';
 import MeasurementForm from './Form.vue';
 
 const route   = useRoute();
@@ -24,7 +24,7 @@ const vitalId   = ref(measurement.value.vitalId);
 /**
  * Update Measurement
  * 
- * @param {import("../../../typedefs").Measurement} updatedMeasurement 
+ * @param {import("../../typedefs").Measurement} updatedMeasurement 
  */
 const updateMeasurement = (updatedMeasurement) => {
   measurementStore.update(measurement.value.id, updatedMeasurement);

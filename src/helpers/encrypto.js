@@ -3,9 +3,9 @@
 /**
  * Encrypts string with requested passphrase
  * 
- * @param {String} data The data to encrypt
- * @param {String} passphrase The passphrase to encrypt data with
- * @returns {String}
+ * @param {string} data The data to encrypt
+ * @param {string} passphrase The passphrase to encrypt data with
+ * @returns {Promise<string | false>}
  */
 export const encrypt = async (data, passphrase) => {
   return await encryptData(data, passphrase);
@@ -14,9 +14,9 @@ export const encrypt = async (data, passphrase) => {
 /**
  * Decrypts string with requested passphrase
  * 
- * @param {String} encryptedData The data to decrypt
- * @param {String} passphrase The passphrase to decrypt data with
- * @returns {String}
+ * @param {string} encryptedData The data to decrypt
+ * @param {string} passphrase The passphrase to decrypt data with
+ * @returns {Promise<string | false>}
  */
 export const decrypt = async (encryptedData, passphrase) => {
   return await decryptData(encryptedData, passphrase);

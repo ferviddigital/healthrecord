@@ -2,7 +2,7 @@
 import { SquaresPlusIcon } from '@heroicons/vue/20/solid'
 import { ref } from 'vue';
 import { decrypt } from '../../helpers/encrypto';
-import PassphraseModal from '../Dashboard/Settings/PassphraseModal.vue';
+import PassphraseModal from '../Settings/PassphraseModal.vue';
 import { load } from '../../helpers/storage';
 
 const filePicker = ref();
@@ -24,6 +24,7 @@ const processFile = () => {
   const reader = new FileReader();
 
   reader.onload = async () => {
+    if (typeof reader.result !== 'string') return;
     const result = JSON.parse(reader.result);
     if (result.hasOwnProperty('type') && result.type === 'healthRecord') {
       load(JSON.stringify(result));
