@@ -197,28 +197,33 @@ export class VitalInsightsSummary {
   get description() {
     let text = '';
 
+    // Levels
     const vitalLevelsDescriptions = [];
 
     if (this.#normalLevelVitals.length > 0) {
       vitalLevelsDescriptions.push(`${n2w.toWords(this.#normalLevelVitals.length)} ${pluralize('vital', this.#normalLevelVitals.length)} ${pluralize('has', this.#normalLevelVitals.length)} normal levels`);
     }
+
     if (this.#lowLevelVitals.length > 0) {
       vitalLevelsDescriptions.push(`${n2w.toWords(this.#lowLevelVitals.length)} ${pluralize('vital', this.#lowLevelVitals.length)} ${pluralize('has', this.#lowLevelVitals.length)} low levels`);
     }
+
     if (this.#highLevelVitals.length > 0) {
       vitalLevelsDescriptions.push(`${n2w.toWords(this.#highLevelVitals.length)} ${pluralize('vital', this.#highLevelVitals.length)} ${pluralize('has', this.#highLevelVitals.length)} high levels`);
     }
 
+    // Trends
     const levelsDescription = vitalLevelsDescriptions.join(', ');
     text += levelsDescription[0].toLocaleUpperCase() + levelsDescription.slice(1) + '.';
 
     const vitalTrendsDescriptions = [];
 
-    if (this.#downwardTrendVitals.length > 0) {
-      vitalTrendsDescriptions.push(`${n2w.toWords(this.#downwardTrendVitals.length)} ${pluralize('vital', this.#downwardTrendVitals.length)} ${pluralize('is', this.#downwardTrendVitals.length)} trending downward`);
-    }
     if (this.#upwardTrendVitals.length > 0) {
       vitalTrendsDescriptions.push(`${n2w.toWords(this.#upwardTrendVitals.length)} ${pluralize('vital', this.#upwardTrendVitals.length)} ${pluralize('is', this.#upwardTrendVitals.length)} trending upward`);
+    }
+
+    if (this.#downwardTrendVitals.length > 0) {
+      vitalTrendsDescriptions.push(`${n2w.toWords(this.#downwardTrendVitals.length)} ${pluralize('vital', this.#downwardTrendVitals.length)} ${pluralize('is', this.#downwardTrendVitals.length)} trending downward`);
     }
 
     const trendsDescription = vitalTrendsDescriptions.join(', ');

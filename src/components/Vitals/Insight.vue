@@ -35,7 +35,7 @@ const vitalInsight = new VitalInsight(props.vital, props.person);
       <ArrowTrendingUpIcon class="w-5 h-5"
       v-else-if="vitalInsight.level === 'high'" />
       <ArrowTrendingDownIcon class="w-5 h-5"
-        v-if="vitalInsight.level === 'low'" />
+        v-else-if="vitalInsight.level === 'low'" />
       {{ vitalInsight.description }}
     </p>
   </div>
