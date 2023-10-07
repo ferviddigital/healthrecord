@@ -1,11 +1,11 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { store as vitalStore } from '../../../store/vitals';
+import { store as vitalStore } from '../../store/vitals';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({
   vital: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Vital>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
     type: Object,
     required: true
   }
@@ -13,14 +13,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="grid grid-cols-[auto_min-content] bg-white p-3 rounded-md">
-    <div>
+  <div class="grid grid-cols-[auto_min-content] min-h-[10em] bg-gray-50 p-3 rounded-xl">
+    <div class="grid">
       <h3 class="font-semibold mb-1">{{ vital.name }} <span class="text-xs text-gray-400 font-light">({{ vital.unit }})</span></h3>
-      <p class="text-gray-400 text-sm">{{ vital.description }}</p>
+      <p class="text-gray-400 text-sm self-end">{{ vital.description }}</p>
     </div>
     <div class="grid">
       <Menu as="div" class="menu">
-        <MenuButton class="menu-button group/menu-button -mt-1.5" @click.stop>
+        <MenuButton class="menu-button group/menu-button -mt-1" @click.stop>
           <EllipsisHorizontalIcon />
         </MenuButton>
         <MenuItems @click.stop class="menu-items">

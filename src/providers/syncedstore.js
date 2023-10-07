@@ -8,27 +8,29 @@ import { record } from '../store/record';
 
 enableVueBindings(Vue);
 
+const recordVersion = "2";
+
 export const doc = new Doc();
 
 doc.on('update', () => {
   if (record.value.id.toString().length > 0) {
-    localStorage.setItem('isActive', true);
+    localStorage.setItem('isActive', String(true));
   } else {
     localStorage.removeItem('isActive');
   }
 });
 
-// /** @type {import('@syncedstore/core/types/doc').DocTypeDescription} */
+/** @type {import('../typedefs').HealthRecordDocType} */
 const shape = {
   id: 'text',
   version: 'text',
   firstName: 'text',
   lastName: 'text',
-  /** @type {import('../typedefs'.Person[])} */
+  /** @type {import('../typedefs').Person[]} */
   people: [],
-  /** @type {import('../typedefs'.Vital[])} */
+  /** @type {import('../typedefs').Vital[]} */
   vitals: [],
-  /** @type {import('../typedefs'.Measurement[])} */
+  /** @type {import('../typedefs').Measurement[]} */
   measurements: []
 }
 
@@ -67,7 +69,7 @@ const importRecord = (recordData) => {
 
 /**
  * Import state from Yjs Doc Uint8Array state
- * @param {{type: string, state: Uint8Array, prefs: import('../typedefs').PersonPreferences}} recordData 
+ * @param {{type: string, state: string, prefs: import('../typedefs').PersonPreferences}} recordData 
  */
 const importState = (recordData) => {
   const state = recordData.state;
@@ -78,10 +80,10 @@ const importState = (recordData) => {
 /**
  * Run migrations for older record versions
  * @param {import("../typedefs").HealthRecord} importedRecord 
- * @param {import('@syncedstore/core/types/doc').MappedTypeDescription<import('../typedefs').HealthRecord>} syncedStore 
+ * @param {import('../typedefs').HealthRecordSyncedStore} syncedStore 
  */
 const migrate = (importedRecord, syncedStore) => {
-  if (! importedRecord.version || importedRecord.version <= 1) {
+  if (! importedRecord.version || Number(importedRecord.version) <= 1) {
     syncedStore.id.insert(0, crypto.randomUUID());
   } else {
     syncedStore.id.insert(0, importedRecord.id);

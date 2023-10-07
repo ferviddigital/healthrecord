@@ -17,7 +17,7 @@ const isFormComplete = computed(() => {
 });
 
 const person = computed(() => {
-  /** @type {import("../../../typedefs").Person} */
+  /** @type {import("../../typedefs").Person} */
   const person = {
     id:         crypto.randomUUID(),
     firstName:  firstName.value,

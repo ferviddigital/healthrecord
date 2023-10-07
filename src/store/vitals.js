@@ -37,8 +37,8 @@ export const createBodyWeightVital = () => {
     name: 'Weight',
     description: 'Body weight',
     unit: 'lbs',
-    low: '',
-    high: ''
+    low: null,
+    high: null
   });
 }
 

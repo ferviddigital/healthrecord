@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { people } from '../../../store/people';
-import { vitals } from '../../../store/vitals';
+import { people } from '../../store/people';
+import { vitals } from '../../store/vitals';
 import dayjs from 'dayjs';
 import { useRoute } from 'vue-router';
 
@@ -23,7 +23,7 @@ const isFormComplete = computed(() => {
 });
 
 const measurement = computed(() => {
-  /** @type {import('../../../typedefs').Measurement} */
+  /** @type {import('../../typedefs').Measurement} */
   const measurement = {
     id:       crypto.randomUUID(),
     value:    Number(value.value),
@@ -59,7 +59,7 @@ const vital = computed(() => {
       Value
     </label>
     <div class="input-group mb-3">
-      <input v-model="value" type="text" id="value" autocomplete="off">
+      <input v-model="value" type="text" id="value" inputmode="decimal" autocomplete="off">
       <span v-if="vital">{{ vital.unit }}</span>
     </div>
     <label for="date">

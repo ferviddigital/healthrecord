@@ -1,9 +1,9 @@
 import { getYjsDoc } from '@syncedstore/core';
 import { encodeStateAsUpdate } from 'yjs';
-import { watch, shallowRef } from 'vue';
+import { shallowRef } from 'vue';
 import { Buffer } from 'buffer';
 
-/** @type {import('vue').ShallowRef<import('@syncedstore/core/types/doc').MappedTypeDescription<import('../typedefs').HealthRecord>>} */
+/** @type {import('vue').ShallowRef<import('../typedefs').HealthRecordSyncedStore>} */
 export const record = shallowRef();
 
 export const downloadable = () => {

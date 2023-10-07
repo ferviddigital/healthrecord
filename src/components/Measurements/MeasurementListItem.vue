@@ -1,15 +1,15 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { store as measurementStore } from '../../../store/measurements';
+import { store as measurementStore } from '../../store/measurements';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon, CalendarIcon, UserIcon, ArrowSmallDownIcon, ArrowSmallUpIcon } from '@heroicons/vue/20/solid';
-import { vitals } from '../../../store/vitals';
-import { people } from '../../../store/people';
+import { vitals } from '../../store/vitals';
+import { people } from '../../store/people';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const props = defineProps({
   measurement: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Measurement>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Measurement>} */
     type: Object,
     required: true
   }
@@ -61,15 +61,15 @@ const updateRoute = () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-[auto_min-content_min-content] bg-white p-3 gap-6 md:gap-10 rounded-md">
+  <div class="grid grid-cols-[auto_min-content_min-content] bg-gray-50 p-3 gap-6 md:gap-10 rounded-xl">
     <div>
       <h3 class="font-semibold mb-1">
         {{ Number(measurement.value).toLocaleString() }}
-        <span class="text-xs text-gray-400 font-light">{{ vital.unit }}</span>
+        <span class="text-xs text-gray-400 font-light mr-3">{{ vital.unit }}</span>
         <span v-if="vital.high && measurement.value >= Number(vital.high)"
-          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal cursor-default"><ArrowSmallUpIcon class="inline w-4 h-4 -mt-1" />High</span>
+          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs font-normal cursor-default whitespace-nowrap"><ArrowSmallUpIcon class="inline w-4 h-4 -mt-1" />High</span>
         <span v-if="vital.low && measurement.value <= Number(vital.low)"
-          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs ml-3 font-normal cursor-default"><ArrowSmallDownIcon class="inline w-4 h-4 -mt-0.5" />Low</span>
+          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs font-normal cursor-default whitespace-nowrap"><ArrowSmallDownIcon class="inline w-4 h-4 -mt-0.5" />Low</span>
       </h3>
       <p class="text-gray-400 text-sm">{{ vital.name }}</p>
     </div>

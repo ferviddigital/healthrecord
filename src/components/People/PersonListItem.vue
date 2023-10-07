@@ -1,13 +1,13 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { store as peopleStore } from '../../../store/people';
+import { store as peopleStore } from '../../store/people';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { EllipsisHorizontalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid';
 import dayjs from 'dayjs';
 
 const props = defineProps({
   person: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Person>} */
+    /** @type {import('vue').PropType<import("../../typedefs").Person>} */
     type: Object,
     required: true
   }
@@ -15,17 +15,17 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="group/person grid grid-cols-[auto_min-content] bg-white p-3 rounded-md cursor-pointer shadow-sm hover:shadow hover:bg-gray-50 transition-all" @click="$router.push({ name: 'Person', params: { personId: person.id } })">
-    <div>
+  <div class="group/person grid grid-cols-[auto_min-content] bg-gray-50 min-h-[10em] p-3 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all" @click="$router.push({ name: 'Person', params: { personId: person.id } })">
+    <div class="grid">
       <h3 class="font-semibold mb-1">{{ person.firstName + ' ' + person.lastName }}</h3>
-      <p class="text-gray-400 text-sm">
-        <strong>Age</strong>: {{ dayjs().diff(dayjs(person.dob), 'year') }} &emsp;
+      <p class="text-gray-400 text-sm self-end">
+        <strong>Age</strong>: {{ dayjs().diff(dayjs(person.dob), 'year') }} &emsp; <br class="lg:hidden" />
         <strong>Sex</strong>: {{ person.sex }}
       </p>
     </div>
     <div class="grid justify-items-end">
       <Menu as="div" class="menu">
-        <MenuButton class="menu-button group/menu-button -mt-1.5" @click.stop>
+        <MenuButton class="menu-button group/menu-button -mt-1" @click.stop>
           <EllipsisHorizontalIcon />
         </MenuButton>
         <MenuItems @click.stop class="menu-items">
