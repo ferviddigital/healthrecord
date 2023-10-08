@@ -13,12 +13,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="grid grid-cols-[auto_min-content] min-h-[10em] bg-gray-50 p-3 rounded-xl">
-    <div class="grid">
+  <div class="grid min-h-[10em] bg-gray-50 p-3 rounded-xl">
+    <div class="grid order-2 content-end">
       <h3 class="font-semibold mb-1">{{ vital.name }} <span class="text-xs text-gray-400 font-light">({{ vital.unit }})</span></h3>
       <p class="text-gray-400 text-sm self-end">{{ vital.description }}</p>
     </div>
-    <div class="grid">
+    <div class="grid order-1 justify-end">
       <Menu as="div" class="menu">
         <MenuButton class="menu-button group/menu-button -mt-1" @click.stop>
           <EllipsisHorizontalIcon />

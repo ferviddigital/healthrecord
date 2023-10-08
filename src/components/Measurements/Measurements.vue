@@ -7,18 +7,18 @@ import MeasurementListItem from './MeasurementListItem.vue';
 
 <template>
   <div>
-    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col gap-2 items-start bg-gradient-to-b from-gray-200 from-90%">
-      <header>
+    <header class="sticky grid grid-cols-[auto_min-content] top-0 pb-2.5 sm:pt-4 mb-2.5 sm:-mt-4 bg-gradient-to-b from-gray-200 from-90% z-10">
+      <hgroup>
         <h2 class="text-2xl font-bold">Measurements</h2>
         <p class="text-sm text-gray-500">Add, edit, and delete measurements to record.</p>
-      </header>
+      </hgroup>
       <div class="grid justify-end">
         <RouterLink class="rounded-full hover:bg-gray-300" :to="{ name: 'MeasurementCreate' }">
           <PlusIcon class="h-10 w-10" />
         </RouterLink>
       </div>
-    </div>
-    <div v-if="measurements.length > 0" class="pb-28 md:pb-0 grid gap-3">
+    </header>
+    <div v-if="measurements.length > 0" class="pb-10 md:pb-0 grid gap-3">
       <MeasurementListItem v-for="measurement in measurements" :key="measurement.id" :measurement="measurement" />
     </div>
     <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">

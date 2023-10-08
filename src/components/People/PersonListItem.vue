@@ -16,9 +16,9 @@ const props = defineProps({
 
 <template>
   <div class="group/person grid grid-cols-[auto_min-content] bg-gray-50 min-h-[10em] p-3 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all" @click="$router.push({ name: 'Person', params: { personId: person.id } })">
-    <div class="grid">
+    <div class="grid items-end content-end">
       <h3 class="font-semibold mb-1">{{ person.firstName + ' ' + person.lastName }}</h3>
-      <p class="text-gray-400 text-sm self-end">
+      <p class="text-gray-400 text-sm">
         <strong>Age</strong>: {{ dayjs().diff(dayjs(person.dob), 'year') }} &emsp; <br class="lg:hidden" />
         <strong>Sex</strong>: {{ person.sex }}
       </p>

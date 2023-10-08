@@ -2,11 +2,11 @@
 import { Line } from 'vue-chartjs';
 import AnnotationPlugin from 'chartjs-plugin-annotation';
 import ZoomPlugin from 'chartjs-plugin-zoom';
-import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
+import { Chart as ChartJS, Filler, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
 import { computed } from 'vue';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
-ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeScale)
+ChartJS.register(Title, Filler, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeScale)
 
 ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
 
@@ -33,31 +33,51 @@ const measurements = computed(() => {
 const measurementValues = computed(() => {
   return measurements.value.map(measurement => measurement.value);
 });
+
 const measurementDates = computed(() => {
   return measurements.value.map(measurement => measurement.date);
-})
+});
 
+/** @type {import("vue").ComputedRef<import("chart.js").ChartData<'line'>>} */
 const data = computed(() => {
   return {
     labels: measurementDates.value,
-    /** @type {import('chart.js').LineControllerDatasetOptions[]} */
+    /** @type {import("chart.js").ChartDataset<"line">[]} */
     datasets: [
       {
         label: props.vital.name,
-        backgroundColor: '#4F46E5',
+        backgroundColor: function(ctx, options) {
+          const context = ctx.chart.ctx;
+          var gradient = context.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0.2, '#eef2ff');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            return gradient;
+        },
+        borderWidth: props.small ? 4 : 6,
         data: measurementValues.value,
+        fill: true,
         borderColor: '#C7D2FE',
-        pointRadius: 3,
-        pointHitRadius: 10,
-        pointHoverBorderWidth: 3,
-        tension: 0.3
+        pointRadius: props.small ? 4 : 6,
+        pointHoverBorderWidth: 0,
+        pointBackgroundColor: '#4F46E5',
+        pointBorderWidth: 2,
+        pointHitRadius: 15,
+        pointHoverRadius: props.small ? 5 : 6.5,
+        pointHoverBackgroundColor: '#4F46E5',
+        tension: 0.3,
       }
-    ]
+    ],
   }
 });
 
-/** @type {import('chart.js').ChartOptions} */
+/** @type {import('chart.js').ChartOptions<"line">} */
 const options = {
+  onHover: (event, elements, chart) => {
+    if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+      return chart.canvas.style.cursor = 'default';
+    };
+    return chart.canvas.style.cursor = 'pointer';
+  },
   plugins: {
     legend: {
       display: false,
@@ -74,7 +94,7 @@ const options = {
       }
     },
     annotation: {
-      annotations: {}
+      annotations: {},
     },
     zoom: {}
   },
@@ -99,7 +119,7 @@ const options = {
     },
     y: {
       grid: {
-        display: false 
+        display: false,
       },
       ticks: {
         color: '#aaa',
@@ -129,8 +149,10 @@ if (! props.small) {
   options.scales.y.ticks.display = true;
 }
 
-if (props.vital.low) {
-  options.plugins.annotation.annotations.lowLine = {
+if (props.vital.low && !props.small) {
+
+  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+  const lowLine = {
     type: 'line',
     scaleID: 'y',
     value: props.vital.low,
@@ -138,16 +160,15 @@ if (props.vital.low) {
     borderDash: [5, 3],
     borderWidth: 1,
     init: true,
-    z: 1,
   }
 
-  options.plugins.annotation.annotations.lowBox = {
+  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+  const lowBox = {
     type: 'box',
     borderWidth: 0,
     backgroundColor: 'rgba(254, 215, 170, 20%)',
     yMin: 0,
     yMax: props.vital.low,
-    drawTime: 'beforeDraw',
     label: {
       content: 'low',
       position: {
@@ -158,44 +179,50 @@ if (props.vital.low) {
       color: 'rgb(253 186 116)',
       font: {
         weight: 'normal',
-        size: '11px'
+        size: 11
       }
     }
   }
+
+  options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { lowLine, lowBox })
 }
 
-if (props.vital.high) {
-  options.plugins.annotation.annotations.highLine = {
+if (props.vital.high && !props.small) {
+
+  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+  const highLine = {
     type: 'line',
     scaleID: 'y',
     value: props.vital.high,
     borderColor: '#FED7AA',
     borderDash: [5,3],
     borderWidth: 1,
-    initi: true,
-    z: 1
+    init: true,
+    z:0
   }
 
-  options.plugins.annotation.annotations.highBox = {
+  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+  const highBox = {
     type: 'box',
     borderWidth: 0,
     backgroundColor: 'rgba(254, 215, 170, 20%)',
     yMin: props.vital.high,
-    drawTime: 'beforeDraw',
     label: {
       content: 'high',
       position: {
         x: 'center',
-        y: 'end'
+        y: 'end',
       },
       display: true,
       color: 'rgb(253 186 116)',
       font: {
         weight: 'normal',
-        size: '11px'
+        size: 11
       }
     }
   }
+
+  options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { highLine, highBox })
 }
 
 </script>

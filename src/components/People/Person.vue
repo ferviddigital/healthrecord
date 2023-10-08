@@ -36,18 +36,18 @@ const vitalMeasurements = (vitalId) => {
 
 <template>
   <div v-if="person">
-    <div class="z-10 sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
-      <header>
+    <header class="sticky grid grid-cols-[auto_min-content] top-0 pb-2.5 sm:pt-4 mb-2.5 sm:-mt-4 bg-gradient-to-b from-gray-200 from-90% z-10">
+      <hgroup>
         <h2 class="text-2xl font-bold">{{ person.firstName + ' ' + person.lastName }}</h2>
         <p class="text-sm text-gray-500">{{ pluralize('measurement', personMeasurements.length, true) }} across {{ pluralize('vital', trackedVitals.length, true) }}.</p>
-      </header>
-      <div class="grid justify-end">
+      </hgroup>
+      <div class="grid items-start justify-end">
         <RouterLink class="rounded-full hover:bg-gray-300" :to="{ name: 'PersonMeasurementCreate' }">
           <PlusIcon class="h-10 w-10" />
         </RouterLink>
       </div>
-    </div>
-    <div>
+    </header>
+    <div class="mt-2">
       <div v-if="trackedVitals.length > 0">
         <VitalSummary :person="person" />
       </div>
@@ -69,8 +69,8 @@ const vitalMeasurements = (vitalId) => {
         </p>
       </div>
     </div>
-    <div v-if="personMeasurements.length > 0" class="pb-28 pt-9 md:pb-0 grid gap-3">
-      <h3 class="z-10 text-xl font-bold sticky top-8 pb-1 bg-gradient-to-b from-gray-200 from-70%">
+    <div v-if="personMeasurements.length > 0" class="pb-10 pt-9 sm:pb-0 grid gap-3">
+      <h3 class="z-10 text-xl font-bold sticky top-8 sm:top-11 pb-1 bg-gradient-to-b from-gray-200 from-70%">
         Measurements
         <span class="text-xs font-normal text-gray-500 align-middle">({{ personMeasurements.length }})</span>
       </h3>

@@ -68,12 +68,12 @@ const appVersion = APP_VERSION;
 
 <template>
   <div>
-    <div class="sticky top-0 pt-0 mt-0 pb-5 grid grid-flow-col items-start bg-gradient-to-b from-gray-200 from-90%">
-      <header>
+    <header class="sticky top-0 pb-2.5 sm:pt-4 mb-2.5 sm:-mt-4 bg-gradient-to-b from-gray-200 from-90% z-10">
+      <hgroup>
         <h2 class="text-2xl font-bold">Settings</h2>
         <p class="text-sm text-gray-500">Update app settings and download data.</p>
-      </header>
-    </div>
+      </hgroup>
+    </header>
     <h3 class="text-xs pl-3 mb-1 uppercase text-gray-500">
       Record Details
     </h3>
@@ -182,6 +182,6 @@ const appVersion = APP_VERSION;
       </section>
     </div>
     <PassphraseModal v-if="passphraseModalOpen" @close="passphraseModalOpen = false" @passphraseSubmitted="passphraseSubmitted" />
-    <p class="text-center self-end text-xs text-gray-400 mt-6 pb-28">HealthRecord Copyright &copy; {{ new Date().getFullYear() }}</p>
+    <p class="text-center self-end text-xs text-gray-400 mt-6 pb-10 sm:pb-0">HealthRecord Copyright &copy; {{ new Date().getFullYear() }}</p>
   </div>
 </template>

@@ -97,15 +97,8 @@ export class VitalInsight extends Insight {
    * Get the trend between the last two measurements
    */
   get trend() {
-    const recent = this.#measurements.slice(0, 2);
-
-    if (recent.length < 2) {
-      return 'none';
-    } else if (recent[0].value > recent[1].value) {
-      return 'upward';
-    } else {
-      return 'downward'
-    }
+    const recent = this.#measurements.slice(0, 20).map(measurement => measurement.value);
+    return nonParametricRegressionTrend(recent, 0.01);
   }
 
   /**
@@ -130,19 +123,19 @@ export class VitalInsight extends Insight {
         break;
     }
 
-    if ( (this.level === 'low' && this.trend === 'upward') || (this.level === 'high' && this.trend === 'downward') ) {
+    if ( (this.level === 'low' && this.trend === 1) || (this.level === 'high' && this.trend === -1) ) {
       text += ', but are';
-    } else if ( (this.level === 'low' && this.trend === 'downward') || (this.level === 'high' && this.trend === 'upward') ) {
+    } else if ( (this.level === 'low' && this.trend === -1) || (this.level === 'high' && this.trend === 1) ) {
       text += ' and are';
-    } else if (this.trend !== 'none') {
+    } else if (this.trend !== 0) {
       text += ' and are';
     }
 
     switch (this.trend) {
-      case 'downward':
+      case -1:
         text += ' trending downward';
         break;
-      case 'upward':
+      case 1:
         text += ' trending upward';
         break;
     }
@@ -187,11 +180,11 @@ export class VitalInsightsSummary {
   }
 
   get #downwardTrendVitals() {
-    return this.#insights.filter(insight => insight.trend === 'downward');
+    return this.#insights.filter(insight => insight.trend === -1);
   }
 
   get #upwardTrendVitals() {
-    return this.#insights.filter(insight => insight.trend === 'upward');
+    return this.#insights.filter(insight => insight.trend === 1);
   }
 
   get description() {
@@ -227,8 +220,54 @@ export class VitalInsightsSummary {
     }
 
     const trendsDescription = vitalTrendsDescriptions.join(', ');
-    text += ' ' + trendsDescription[0].toLocaleUpperCase() + trendsDescription.slice(1) + '.';
-
+    if (trendsDescription.length > 0) {
+      text += ' ' + trendsDescription[0].toLocaleUpperCase() + trendsDescription.slice(1) + '.';
+    }
     return text;
+  }
+}
+
+/**
+ * Calculate non-parametric regression
+ * 
+ * @param {Array<Number>} values Values to consider
+ * @param {Number} bandwidth Bandwidth
+ * @returns {Number[]}
+ */
+const nonParametricRegression = (values, bandwidth = 0.5) => {
+  // Create a kernel function.
+  const kernelFunction = (x) => Math.exp(-(Math.pow(x, 2)) / (2 * Math.pow(bandwidth, 2)));
+
+  // Calculate the weighted average of the data points.
+  const predictedValues = values.map((yi, i) => {
+    const weights = values.map((yj, j) => kernelFunction((yi - yj) / bandwidth));
+    return values.reduce((acc, yj, j) => acc + weights[j] * yj, 0) / weights.reduce((acc, w) => acc + w, 0);
+  });
+
+  // Return the predicted values.
+  return predictedValues;
+}
+
+/**
+ * Calculate trend from values
+ * 
+ * @param {Array<Number>} values Values to consider
+ * @param {Number} bandwidth Bandwidth
+ * @returns {1 | 0 | -1}
+ */
+const nonParametricRegressionTrend = (values, bandwidth = 0.5) => {
+  // Calculate the predicted values using the nonParametricRegression function.
+  const predictedValues = nonParametricRegression(values, bandwidth);
+
+  // Calculate the slope of the predicted values.
+  const slope = (predictedValues[predictedValues.length - 1] - predictedValues[0]) / predictedValues.length;
+
+  // Return 1 if the trend is up, 0 if the trend is flat, and -1 if the trend is down.
+  if (slope > 0) {
+    return 1;
+  } else if (slope < 0) {
+    return -1;
+  } else {
+    return 0;
   }
 }

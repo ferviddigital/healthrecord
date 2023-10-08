@@ -2,16 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-@media all and (display-mode: standalone) {
-  .dash-layout {
-    @apply md:pt-0 !important;
+body {
+  min-width: -webkit-fill-available;
+}
+
+.main-header {
+  .app-title {
+    span {
+      @apply hidden lg:inline;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
 .main-nav {
-  &::-webkit-scrollbar {
-    display: none;
+  li > a {
+    @apply grid grid-flow-col gap-4 p-2 px-3 justify-start items-center rounded-md text-gray-500 hover:bg-gray-800 hover:text-gray-400;
+
+    span:last-child {
+      @apply hidden lg:inline;
+    }
+
+    &.router-link-exact-active,
+    &.router-link-active {
+      @apply text-white;
+
+      svg {
+        @apply text-indigo-400 transition-all;
+      }
+    }
   }
+}
+
+.box-columns {
+  @apply grid gap-3 grid-rows-2 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6;
 }
 
 .btn {
