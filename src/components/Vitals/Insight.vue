@@ -27,15 +27,15 @@ const vitalInsight = new VitalInsight(props.vital, props.person);
       :class="['high', 'low'].includes(vitalInsight.level) ? 'bg-amber-100 text-amber-500' : 'bg-gray-300 text-gray-500' "
     >
       <ArrowTrendingDownIcon class="w-5 h-5"
-        v-if="vitalInsight.trend === 'downward'" />
+        v-if="vitalInsight.trend === -1" />
       <ArrowTrendingUpIcon class="w-5 h-5"
-        v-else-if="vitalInsight.trend === 'upward'" />
+        v-else-if="vitalInsight.trend === 1" />
       <HandThumbUpIcon class="w-5 h-5"
         v-else-if="vitalInsight.level === 'normal'" />
       <ArrowTrendingUpIcon class="w-5 h-5"
       v-else-if="vitalInsight.level === 'high'" />
       <ArrowTrendingDownIcon class="w-5 h-5"
-        v-if="vitalInsight.level === 'low'" />
+        v-else-if="vitalInsight.level === 'low'" />
       {{ vitalInsight.description }}
     </p>
   </div>

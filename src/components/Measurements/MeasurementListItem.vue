@@ -61,8 +61,12 @@ const updateRoute = () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-[auto_min-content_min-content] bg-gray-50 p-3 gap-6 md:gap-10 rounded-xl">
+  <div
+    class="grid bg-gray-50 p-3 gap-2 md:gap-10 rounded-xl shadow-sm hover:shadow hover:bg-white cursor-pointer"
+    @click="$router.push(updateRoute())"
+  >
     <div>
+      <p class="text-gray-400 text-sm font-light">{{ vital.name }}</p>
       <h3 class="font-semibold mb-1">
         {{ Number(measurement.value).toLocaleString() }}
         <span class="text-xs text-gray-400 font-light mr-3">{{ vital.unit }}</span>
@@ -71,36 +75,9 @@ const updateRoute = () => {
         <span v-if="vital.low && measurement.value <= Number(vital.low)"
           class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs font-normal cursor-default whitespace-nowrap"><ArrowSmallDownIcon class="inline w-4 h-4 -mt-0.5" />Low</span>
       </h3>
-      <p class="text-gray-400 text-sm">{{ vital.name }}</p>
     </div>
-    <div class="text-xs text-gray-400">
-      <span class="block mb-3"><CalendarIcon class="h-3 w-3 inline -mt-1" /> {{ new Date(measurement.date).toLocaleDateString() }}</span>
-      <span class="whitespace-nowrap"><UserIcon class="h-3 w-3 inline -mt-1" /> {{ person.firstName + ' ' + person.lastName }}</span>
-    </div>
-    <div class="grid">
-      <Menu as="div" class="menu">
-        <MenuButton class="menu-button -mt-1.5" @click.stop>
-          <EllipsisHorizontalIcon />
-        </MenuButton>
-        <MenuItems @click.stop class="menu-items">
-          <div class="p-1">
-            <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); $router.push(updateRoute());">
-                <PencilIcon class="group-hover/menu-item:text-indigo-200" />
-                Edit
-              </button>
-            </MenuItem>
-          </div>
-          <div class="p-1">
-            <MenuItem v-slot="{ close }">
-              <button class="menu-item group/menu-item" @click="close(); measurementStore.delete(measurement.id)">
-                <TrashIcon class="group-hover/menu-item:text-indigo-200" />
-                Delete
-              </button>
-            </MenuItem>
-          </div>
-        </MenuItems>
-      </Menu>
+    <div class="text-xs text-gray-400 self-end">
+      <span class="block"><CalendarIcon class="h-3 w-3 inline -mt-1" /> {{ new Date(measurement.date).toLocaleDateString() }}</span>
     </div>
   </div>
 </template>

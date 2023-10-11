@@ -20,8 +20,16 @@ export const create = (person) => {
   const record = {
     id:           crypto.randomUUID(),
     version:      recordVersion,
-    firstName:    person.firstName,
-    lastName:     person.lastName,
+    user: {
+      firstName: person.firstName,
+      lastName: person.lastName,
+      preferences: {
+        webRTC: {
+          enabled: false,
+          signalerUrl: null
+        }
+      }
+    },
     people:       [{
       ...person,
       id: crypto.randomUUID()

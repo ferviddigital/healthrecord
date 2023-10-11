@@ -1,7 +1,6 @@
 import { WebrtcProvider } from 'y-webrtc';
 import { doc } from './syncedstore';
 import { computed, ref, watch } from 'vue';
-import { store as preferencesStore } from '../store/preferences';
 import { record } from '../store/record';
 
 /** @type {WebrtcProvider | undefined} */
@@ -13,45 +12,33 @@ export const webrtcConnected = computed(() => {
   return webRTCProvider !== null;
 });
 
-watch(
-  () => preferencesStore.webRTC.enabled,
-  () => {
-    if (preferencesStore.webRTC.enabled) {
-      connect();
-    } else {
-      disconnect();
-    }
-  }
-);
-
-watch(
-  () => preferencesStore.webRTC.signalerUrl,
-  () => {
-    if (!preferencesStore.webRTC.signalerUrl) return;
-    
-    if (!webRTCProvider.signalingUrls.includes(preferencesStore.webRTC.signalerUrl)) {
-      disconnect();
-      connect();
-    }
-  }
-);
-
 doc.on('update', () => {
   if (record.value.id.toString().length > 0) {
-    connect();
-  } else {
+    if (webRTCProvider && !webRTCProvider.signalingUrls.includes(record.value.user.preferences.webRTC.signalerUrl)) {
+      disconnect();
+      connect();
+    } else {
+      connect();
+    }
+  }  else {
     disconnect();
   }
 });
 
+doc.on('destroy', ()=> {
+  disconnect();
+})
+
 
 const connect = () => {  
-  if (!preferencesStore.webRTC.enabled || (webRTCProvider && webRTCProvider.connected)) return;
+  if (!record.value.user) return;
+  if (!record.value.user.preferences) return;
+  if (!record.value.user.preferences.webRTC.enabled || (webRTCProvider && webRTCProvider.connected)) return;
 
   const signaling = [];
 
-  if (preferencesStore.webRTC.signalerUrl) {
-    signaling.push(preferencesStore.webRTC.signalerUrl);
+  if (record.value.user.preferences.webRTC.signalerUrl) {
+    signaling.push(record.value.user.preferences.webRTC.signalerUrl);
   } else if (import.meta.env.DEV) {
     // See {@link https://github.com/ferviddigital/y-webrtc-signaler y-webrtc-signaler} for sample signaling server implementation
     signaling.push('ws://localhost:8787');
