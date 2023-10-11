@@ -7,12 +7,6 @@ body {
 }
 
 .main-header {
-  .app-title {
-    span {
-      @apply hidden lg:inline;
-    }
-  }
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -38,7 +32,7 @@ body {
 }
 
 .box-columns {
-  @apply grid gap-3 grid-rows-2 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6;
+  @apply grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6;
 }
 
 .btn {
@@ -58,7 +52,7 @@ body {
 }
 
 .switch {
-  @apply bg-gray-300 inline-flex h-9 w-16 items-center rounded-full;
+  @apply bg-gray-300 inline-flex h-9 w-14 items-center rounded-full;
 
   &:hover {
     @apply bg-gray-400;
@@ -76,7 +70,7 @@ body {
     }
 
     span {
-      @apply translate-x-8;
+      @apply translate-x-6;
     }
   }
 }
@@ -112,6 +106,7 @@ body {
 input[type=text],
 input[type=email],
 input[type=date],
+input[type=datetime-local],
 input[type=password],
 input[type=url],
 textarea,
@@ -141,6 +136,7 @@ form {
   input[type=text],
   input[type=email],
   input[type=date],
+  input[type=datetime-local],
   input[type=password],
   input[type=url],
   textarea,

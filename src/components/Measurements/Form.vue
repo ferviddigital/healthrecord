@@ -7,8 +7,8 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-const props = defineProps(['value', 'date', 'personId', 'vitalId']);
-const emit  = defineEmits(['submit']);
+const props = defineProps(['value', 'date', 'personId', 'vitalId', 'deletable']);
+const emit  = defineEmits(['submit', 'delete']);
 
 const value     = ref(props.value || '');
 const date      = ref(dayjs(props.date).format('YYYY-MM-DD') || '');
@@ -65,8 +65,9 @@ const vital = computed(() => {
     <label for="date">
       Date
     </label>
-    <input v-model="date" type="date" id="date" required>
+    <input v-model="date" type="datetime-local" id="date" required>
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
+      <a v-if="deletable" @click="emit('delete')" class="text-sm text-red-500 font-light cursor-pointer">Delete</a>
       <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>

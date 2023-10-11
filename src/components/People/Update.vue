@@ -28,7 +28,7 @@ const dob       = ref(person.value.dob);
  */
 const updatePerson = (updatedPerson) => {
   peopleStore.update(person.value.id, updatedPerson);
-  router.push({ name: 'People' });
+  router.push({ name: 'Person', params: { personId: person.value.id } });
 }
 </script>
 

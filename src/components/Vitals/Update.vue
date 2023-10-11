@@ -29,17 +29,22 @@ const low         = ref(vital.value.low);
  */
 const updateVital = (updatedVital) => {
   vitalStore.update(vital.value.id, updatedVital);
-  router.push({ name: 'Vitals' });
+  router.back();
+}
+
+const deleteMeasurement = () => {
+  router.back();
+  vitalStore.delete(vital.value.id);
 }
 </script>
 
 <template>
-  <Dialog :open="true" @close="$router.push({ name: 'Vitals' })" class="relative z-50">
+  <Dialog :open="true" @close="$router.push({ name: 'Vitals' })" :initial-focus="null" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg my-10">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Vital</DialogTitle>
-        <VitalForm class="p-6" @submit="updateVital" :name="name" :description="description" :unit="unit" :high="high" :low="low" />
+        <VitalForm class="p-6" @submit="updateVital" :name="name" :description="description" :unit="unit" :high="high" :low="low" @delete="deleteMeasurement" :deletable="true" />
       </DialogPanel>
     </div>
   </Dialog>

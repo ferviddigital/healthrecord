@@ -8,7 +8,7 @@ import { record } from '../store/record';
 
 enableVueBindings(Vue);
 
-const recordVersion = "2";
+const recordVersion = "3";
 
 export const doc = new Doc();
 
@@ -26,6 +26,8 @@ const shape = {
   version: 'text',
   firstName: 'text',
   lastName: 'text',
+  // @ts-expect-error
+  user: {},
   /** @type {import('../typedefs').Person[]} */
   people: [],
   /** @type {import('../typedefs').Vital[]} */
@@ -58,8 +60,6 @@ export const load = (recordData) => {
 const importRecord = (recordData) => {
 
   record.value.version.insert(0, recordVersion);
-  record.value.firstName.insert(0, recordData.firstName);
-  record.value.lastName.insert(0, recordData.lastName);
   record.value.people.push(...recordData.people);
   record.value.vitals.push(...recordData.vitals);
   record.value.measurements.push(...recordData.measurements);
@@ -75,6 +75,10 @@ const importState = (recordData) => {
   const state = recordData.state;
   const update = Buffer.from(state, 'base64');
   applyUpdate(doc, update);
+
+  setTimeout(() => {
+    migrateState();
+  }, 100)
 }
 
 /**
@@ -87,5 +91,30 @@ const migrate = (importedRecord, syncedStore) => {
     syncedStore.id.insert(0, crypto.randomUUID());
   } else {
     syncedStore.id.insert(0, importedRecord.id);
+  }
+
+  if (!importedRecord.version || Number(importedRecord.version) < 3) {
+    // @ts-expect-error
+    syncedStore.user.firstName   = importedRecord.firstName;
+    // @ts-expect-error
+    syncedStore.user.lastName    = importedRecord.lastName;
+    syncedStore.user.preferences = { webRTC: { enabled:false, signalerUrl: null } };
+  } else {
+    syncedStore.user.firstName   = importedRecord.user.firstName;
+    syncedStore.user.lastName    = importedRecord.user.firstName;
+    syncedStore.user.preferences = importedRecord.user.preferences;
+  }
+}
+
+const migrateState = () => {
+  if (!record.value.user.firstName) {
+    record.value.user.firstName = record.value.firstName.toString();
+    record.value.user.lastName = record.value.lastName.toString();
+    record.value.user.preferences = {
+      webRTC: {
+        enabled: false,
+        signalerUrl: null
+      }
+    }
   }
 }

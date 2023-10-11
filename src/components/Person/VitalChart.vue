@@ -3,8 +3,11 @@ import { Line } from 'vue-chartjs';
 import AnnotationPlugin from 'chartjs-plugin-annotation';
 import ZoomPlugin from 'chartjs-plugin-zoom';
 import { Chart as ChartJS, Filler, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
+import dayjs from 'dayjs';
+import quaterOfYear from 'dayjs/plugin/quarterOfYear';
+dayjs.extend(quaterOfYear)
 
 ChartJS.register(Title, Filler, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeScale)
 
@@ -23,11 +26,36 @@ const props = defineProps({
   },
   small: {
     type: Boolean
+  },
+  range: {
+    /** @type {import('../../typedefs').VitalChartRange} */
+    default: 'all'
   }
 });
 
+const chartInstance = ref(null);
+
+watch(props, () => {
+  chartInstance.value.chart.resetZoom();
+});
+
 const measurements = computed(() => {
-  return props.measurements.reverse()
+  let timestamp = 0;
+  switch (props.range) {
+    case 'week':
+      timestamp = dayjs().subtract(1, 'week').valueOf();
+      break;
+      case 'month':
+      timestamp = dayjs().subtract(1, 'month').valueOf();
+      break;
+    case 'quarter':
+      timestamp = dayjs().subtract(1, 'quarter').valueOf();
+      break;
+    case 'year':
+      timestamp = dayjs().subtract(1, 'year').valueOf();
+      break;
+  }
+  return props.measurements.toReversed().filter(measurement => measurement.date > timestamp);
 });
 
 const measurementValues = computed(() => {
@@ -53,16 +81,16 @@ const data = computed(() => {
             gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
             return gradient;
         },
-        borderWidth: props.small ? 4 : 6,
+        borderWidth: props.small ? 3 : 6,
         data: measurementValues.value,
         fill: true,
         borderColor: '#C7D2FE',
-        pointRadius: props.small ? 4 : 6,
+        pointRadius: props.small ? 0 : 6,
         pointHoverBorderWidth: 0,
         pointBackgroundColor: '#4F46E5',
         pointBorderWidth: 2,
         pointHitRadius: 15,
-        pointHoverRadius: props.small ? 5 : 6.5,
+        pointHoverRadius: props.small ? 0 : 6.5,
         pointHoverBackgroundColor: '#4F46E5',
         tension: 0.3,
       }
@@ -83,6 +111,7 @@ const options = {
       display: false,
     },
     tooltip: {
+      enabled: props.small ? false : true,
       displayColors: false,
       callbacks: {
         label: (context) => {
@@ -99,6 +128,7 @@ const options = {
     zoom: {}
   },
   responsive: true,
+  aspectRatio: 1.5,
   scales: {
     x: {
       type: 'time',
@@ -107,9 +137,12 @@ const options = {
         tooltipFormat: 'MM/DD/YYYY'
       },
       bounds: 'ticks',
+      border: {
+        display: props.small ? false : true
+      },
       grid: {
         display: false,
-        color: '#efefef'
+        color: '#efefef',
       },
       ticks: {
         display: false,
@@ -120,6 +153,9 @@ const options = {
     y: {
       grid: {
         display: false,
+      },
+      border: {
+        display: props.small ? false : true
       },
       ticks: {
         color: '#aaa',
@@ -231,5 +267,6 @@ if (props.vital.high && !props.small) {
   <Line
     :options="options"
     :data="data"
+    ref="chartInstance"
   />
 </template>

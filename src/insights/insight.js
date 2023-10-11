@@ -65,7 +65,7 @@ export class VitalInsight extends Insight {
    * @returns {import("../typedefs").Measurement[]}
    */
   get #lowMeasurements() {
-    return this.#measurements.slice(0, 5).filter(measurement => measurement.value < this.vital.low);
+    return this.#measurements.slice(-1, -5).filter(measurement => measurement.value < this.vital.low);
   }
   
   /**
@@ -74,7 +74,7 @@ export class VitalInsight extends Insight {
    * @returns {import("../typedefs").Measurement[]}
    */
   get #highMeasurements() {
-    return this.#measurements.slice(0, 5).filter(measurement => measurement.value > this.vital.high);
+    return this.#measurements.slice(-1, -5).filter(measurement => measurement.value > this.vital.high);
   }
 
   /**
