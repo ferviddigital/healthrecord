@@ -100,7 +100,16 @@ const data = computed(() => {
 
 /** @type {import('chart.js').ChartOptions<"line">} */
 const options = {
+  layout: {
+    padding: {
+      left: props.small ? -9 : 0,
+      bottom: props.small ? -9 : 0
+    }
+  },
   onHover: (event, elements, chart) => {
+    if (props.small) {
+      return chart.canvas.style.cursor = 'pointer';
+    }
     if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
       return chart.canvas.style.cursor = 'default';
     };
@@ -147,7 +156,7 @@ const options = {
       ticks: {
         display: false,
         autoSkipPadding: 30,
-        color: '#aaa'
+        color: '#aaa',
       },
     },
     y: {
@@ -195,7 +204,7 @@ if (props.vital.low && !props.small) {
     borderColor: '#FED7AA',
     borderDash: [5, 3],
     borderWidth: 1,
-    init: true,
+    drawTime: 'beforeDatasetsDraw'
   }
 
   /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
@@ -217,7 +226,7 @@ if (props.vital.low && !props.small) {
         weight: 'normal',
         size: 11
       }
-    }
+    },
   }
 
   options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { lowLine, lowBox })
@@ -233,8 +242,7 @@ if (props.vital.high && !props.small) {
     borderColor: '#FED7AA',
     borderDash: [5,3],
     borderWidth: 1,
-    init: true,
-    z:0
+    drawTime: 'beforeDatasetsDraw'
   }
 
   /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
@@ -255,7 +263,7 @@ if (props.vital.high && !props.small) {
         weight: 'normal',
         size: 11
       }
-    }
+    },
   }
 
   options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { highLine, highBox })

@@ -10,7 +10,7 @@ const props = defineProps({
 
 <template>
   <div
-    class="grid min-h-[10em] bg-gray-50 shadow-sm hover:shadow hover:bg-white cursor-pointer p-3 rounded-xl"
+    class="grid min-h-[10em] bg-gray-50 shadow-sm hover:shadow-md hover:bg-white cursor-pointer p-3 rounded-xl transition-all"
     @click="$router.push({ name: 'VitalUpdate', params: { vitalId: vital.id }});"
   >
     <div class="grid order-2 content-end">

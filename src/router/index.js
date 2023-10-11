@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { previousRoute } from '../store/ui';
 
 const Start = () => import(/* webpackChunkName: "group-start" */ '../components/Start/Start.vue');
 const StartNew = () => import(/* webpackChunkName: "group-start" */ '../components/Start/New.vue');
@@ -94,10 +95,38 @@ const routes = [
       },
       {
         path: ':personId/vitals',
-        name: 'PersonVitals',
-        components: {
-          main: PersonVitals
-        }
+        children: [
+          {
+            name: 'PersonVitals',
+            path: '',
+            components: {
+              main: PersonVitals
+            },
+          },
+          {
+            path: ':vitalId',
+            name: 'PersonVital',
+            components: {
+              main: PersonVital
+            },
+            children: [
+              {
+                path: 'measurement/create',
+                name: 'PersonVitalMeasurementCreate',
+                components: {
+                  modal: MeasurementCreate
+                }
+              },
+              {
+                path: 'measurement/:measurementId/update',
+                name: 'PersonVitalMeasurementUpdate',
+                components: {
+                  modal: MeasurementUpdate
+                }
+              },
+            ]
+          }
+        ]
       },
       {
         path: ':personId/measurements',
@@ -106,29 +135,6 @@ const routes = [
           main: PersonMeasurements
         }
       },
-      {
-        path: ':personId/vitals/:vitalId',
-        name: 'PersonVital',
-        components: {
-          main: PersonVital
-        },
-        children: [
-          {
-            path: 'measurement/create',
-            name: 'PersonVitalMeasurementCreate',
-            components: {
-              modal: MeasurementCreate
-            }
-          },
-          {
-            path: 'measurement/:measurementId/update',
-            name: 'PersonVitalMeasurementUpdate',
-            components: {
-              modal: MeasurementUpdate
-            }
-          },
-        ]
-      }
     ]
   },
   {
@@ -271,7 +277,7 @@ const router = createRouter({
       }
     }
   }
-})
+});
 
 router.beforeEach((to) => {
   if (to.meta.requiresAuth && !localStorage.getItem('isActive')) {
@@ -279,6 +285,11 @@ router.beforeEach((to) => {
       name: 'Start'
     }
   }
-})
+});
 
-export default router
+
+router.beforeEach((to, from) => {
+  previousRoute.value = from;
+});
+
+export default router;

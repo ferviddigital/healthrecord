@@ -62,7 +62,7 @@ const updateRoute = () => {
 
 <template>
   <div
-    class="grid bg-gray-50 p-3 gap-2 md:gap-10 rounded-xl shadow-sm hover:shadow hover:bg-white cursor-pointer"
+    class="grid bg-gray-50 p-3 gap-2 md:gap-10 rounded-xl shadow-sm hover:shadow-md hover:bg-white cursor-pointer transition-all"
     @click="$router.push(updateRoute())"
   >
     <div>
