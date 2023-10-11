@@ -9,10 +9,12 @@ import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
 import { PencilIcon, ChevronLeftIcon } from '@heroicons/vue/24/solid';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import Insight from '../Vitals/Insight.vue';
-import { scrolled } from '../../store/ui';
+import { previousRoute, scrolled } from '../../store/ui';
 
-const vitalId   = useRoute().params.vitalId;
-const personId  = useRoute().params.personId;
+const route = useRoute();
+
+const vitalId   = route.params.vitalId;
+const personId  = route.params.personId;
 
 /** @type {import('vue').Ref<import('../../typedefs').VitalChartRange>} */
 const vitalRange = ref('all');
@@ -38,6 +40,28 @@ const vitalMeasurements = computed(() => {
     return measurement.personId === personId && measurement.vitalId === vitalId;
   }).toSpliced(0,-1).toSorted((a, b) => b.date - a.date );
 });
+
+const backText = computed(() => {
+  switch (previousRoute.value.name) {
+    case 'Person':
+    case undefined:
+      return person.value.firstName;
+    case 'PersonVitals':
+      return 'Vitals';
+  }
+});
+
+const backRoute = computed(() => {
+  switch (previousRoute.value.name) {
+    case 'Person':
+    case undefined:
+      return { name: 'Person', params: { personId }};
+    case 'PersonVitals':
+      return { name: 'PersonVitals', params: { personId }};
+    default:
+      return { name: 'Person', params: { personId }};
+  }
+});
 </script>
 
 <template>
@@ -47,8 +71,8 @@ const vitalMeasurements = computed(() => {
       :class="{'!border-gray-300': scrolled }"
     >
       <hgroup class="grid grid-cols-[1fr_1fr_1fr] items-center">
-        <RouterLink class="text-indigo-500 justify-self-start" :to="{ name: 'Person', params: { personId }}">
-          <ChevronLeftIcon class="w-6 h-6 inline align-top" /> {{ person.firstName }}
+        <RouterLink class="text-indigo-500 justify-self-start" :to="backRoute">
+          <ChevronLeftIcon class="w-6 h-6 inline align-top" /> {{ backText }}
         </RouterLink>
         <h2 class="text-xl font-bold text-center">{{ vital.name }}</h2>
         <div class="grid grid-flow-col gap-3 justify-self-end">

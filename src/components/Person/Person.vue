@@ -85,14 +85,14 @@ const vitalMeasurements = (vitalId) => {
           <div
             v-for="vital in sortedVitals.slice(0,4)"
             :key="vital.id"
-            class="group bg-gray-50 p-3 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all"
+            class="group bg-gray-50 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all overflow-hidden"
             @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })"
           >
-            <header class="grid grid-cols-[auto_min-content]">
+            <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
               <h3 class="font-semibold mb-1">{{ vital.name }}</h3>
               <ChevronRightIcon class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all" />
             </header>
-            <VitalChart class="mt-3 cursor-pointer" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
+            <VitalChart class="cursor-pointer scale-105 origin-bottom -mb-1" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
           </div>
         </div>
         <div class="pt-9 grid gap-3">

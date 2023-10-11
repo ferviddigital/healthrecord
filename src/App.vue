@@ -11,7 +11,7 @@ watch(record, (newValue) => {
   } else {
     router.push({ name: 'Start' });
   }
-})
+});
 </script>
 
 <template>
