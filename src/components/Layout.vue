@@ -14,9 +14,9 @@ window.addEventListener('scroll', () => {
 
 <template>
   <div v-if="record">
-    <div class="dash-layout grid grid-rows-[auto_min-content] sm:grid-rows-none sm:grid-flow-col sm:grid-cols-[min-content_auto] min-h-screen sm:min-h-0">
+    <div class="dash-layout grid grid-rows-[auto_min-content] sm:grid-rows-none sm:grid-flow-col sm:grid-cols-[min-content_auto] sm:min-h-0">
       <header
-        class="main-header sticky grid grid-flow-col sm:grid-rows-[min-content_auto_min-content] gap-2 sm:gap-4 overflow-scroll sm:overflow-visible sm:min-h-[calc(100vh-2rem)] items-center sm:items-start sm:justify-normal order-last sm:order-none self-end sm:self-start p-4 py-2 sm:py-6 bottom-6 md:bottom-auto mb-4 sm:mb-auto mr-4 sm:mr-0 ml-4 mt-4 top-4 rounded-3xl bg-gray-900 text-white z-20">
+        class="main-header fixed sm:sticky grid grid-flow-col sm:grid-rows-[min-content_auto_min-content] gap-2 sm:gap-4 overflow-scroll sm:overflow-visible sm:min-h-[calc(100vh-2rem)] items-center sm:items-start sm:justify-normal order-last sm:order-none self-end sm:self-start p-4 py-2 sm:py-6 bottom-4 md:bottom-auto mb-4 sm:mb-auto mr-4 sm:mr-0 ml-4 mt-4 sm:top-4 right-0 left-0 rounded-3xl bg-gray-900 text-white z-20">
         <h2 class="app-title grid grid-flow-col items-center sm:block self-start font-bold text-xl lg:mb-3 transition-all">
           <RouterLink
             class="grid grid-flow-col items-center sm:justify-start gap-1 sm:gap-4 p-2 sm:p-0 sm:px-3"
@@ -78,7 +78,7 @@ window.addEventListener('scroll', () => {
         </nav>
       </header>
       <main>
-        <RouterView name="main" />
+        <RouterView name="main"  class="mb-28 sm:mb-0"/>
       </main>
     </div>
   </div>

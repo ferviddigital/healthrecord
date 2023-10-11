@@ -11,7 +11,7 @@ const props = defineProps(['value', 'date', 'personId', 'vitalId', 'deletable'])
 const emit  = defineEmits(['submit', 'delete']);
 
 const value     = ref(props.value || '');
-const date      = ref(dayjs(props.date).format('YYYY-MM-DD') || '');
+const date      = ref(dayjs(props.date).format('YYYY-MM-DDThh:mm') || '');
 const personId  = ref(props.personId || route.params.personId || '');
 const vitalId   = ref(props.vitalId || route.params.vitalId || '');
 
