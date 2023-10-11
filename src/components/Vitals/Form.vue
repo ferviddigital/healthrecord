@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue';
 
-const props = defineProps(['name', 'description', 'unit', 'low', 'high']);
-const emit  = defineEmits(['submit']);
+const props = defineProps(['name', 'description', 'unit', 'low', 'high', 'deletable']);
+const emit  = defineEmits(['submit', 'delete']);
 
 const name        = ref(props.name || '');
 const description = ref(props.description || '');
@@ -60,7 +60,8 @@ const vital = computed(() => {
       </div>
     </div>
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
-      <RouterLink :to="{ name: 'Vitals' }" class="text-sm text-gray-500 font-light">Cancel</RouterLink>
+      <a v-if="deletable" @click="emit('delete')" class="text-sm text-red-500 font-light cursor-pointer">Delete</a>
+      <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>
   </form>

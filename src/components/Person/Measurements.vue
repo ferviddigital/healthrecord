@@ -1,10 +1,16 @@
 <script setup>
-import { people } from '../../store/people';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
-import PersonListItem from './PersonListItem.vue';
+import { measurements } from '../../store/measurements';
+import MeasurementListItem from '../Measurements/MeasurementListItem.vue';
 import { scrolled } from '../../store/ui';
+import { computed } from 'vue';
+import { selectedPerson } from '../../store/person';
+
+const personMeasurements = computed(() => {
+  return measurements.value.filter(measurement => measurement.personId === selectedPerson.value.id);
+});
 </script>
 
 <template>
@@ -14,31 +20,29 @@ import { scrolled } from '../../store/ui';
       :class="{'!border-gray-300': scrolled }"
     >
       <hgroup class="grid grid-cols-[1fr_1fr_1fr] items-center">
-        <RouterLink class="text-indigo-500 justify-self-start" :to="{ name: 'Settings' }">
-          <ChevronLeftIcon class="w-6 h-6 inline align-top" /> Settings
+        <RouterLink class="text-indigo-500 justify-self-start" :to="{ name: 'Person', params: { personId: selectedPerson.id }}">
+          <ChevronLeftIcon class="w-6 h-6 inline align-top" /> {{ selectedPerson.firstName }}
         </RouterLink>
-        <span>
-          <h2 class="text-xl font-bold text-center">People</h2>
-        </span>
+        <h2 class="text-xl font-bold text-center">Measurements</h2>
         <div class="grid grid-flow-col gap-3 justify-self-end">
-          <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonCreate' }">
+          <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonMeasurementCreate' }">
             <PlusIcon class="h-6 w-6" />
           </RouterLink>
         </div>
       </hgroup>
     </header>
     <div class="m-4">
-      <div v-if="people.length > 0" class="box-columns">
-        <PersonListItem v-for="person in people" :key="person.id" :person="person" />
+      <div v-if="personMeasurements.length > 0" class="grid gap-3">
+        <MeasurementListItem v-for="measurement in personMeasurements" :key="measurement.id" :measurement="measurement" />
       </div>
       <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
         <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center mb-4 pb-4 border-b border-amber-200">
           <QuestionMarkCircleIcon class="h-6 w-6 mr-3" />
-          A Person is an individual to track vital measurements for.
+          A Measurement is a recording of a specific person's Vital.
         </p>
         <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
           <LightBulbIcon class="h-6 w-6 mr-3" />
-          <span>You are not tracking any people. <RouterLink class="underline" :to="{ name: 'PersonCreate' }">Add&nbsp;a&nbsp;person</RouterLink>.</span>
+          <span>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'MeasurementCreate' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
         </p>
       </div>
     </div>

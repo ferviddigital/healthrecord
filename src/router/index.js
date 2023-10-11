@@ -13,8 +13,10 @@ const VitalUpdate = () => import(/* webpackChunkName: "group-vitals" */ '../comp
 const Measurements = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Measurements.vue');
 const MeasurementCreate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Create.vue');
 const MeasurementUpdate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Update.vue');
-const Person = () => import(/* webpackChunkName: "group-person" */ '../components/People/Person.vue');
-const PersonVital = () => import(/* webpackChunkName: "group-person" */ '../components/People/Vital.vue');
+const Person = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Person.vue');
+const PersonMeasurements = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Measurements.vue');
+const PersonVitals = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Vitals.vue');
+const PersonVital = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Vital.vue');
 const Settings = () => import('../components/Settings/Settings.vue');
 
 const routes = [
@@ -54,35 +56,12 @@ const routes = [
     ]
   },
   {
-    path: '/people',
+    path: '/person',
     component: DashboardLayout,
     meta: {
       requiresAuth: true
     },
     children: [
-      {
-        path: '',
-        name: 'People',
-        components: {
-          main: People
-        },
-        children: [
-          {
-            path: 'create',
-            name: 'PersonCreate',
-            components: {
-              modal: PersonCreate
-            }
-          },
-          {
-            path: ':personId/update',
-            name: 'PersonUpdate',
-            components: {
-              modal: PersonUpdate
-            }
-          }
-        ]
-      },
       {
         path: ':personId',
         name: 'Person',
@@ -90,6 +69,13 @@ const routes = [
           main: Person
         },
         children: [
+          {
+            path: 'update',
+            name: 'PersonUpdate',
+            components: {
+              modal: PersonUpdate
+            }
+          },
           {
             path: 'measurement/create',
             name: 'PersonMeasurementCreate',
@@ -107,7 +93,21 @@ const routes = [
         ]
       },
       {
-        path: ':personId/vital/:vitalId',
+        path: ':personId/vitals',
+        name: 'PersonVitals',
+        components: {
+          main: PersonVitals
+        }
+      },
+      {
+        path: ':personId/measurements',
+        name: 'PersonMeasurements',
+        components: {
+          main: PersonMeasurements
+        }
+      },
+      {
+        path: ':personId/vitals/:vitalId',
         name: 'PersonVital',
         components: {
           main: PersonVital
@@ -127,6 +127,31 @@ const routes = [
               modal: MeasurementUpdate
             }
           },
+        ]
+      }
+    ]
+  },
+  {
+    path: '/people',
+    component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: '',
+        name: 'People',
+        components: {
+          main: People
+        },
+        children: [
+          {
+            path: 'create',
+            name: 'PersonCreate',
+            components: {
+              modal: PersonCreate
+            }
+          }
         ]
       },
     ]
@@ -208,6 +233,27 @@ const routes = [
         components: {
           main: Settings
         }
+      },
+      {
+        path: 'people',
+        name: 'SettingsPeople',
+        components: {
+          main: People
+        }
+      },
+      {
+        path: 'vitals',
+        name: 'SettingsVitals',
+        components: {
+          main: Vitals
+        }
+      },
+      {
+        path: 'measurements',
+        name: 'SettingsMeasurements',
+        components: {
+          main: Measurements
+        }
       }
     ]
   },
@@ -215,7 +261,16 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return {
+        top: 0
+      }
+    }
+  }
 })
 
 router.beforeEach((to) => {

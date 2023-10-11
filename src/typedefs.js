@@ -4,24 +4,35 @@
 
 /**
  * @typedef {object} HealthRecordDocType
- * @property {"text"} id
- * @property {"text"} version
- * @property {"text"} firstName
- * @property {"text"} lastName
- * @property {Person[]} people
- * @property {Vital[]} vitals
- * @property {Measurement[]} measurements
+ * @property {"text"}           id
+ * @property {"text"}           version
+ * @property {"text"}           firstName
+ * @property {"text"}           lastName
+ * @property {HealthRecordUser} user The {@link HealthRecordUser} associated with this record.
+ * @property {Person[]}         people
+ * @property {Vital[]}          vitals
+ * @property {Measurement[]}    measurements
  */
 
 /**
  * @typedef {object} HealthRecord
- * @property {string} id
- * @property {string} version
+ * @property {string}           id
+ * @property {string}           version
+ * @property {HealthRecordUser} user
+ * @property {Person[]}         people
+ * @property {Vital[]}          vitals
+ * @property {Measurement[]}    measurements
+ * 
+ * @deprecated Since version "3". Use `user.firstName` instead.
  * @property {string} firstName
  * @property {string} lastName
- * @property {Person[]} people
- * @property {Vital[]} vitals
- * @property {Measurement[]} measurements
+ */
+
+/**
+ * @typedef {object} HealthRecordUser
+ * @property {string}             firstName
+ * @property {string}             lastName
+ * @property {PersonPreferences}  preferences
  */
 
 /**
@@ -31,7 +42,7 @@
 
 /**
  * @typedef {object} WebRTCPreference
- * @property {boolean} enabled
+ * @property {boolean}            enabled
  * @property {string | undefined} signalerUrl
  */
 
@@ -61,6 +72,10 @@
  * @property {number} date
  * @property {string} personId
  * @property {string} vitalId
+ */
+
+/**
+ * @typedef {("week" | "month" | "quarter" | "year" | "all")} VitalChartRange
  */
 
 export {}
