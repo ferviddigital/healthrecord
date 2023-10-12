@@ -56,7 +56,9 @@ export class VitalInsight extends Insight {
    */
   get #measurements() {
     if (!this.vital.low && !this.vital.high) return [];
-    return record.value.measurements.filter(measurement => measurement.personId === this.person.id && measurement.vitalId === this.vital.id);
+    return record.value.measurements
+      .filter(measurement => measurement.personId === this.person.id && measurement.vitalId === this.vital.id)
+      .toSorted((a, b) => b.date - a.date);
   }
 
   /**
@@ -65,7 +67,7 @@ export class VitalInsight extends Insight {
    * @returns {import("../typedefs").Measurement[]}
    */
   get #lowMeasurements() {
-    return this.#measurements.slice(-1, -5).filter(measurement => measurement.value < this.vital.low);
+    return this.#measurements.slice(0, 5).filter(measurement => measurement.value < this.vital.low);
   }
   
   /**
@@ -74,14 +76,13 @@ export class VitalInsight extends Insight {
    * @returns {import("../typedefs").Measurement[]}
    */
   get #highMeasurements() {
-    return this.#measurements.slice(-1, -5).filter(measurement => measurement.value > this.vital.high);
+    return this.#measurements.slice(0, 5).filter(measurement => measurement.value > this.vital.high);
   }
 
   /**
    * Get the level for this person's vital measurements
    */
   get level() {
-
     if (this.#lowMeasurements.length > 0) {
       return 'low';
     } else if (this.#highMeasurements.length > 0) {

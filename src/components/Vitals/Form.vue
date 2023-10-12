@@ -35,31 +35,32 @@ const vital = computed(() => {
       Name
     </label>
     <input v-model="name" type="text" id="name" autocomplete="off" placeholder="ex. Heart rate" required>
+
     <label for="description">
       Description
     </label>
     <textarea v-model="description" id="description" placeholder="ex. Heart beats per minute."/>
+
     <label  for="unit">
       Unit of Measurement
     </label>
     <input v-model="unit" type="text" id="unit" placeholder="ex. bpm" autocapitalize="off" required>
-    <div class="grid grid-flow-col gap-4">
-      <div>
-        <label for="high">High value</label>
-        <div class="input-group">
-          <input v-model="high" type="text" id="high" inputmode="decimal" placeholder="ex. 101">
-          <span v-if="unit.length > 0">{{ unit }}</span>
-        </div>
-      </div>
-      <div>
-        <label for="low">Low value</label>
-        <div class="input-group">
-          <input v-model="low" type="text" id="low" inputmode="decimal" placeholder="ex. 59">
-          <span v-if="unit.length > 0">{{ unit }}</span>
-        </div>
-      </div>
+
+    <h4 class="mb-2 mt-2 text-xs uppercase font-semibold">Range</h4>
+
+    <label for="high">High value</label>
+    <div class="input-group">
+      <input v-model="high" type="text" id="high" inputmode="decimal" placeholder="ex. 101">
+      <span v-if="unit.length > 0">{{ unit }}</span>
     </div>
-    <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
+
+    <label for="low">Low value</label>
+    <div class="input-group">
+      <input v-model="low" type="text" id="low" inputmode="decimal" placeholder="ex. 59">
+      <span v-if="unit.length > 0">{{ unit }}</span>
+    </div>
+
+    <div class="grid grid-flow-col justify-end items-center gap-5 mt-6">
       <a v-if="deletable" @click="emit('delete')" class="text-sm text-red-500 font-light cursor-pointer">Delete</a>
       <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>

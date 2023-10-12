@@ -90,44 +90,46 @@ const backRoute = computed(() => {
     <div class="m-4 mt-0">
       <p class="text-center text-gray-500 mb-5 leading-none">{{ vital.description }}</p>
       <Insight :person="person" :vital="vital" class="pb-3"/>
-      <div class="grid grid-flow-col gap-2 place-content-between -mb-2 bg-gray-300 rounded-xl rounded-br-none rounded-bl-none p-2 pb-3.5">
-        <button
-          class="rounded-full p-0.5 px-3 text-sm transition-all"
-          :class="{'!bg-indigo-500 text-white': vitalRange === 'week'}"
-          @click="vitalRange = 'week'"
-        >
-          Week
-        </button>
-        <button
-          class="rounded-full p-0.5 px-3 text-sm transition-all"
-          :class="{'!bg-indigo-500 text-white': vitalRange === 'month'}"
-          @click="vitalRange = 'month'"
-        >
-          Month
-        </button>
-        <button
-          class="rounded-full p-0.5 px-3 text-sm transition-all"
-          :class="{'!bg-indigo-500 text-white': vitalRange === 'quarter'}"
-          @click="vitalRange = 'quarter'"
-        >
-          Quarter
-        </button>
-        <button
-          class="rounded-full p-0.5 px-3 text-sm transition-all"
-          :class="{'!bg-indigo-500 text-white': vitalRange === 'year'}"
-          @click="vitalRange = 'year'"
-        >
-          Year
-        </button>
-        <button
-          class="rounded-full p-0.5 px-3 text-sm transition-all"
-          :class="{'!bg-indigo-500 text-white': vitalRange === 'all'}"
-          @click="vitalRange = 'all'"
-        >
-          All
-        </button>
+      <div class="grid sm:justify-items-end">
+        <div class="grid grid-flow-col gap-2 place-content-between bg-gray-300 rounded-full p-1 mb-2 shadow-inner">
+          <button
+            class="rounded-full p-0.5 px-3 text-sm transition-all"
+            :class="{'!bg-indigo-500 text-white shadow': vitalRange === 'week'}"
+            @click="vitalRange = 'week'"
+          >
+            Week
+          </button>
+          <button
+            class="rounded-full p-0.5 px-3 text-sm transition-all"
+            :class="{'!bg-indigo-500 text-white shadow': vitalRange === 'month'}"
+            @click="vitalRange = 'month'"
+          >
+            Month
+          </button>
+          <button
+            class="rounded-full p-0.5 px-3 text-sm transition-all"
+            :class="{'!bg-indigo-500 text-white shadow': vitalRange === 'quarter'}"
+            @click="vitalRange = 'quarter'"
+          >
+            Quarter
+          </button>
+          <button
+            class="rounded-full p-0.5 px-3 text-sm transition-all"
+            :class="{'!bg-indigo-500 text-white shadow': vitalRange === 'year'}"
+            @click="vitalRange = 'year'"
+          >
+            Year
+          </button>
+          <button
+            class="rounded-full p-0.5 px-3 text-sm transition-all"
+            :class="{'!bg-indigo-500 text-white shadow': vitalRange === 'all'}"
+            @click="vitalRange = 'all'"
+          >
+            All
+          </button>
+        </div>
       </div>
-      <div class="bg-white rounded-xl p-4 shadow">
+      <div class="bg-white rounded-xl p-2 shadow">
         <VitalChart :vital="vital" :measurements="vitalMeasurements" :range="vitalRange" />
       </div>
       <div class="pt-9 grid gap-3">

@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2023-10-11
+
+### Added
+- Charts show range view options
+
+### Changed
+- Using non-parametric regression formula for vital trends
+- Settings now holds People and Vitals management
+- App centers a Person in nav once selected
+- Headers are sticky and more app-y
+- Manifest pulled into Vite config
+- Refactoring
+
+### Fixed
+- Fix issue with two icons showing up in insight summary on person view
+- Fixed scroll saving by fixing grid (no overflow)
+- Fixed ChartJS implementation typing issues
+
+
 ## [0.3.2] - 2023-10-07
 
 ### Added

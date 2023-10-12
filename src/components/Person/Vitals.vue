@@ -65,21 +65,23 @@ const vitalMeasurements = (vitalId) => {
     <div class="m-4">
       <div v-if="sortedVitals.length > 0">
         <VitalSummary :person="selectedPerson" />
-        <div class="grid grid-flow-col gap-2 justify-end mb-3">
-          <button
-            class="rounded-full bg-gray-100 p-0.5 px-3 text-sm transition-all"
-            :class="{'!bg-indigo-500 text-white': vitalSort === 'alpha'}"
-            @click="vitalSort = 'alpha'"
-          >
-            A-Z
-          </button>
-          <button
-            class="rounded-full bg-gray-100 p-0.5 px-3 text-sm transition-all"
-            :class="{'!bg-indigo-500 text-white': vitalSort === 'date'}"
-            @click="vitalSort = 'date'"
-          >
-            Recent
-          </button>
+        <div class="grid justify-items-end">
+          <div class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner">
+            <button
+              class="rounded-full p-0.5 px-3 text-sm transition-all"
+              :class="{'!bg-indigo-500 text-white shadow': vitalSort === 'alpha'}"
+              @click="vitalSort = 'alpha'"
+            >
+              A-Z
+            </button>
+            <button
+              class="rounded-full p-0.5 px-3 text-sm transition-all"
+              :class="{'!bg-indigo-500 text-white shadow': vitalSort === 'date'}"
+              @click="vitalSort = 'date'"
+            >
+              Recent
+            </button>
+          </div>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div

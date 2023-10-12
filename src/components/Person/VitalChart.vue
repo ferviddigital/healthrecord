@@ -147,7 +147,7 @@ const options = {
       },
       bounds: 'ticks',
       border: {
-        display: props.small ? false : true
+        display: false //props.small ? false : true
       },
       grid: {
         display: false,
@@ -164,7 +164,7 @@ const options = {
         display: false,
       },
       border: {
-        display: props.small ? false : true
+        display: false //props.small ? false : true
       },
       ticks: {
         color: '#aaa',
@@ -174,7 +174,7 @@ const options = {
         },
         display: false,
         callback: (value) => {
-          return Number(Number(value).toFixed(2)).toLocaleString() + ' ' + props.vital.unit;
+          return Intl.NumberFormat(navigator.language, {notation: 'compact'}).format(Number(value)) + ' ' + props.vital.unit;
         }
       }
     }
