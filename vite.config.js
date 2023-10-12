@@ -12,6 +12,7 @@ export default defineConfig({
         enabled: process.env.NODE_ENV === 'development' ? true : false,
         type: 'module'
       },
+      useCredentials: true,
       manifest: {
         id: 'digital.fervid.healthrecord',
         name: 'HealthRecord',

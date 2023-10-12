@@ -1,6 +1,6 @@
 import { WebrtcProvider } from 'y-webrtc';
 import { doc } from './syncedstore';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { record } from '../store/record';
 
 /** @type {WebrtcProvider | undefined} */
@@ -12,28 +12,41 @@ export const webrtcConnected = computed(() => {
   return webRTCProvider !== null;
 });
 
-doc.on('update', () => {
-  if (record.value.id.toString().length > 0) {
-    if (webRTCProvider && !webRTCProvider.signalingUrls.includes(record.value.user.preferences.webRTC.signalerUrl)) {
-      disconnect();
-      connect();
-    } else {
-      connect();
-    }
-  }  else {
+const setupWebRTCDocListeners = () => {
+
+  // If user WebRTC preferences `signalerUrl` changes
+  doc.on('update', () => {
+    if (!webRTCProvider) return;
+    if (!record.value.user.preferences) return;
+    if (!record.value.user.preferences.webRTC.enabled) return;
+    if (!record.value.user.preferences.webRTC.signalerUrl) return;
+    if (webRTCProvider.signalingUrls.includes(record.value.user.preferences.webRTC.signalerUrl)) return;
+
     disconnect();
-  }
-});
+    connect();
+  });
 
-doc.on('destroy', ()=> {
-  disconnect();
-})
+  // If user WebRTC preferences `enabled` state changes
+  doc.on('update', () => {
+    if (!record.value.user.preferences) return;
+    if (!webRTCProvider && record.value.user.preferences.webRTC.enabled) {
+      connect();
+    } else if (webRTCProvider && !record.value.user.preferences.webRTC.enabled) {
+      disconnect();
+    }
+  });
+  
+  doc.on('destroy', ()=> {
+    disconnect();
+    setupWebRTCDocListeners();
+  });
+}
 
+setupWebRTCDocListeners();
 
-const connect = () => {  
-  if (!record.value.user) return;
-  if (!record.value.user.preferences) return;
-  if (!record.value.user.preferences.webRTC.enabled || (webRTCProvider && webRTCProvider.connected)) return;
+const connect = () => {
+
+  if (webRTCProvider && webRTCProvider.connected) return;
 
   const signaling = [];
 
@@ -57,8 +70,9 @@ const connect = () => {
 
 const disconnect = () => {
   if (!webRTCProvider) return;
-  webRTCProvider.disconnect();
   webRTCProvider.destroy();
+  webRTCProvider.room.disconnect();
+  webRTCProvider.disconnect();
   webRTCProvider = null;
   peers.value = 0;
 }

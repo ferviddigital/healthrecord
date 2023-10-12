@@ -15,6 +15,9 @@ import { people } from '../../store/people';
 import { vitals } from '../../store/vitals';
 import { measurements } from '../../store/measurements';
 import { scrolled } from '../../store/ui';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const passphraseModalOpen = ref(false);
 const signalerUrlError = ref(false);
@@ -48,6 +51,7 @@ const logout = async () => {
     return
   }
   clear();
+  router.push({ name: 'Start' });
 }
 
 const validateSocketUrl = urlString => {
