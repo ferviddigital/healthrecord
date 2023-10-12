@@ -4,6 +4,9 @@ import { ref } from 'vue';
 import { decrypt } from '../../helpers/encrypto';
 import PassphraseModal from '../Settings/PassphraseModal.vue';
 import { load } from '../../helpers/storage';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const filePicker = ref();
 const passphraseModalOpen = ref(false);
@@ -35,7 +38,8 @@ const processFile = () => {
       if (! data) {
         return alert('Passphrase was incorrect. Please try again.');
       }
-      load(data)
+      load(data);
+      router.push({ name: 'Dashboard' });
     } else {
       return alert('File does not appear to valid.');
     }

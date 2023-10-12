@@ -1,55 +1,22 @@
 import { IndexeddbPersistence } from 'y-indexeddb';
 import { doc } from './syncedstore';
-import { record } from '../store/record';
-import { watch } from 'vue';
 
 /** @type {IndexeddbPersistence | undefined} */
 let iDBProvider;
 
-watch(record, () => {
-  if (record.value) {
+const setupIDBDocListeners = () => {
+  doc.on('destroy', async () => {
+    await iDBProvider.clearData();
+    iDBProvider = null;
     connect();
-  } else {
-    disconnect();
-  }
-});
+    setupIDBDocListeners();
+  });
+}
 
 const connect = () => {
+  if (iDBProvider) return;
   iDBProvider = new IndexeddbPersistence('health-record', doc);
-
-  migrate();
 }
 
-const disconnect = () => {
-  if (!iDBProvider) return;
-  iDBProvider.clearData();
-  iDBProvider.destroy()
-  iDBProvider = null;
-}
-
-const migrate = () => {
-  pullInPreferences();
-}
-
-/**
- * Handle old preferences
- */
-const pullInPreferences = () => {
-  if (localStorage.getItem('preferences')) {
-
-    /** @type {import('../typedefs').PersonPreferences} */
-    const prefs = JSON.parse(localStorage.getItem('preferences'));
-  
-    doc.getMap('user').set('firstName', record.value.firstName.toString());
-    record.value.user.firstName = record.value.firstName.toString();
-    record.value.user.lastName = record.value.lastName.toString();
-    record.value.user.preferences = {
-      webRTC: {
-        enabled: prefs.webRTC.enabled,
-        signalerUrl: prefs.webRTC.signalerUrl
-      }
-    }
-
-    localStorage.removeItem('preferences');
-  }
-}
+connect();
+setupIDBDocListeners();

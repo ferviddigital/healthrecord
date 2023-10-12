@@ -2,6 +2,14 @@
 import { SquaresPlusIcon } from '@heroicons/vue/20/solid'
 import PersonForm from '../People/Form.vue';
 import { create } from '../../helpers/storage';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const createAccount = (person) => {
+  create(person);
+  router.push({ name: 'Dashboard' });
+}
 </script>
 
 <template>
@@ -12,7 +20,7 @@ import { create } from '../../helpers/storage';
         HealthRecord
       </h1>
       <p class="text-center text-sm mb-10 text-gray-500">Setup new record. This record is stored in your browser. You will be reminded to download it periodically.</p>
-      <PersonForm @submit="create" />
+      <PersonForm @submit="createAccount" />
     </div>
   </div>
 </template>
