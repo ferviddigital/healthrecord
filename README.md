@@ -7,7 +7,8 @@ HealthRecord allows individuals to record, track and visualize vital measurement
 See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 
 ### Built With
-[![Yjs][Yjs]][Yjs-url] [![Vue][Vue.js]][Vue-url] [![Vite][Vite]][Vite-url] [![Tailwind-CSS][Tailwind-CSS]][Tailwind-CSS-url] [![PostCSS][PostCSS]][PostCSS-url] [![Chart.js][Chart.js]][Chartjs-url] [![Cloudflare-Pages][Cloudflare-Pages]][Cloudflare-Pages-url]
+[![Yjs][Yjs]][Yjs-url] [![Vue][Vue.js]][Vue-url] [![Vite][Vite]][Vite-url] [![Tailwind-CSS][Tailwind-CSS]][Tailwind-CSS-url] [![PostCSS][PostCSS]][PostCSS-url] [![Chart.js][Chart.js]][Chartjs-url] [![Cloudflare-Pages][Cloudflare-Pages]][Cloudflare-Pages-url] [![AGPL][AGPL]][AGPL-url]
+
 
 ## Features
 * Track personal medical information and vitals for yourself or family members
@@ -54,6 +55,12 @@ Visit [localhost:5173](http://localhost:5173) in your browser.
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
+This software is licensed under the [AGPL license](./LICENSE).
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
 HealthRecord Copyright &copy; 2023 Fervid Digital.
 
 ## Contact
@@ -84,3 +91,6 @@ Project Link: [https://github.com/ferviddigital/healthrecord](https://github.com
 
 [Yjs]: https://img.shields.io/badge/Yjs-6beb84?style=for-the-badge
 [Yjs-url]: https://docs.yjs.dev/
+
+[AGPL]: https://img.shields.io/badge/license-AGPL-blue.svg?style=for-the-badge
+[AGPL-url]: https://www.gnu.org/licenses/agpl-3.0.html

@@ -48,6 +48,8 @@ const backText = computed(() => {
       return person.value.firstName;
     case 'PersonVitals':
       return 'Vitals';
+    default:
+      return 'Back';
   }
 });
 
