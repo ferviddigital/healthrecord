@@ -102,8 +102,9 @@ const data = computed(() => {
 const options = {
   layout: {
     padding: {
-      left: props.small ? -9 : 0,
-      bottom: props.small ? -9 : 0
+      top: 2,
+      right: -1,
+      bottom: -2
     }
   },
   onHover: (event, elements, chart) => {
@@ -143,6 +144,7 @@ const options = {
       type: 'time',
       time: {
         unit: 'day',
+        round: 'day',
         tooltipFormat: 'MM/DD/YYYY'
       },
       bounds: 'ticks',
@@ -152,23 +154,25 @@ const options = {
       grid: {
         display: false,
         color: '#efefef',
+        tickLength: props.small ? 0 : 10
       },
       ticks: {
         display: false,
-        autoSkipPadding: 30,
+        autoSkipPadding: 50,
         color: '#aaa',
       },
     },
     y: {
       grid: {
         display: false,
+        tickLength: props.small ? 0 : 10
       },
       border: {
         display: false //props.small ? false : true
       },
       ticks: {
         color: '#aaa',
-        autoSkipPadding: 30,
+        autoSkipPadding: 55,
         major: {
           enabled: true
         },

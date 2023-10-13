@@ -17,7 +17,7 @@ const vitalId   = route.params.vitalId;
 const personId  = route.params.personId;
 
 /** @type {import('vue').Ref<import('../../typedefs').VitalChartRange>} */
-const vitalRange = ref('all');
+const vitalRange = ref('year');
 
 const person = computed(() => {
   const person = people.value.find(person => person.id === personId);
@@ -137,7 +137,9 @@ const backRoute = computed(() => {
           Measurements
           <span class="text-xs font-normal text-gray-500 align-middle">({{ vitalMeasurements.length }})</span>
         </h3>
-        <MeasurementListItem v-for="measurement in vitalMeasurements" :key="measurement.id" :measurement="measurement" />
+        <div class="grid gap-3 grid-cols-2 sm:grid-cols-3">
+          <MeasurementListItem v-for="measurement in vitalMeasurements" :key="measurement.id" :measurement="measurement" />
+        </div>
       </div>
     </div>
     <RouterView name="modal" />

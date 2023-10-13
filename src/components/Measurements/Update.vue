@@ -3,6 +3,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { measurements, store as measurementStore } from '../../store/measurements';
+import { vitals } from '../../store/vitals';
 import MeasurementForm from './Form.vue';
 
 const route   = useRoute();
@@ -18,8 +19,10 @@ const measurement = computed(() => {
 
 const value     = ref(measurement.value.value);
 const date      = ref(measurement.value.date);
-const personId  = ref(measurement.value.personId);
-const vitalId   = ref(measurement.value.vitalId);
+
+const vital = computed(() => {
+  return vitals.value.find(vital => vital.id === measurement.value.vitalId);
+});
 
 /**
  * Update Measurement
@@ -31,19 +34,26 @@ const updateMeasurement = (updatedMeasurement) => {
   measurementStore.update(measurement.value.id, updatedMeasurement);
 }
 
-const deleteMeasurement = () => {
+/**
+ * Delete Measurement
+ * 
+ * @param {string} measurementId Measurement ID
+ */
+const deleteMeasurement = (measurementId) => {
   router.back();
-  measurementStore.delete(measurement.value.id);
+  setTimeout(()=> {
+    measurementStore.delete(measurementId);
+  }, 100);
 }
 </script>
 
 <template>
-  <Dialog :open="true" @close="$router.back()" :initialFocus="null" class="relative z-50">
+  <Dialog :open="true" @close="$router.back()" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg my-10">
-        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Measurement</DialogTitle>
-        <MeasurementForm class="p-6" @submit="updateMeasurement" @delete="deleteMeasurement" :value="value" :date="date" :personId="personId" :vitalId="vitalId" :deletable="true" />
+        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit {{ vital.name }} Measurement</DialogTitle>
+        <MeasurementForm class="p-6" @submit="updateMeasurement" @delete="deleteMeasurement" :value="value" :date="date" :personId="measurement.personId" :vitalId="measurement.vitalId" :deletable="true" />
       </DialogPanel>
     </div>
   </Dialog>

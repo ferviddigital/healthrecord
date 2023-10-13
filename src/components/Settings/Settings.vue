@@ -121,15 +121,6 @@ const appVersion = APP_VERSION;
             <ChevronRightIcon class="w-5 h-5 text-gray-300" />
           </span>
         </section>
-        <section class="grid grid-flow-col gap-4 items-center p-4 py-3 pr-3 cursor-pointer hover:bg-gray-100"
-          @click="$router.push({ name: 'SettingsMeasurements' })"
-        >
-          <h4>Measurements</h4>
-          <span class="grid grid-flow-col gap-1 justify-self-end items-center text-gray-400">
-            {{  measurements.length }}
-            <ChevronRightIcon class="w-5 h-5 text-gray-300" />
-          </span>
-        </section>
       </div>
       <h3 class="text-sm ml-4 mb-1 uppercase text-gray-500">
         Record Details
