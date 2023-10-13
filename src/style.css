@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (hover: none) and (display-mode: standalone) {
+  .main-header {
+    @apply bottom-[env(safe-area-inset-bottom)] md:bottom-auto mb-0;
+  }
+}
+
 body {
   min-width: -webkit-fill-available;
 }

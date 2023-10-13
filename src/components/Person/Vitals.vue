@@ -90,11 +90,11 @@ const vitalMeasurements = (vitalId) => {
             class="group bg-gray-50 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all overflow-hidden"
             @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })"
           >
-            <header class="grid grid-cols-[auto_min-content] p-3">
-              <h3 class="font-semibold mb-1">{{ vital.name }}</h3>
+            <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
+              <h3 class="font-semibold">{{ vital.name }}</h3>
               <ChevronRightIcon class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all" />
             </header>
-            <VitalChart class="cursor-pointer scale-105 origin-bottom -mb-1" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
+            <VitalChart class="cursor-pointer" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
           </div>
         </div>
       </div>

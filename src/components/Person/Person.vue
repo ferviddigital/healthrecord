@@ -89,21 +89,10 @@ const vitalMeasurements = (vitalId) => {
             @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })"
           >
             <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
-              <h3 class="font-semibold mb-1">{{ vital.name }}</h3>
+              <h3 class="font-semibold">{{ vital.name }}</h3>
               <ChevronRightIcon class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all" />
             </header>
-            <VitalChart class="cursor-pointer scale-105 origin-bottom -mb-1" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
-          </div>
-        </div>
-        <div class="pt-9 grid gap-3">
-          <h3 class="grid grid-flow-col text-xl font-bold mb-1 cursor-pointer" @click="$router.push({ name: 'PersonMeasurements' })">
-            Measurements
-            <span class="font-normal text-base text-indigo-500 justify-self-end whitespace-nowrap">
-              View all {{ personMeasurements.length }} <ChevronRightIcon class="w-6 h-6 inline align-top" />
-            </span>
-          </h3>
-          <div class="grid grid-cols-2 grid-rows-2 gap-3">
-            <MeasurementListItem v-for="measurement in personMeasurements.slice(0,4)" :key="measurement.id" :measurement="measurement" />
+            <VitalChart class="cursor-pointer" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
           </div>
         </div>
       </div>
