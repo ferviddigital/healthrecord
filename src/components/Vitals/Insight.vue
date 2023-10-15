@@ -1,5 +1,5 @@
 <script setup>
-import { VitalInsight } from '../../insights/insight';
+import { VitalInsight } from '../../classes/insight';
 import { ArrowTrendingDownIcon, ArrowTrendingUpIcon, HandThumbUpIcon } from '@heroicons/vue/20/solid';
 
 
@@ -24,7 +24,7 @@ const vitalInsight = new VitalInsight(props.vital, props.person);
   <div v-if="vitalInsight.level">
     <p
       class="mb-5 p-3 px-4 rounded-xl grid grid-cols-[min-content_auto] gap-3 items-start text-sm leading-tight md:leading-snug"
-      :class="['high', 'low'].includes(vitalInsight.level) ? 'bg-amber-100 text-amber-500' : 'bg-gray-300 text-gray-500' "
+      :class="['high', 'low'].includes(vitalInsight.level) ? 'bg-amber-100 text-amber-600' : 'bg-gray-300 text-gray-500' "
     >
       <ArrowTrendingDownIcon class="w-5 h-5"
         v-if="vitalInsight.trend === -1" />
@@ -39,4 +39,4 @@ const vitalInsight = new VitalInsight(props.vital, props.person);
       {{ vitalInsight.description }}
     </p>
   </div>
-</template>
+</template>../../classes/insight

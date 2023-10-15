@@ -36,7 +36,8 @@ const shape = {
   user: {},
   people: [],
   vitals: [],
-  measurements: []
+  measurements: [],
+  notes: []
 }
 
 export const createSyncedStore = () => {

@@ -2,14 +2,14 @@
 import { Line } from 'vue-chartjs';
 import AnnotationPlugin from 'chartjs-plugin-annotation';
 import ZoomPlugin from 'chartjs-plugin-zoom';
-import { Chart as ChartJS, Filler, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
+import { Chart as ChartJS, Filler, Title, Tooltip, LinearScale, PointElement, LineElement, TimeSeriesScale } from 'chart.js';
 import { computed, ref, watch } from 'vue';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
-import dayjs from 'dayjs';
-import quaterOfYear from 'dayjs/plugin/quarterOfYear';
-dayjs.extend(quaterOfYear)
+import { useRouter } from 'vue-router';
 
-ChartJS.register(Title, Filler, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeScale)
+const router = useRouter();
+
+ChartJS.register(Title, Filler, Tooltip, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeSeriesScale)
 
 ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
 
@@ -27,43 +27,35 @@ const props = defineProps({
   small: {
     type: Boolean
   },
-  range: {
-    /** @type {import('../../typedefs').VitalChartRange} */
-    default: 'all'
+  minDate: {
+    type: Number,
+    default: null
+  },
+  maxDate: {
+    type: Number,
+    default: null
   }
 });
 
 const chartInstance = ref(null);
 
 watch(props, () => {
-  chartInstance.value.chart.resetZoom();
+  if (!props.minDate || !props.maxDate) return;
+  /** @type {import("chart.js").Chart} */
+  const chart = chartInstance.value.chart;
+
+  chart.options.scales.x.min = props.minDate;
+  chart.options.scales.x.max = props.maxDate;
+  chart.update();
 });
 
-const measurements = computed(() => {
-  let timestamp = 0;
-  switch (props.range) {
-    case 'week':
-      timestamp = dayjs().subtract(1, 'week').valueOf();
-      break;
-      case 'month':
-      timestamp = dayjs().subtract(1, 'month').valueOf();
-      break;
-    case 'quarter':
-      timestamp = dayjs().subtract(1, 'quarter').valueOf();
-      break;
-    case 'year':
-      timestamp = dayjs().subtract(1, 'year').valueOf();
-      break;
-  }
-  return props.measurements.toReversed().filter(measurement => measurement.date > timestamp);
-});
 
 const measurementValues = computed(() => {
-  return measurements.value.map(measurement => measurement.value);
+  return props.measurements.map(measurement => measurement.value);
 });
 
 const measurementDates = computed(() => {
-  return measurements.value.map(measurement => measurement.date);
+  return props.measurements.map(measurement => measurement.date);
 });
 
 /** @type {import("vue").ComputedRef<import("chart.js").ChartData<'line'>>} */
@@ -98,180 +90,178 @@ const data = computed(() => {
   }
 });
 
-/** @type {import('chart.js').ChartOptions<"line">} */
-const options = {
-  layout: {
-    padding: {
-      top: 2,
-      right: -1,
-      bottom: -2
-    }
-  },
-  onHover: (event, elements, chart) => {
-    if (props.small) {
+const options = computed(() => {
+  /** @type {import('chart.js').ChartOptions<"line">} */
+  const options = {
+    onHover: (event, elements, chart) => {
+      if (props.small) {
+        return chart.canvas.style.cursor = 'pointer';
+      }
+      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+        return chart.canvas.style.cursor = 'default';
+      };
       return chart.canvas.style.cursor = 'pointer';
-    }
-    if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
-      return chart.canvas.style.cursor = 'default';
-    };
-    return chart.canvas.style.cursor = 'pointer';
-  },
-  plugins: {
-    legend: {
-      display: false,
     },
-    tooltip: {
-      enabled: props.small ? false : true,
-      displayColors: false,
-      callbacks: {
-        label: (context) => {
-          return context.formattedValue + ' ' + props.vital.unit;
-        },
-        title: (context) => {
-          return new Date(context[0].parsed.x).toLocaleDateString();
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: props.small ? false : true,
+        displayColors: false,
+        callbacks: {
+          label: (context) => {
+            return context.formattedValue + ' ' + props.vital.unit;
+          },
+          title: (context) => {
+            return new Date(context[0].parsed.x).toLocaleDateString();
+          }
         }
-      }
+      },
+      annotation: {
+        annotations: {},
+      },
+      zoom: {}
     },
-    annotation: {
-      annotations: {},
-    },
-    zoom: {}
-  },
-  responsive: true,
-  aspectRatio: 1.5,
-  scales: {
-    x: {
-      type: 'time',
-      time: {
-        unit: 'day',
-        round: 'day',
-        tooltipFormat: 'MM/DD/YYYY'
-      },
-      bounds: 'ticks',
-      border: {
-        display: false //props.small ? false : true
-      },
-      grid: {
-        display: false,
-        color: '#efefef',
-        tickLength: props.small ? 0 : 10
-      },
-      ticks: {
-        display: false,
-        autoSkipPadding: 50,
-        color: '#aaa',
-      },
-    },
-    y: {
-      grid: {
-        display: false,
-        tickLength: props.small ? 0 : 10
-      },
-      border: {
-        display: false //props.small ? false : true
-      },
-      ticks: {
-        color: '#aaa',
-        autoSkipPadding: 55,
-        major: {
-          enabled: true
+    responsive: true,
+    aspectRatio: 1.5,
+    scales: {
+      x: {
+        type: 'timeseries',
+        time: {
+          tooltipFormat: 'MM/DD/YYYY',
+          minUnit: 'day',
+          round: 'day'
         },
-        display: false,
-        callback: (value) => {
-          return Intl.NumberFormat(navigator.language, {notation: 'compact'}).format(Number(value)) + ' ' + props.vital.unit;
+        border: {
+          display: false
+        },
+        grid: {
+          display: false,
+          color: '#efefef',
+        },
+        ticks: {
+          display: false,
+          autoSkipPadding: 50,
+          color: '#aaa',
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        border: {
+          display: false
+        },
+        ticks: {
+          color: '#aaa',
+          autoSkipPadding: 55,
+          major: {
+            enabled: true
+          },
+          display: false,
+          callback: (value) => {
+            return Intl.NumberFormat(navigator.language, {notation: 'compact'}).format(Number(value));
+          }
         }
       }
     }
   }
-}
 
-if (! props.small) {
-  options.plugins.zoom = {
-    pan: {
-      enabled: true,
-      mode: 'x'
+  if (props.small) {
+    options.scales.x.grid.tickLength = 0;
+    options.scales.y.grid.tickLength = 0;
+    options.layout = {
+      padding: {
+        top: 2,
+        right: -1,
+        bottom: -2
+      }
     }
+  } else {
+    options.scales.x.grid.display = true;
+    options.scales.x.ticks.display = true;
+    options.scales.y.ticks.display = true;
   }
 
-  options.scales.x.grid.display = true;
-  options.scales.x.ticks.display = true;
-  options.scales.y.ticks.display = true;
-}
+  if (props.vital.low && !props.small) {
 
-if (props.vital.low && !props.small) {
+    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+    const lowLine = {
+      type: 'line',
+      scaleID: 'y',
+      value: props.vital.low,
+      borderColor: '#FED7AA',
+      borderDash: [5, 3],
+      borderWidth: 1,
+      drawTime: 'beforeDatasetsDraw'
+    }
 
-  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-  const lowLine = {
-    type: 'line',
-    scaleID: 'y',
-    value: props.vital.low,
-    borderColor: '#FED7AA',
-    borderDash: [5, 3],
-    borderWidth: 1,
-    drawTime: 'beforeDatasetsDraw'
-  }
-
-  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-  const lowBox = {
-    type: 'box',
-    borderWidth: 0,
-    backgroundColor: 'rgba(254, 215, 170, 20%)',
-    yMin: 0,
-    yMax: props.vital.low,
-    label: {
-      content: 'low',
-      position: {
-        x: 'center',
-        y: 'start'
+    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+    const lowBox = {
+      type: 'box',
+      borderWidth: 0,
+      backgroundColor: 'rgba(254, 215, 170, 20%)',
+      yMin: 0,
+      yMax: props.vital.low,
+      label: {
+        content: 'low',
+        position: {
+          x: 'center',
+          y: 'start'
+        },
+        display: true,
+        color: 'rgb(253 186 116)',
+        font: {
+          weight: 'normal',
+          size: 11
+        }
       },
-      display: true,
-      color: 'rgb(253 186 116)',
-      font: {
-        weight: 'normal',
-        size: 11
-      }
-    },
+      drawTime: 'beforeDatasetsDraw'
+    }
+
+    options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { lowLine, lowBox })
   }
 
-  options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { lowLine, lowBox })
-}
+  if (props.vital.high && !props.small) {
 
-if (props.vital.high && !props.small) {
+    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+    const highLine = {
+      type: 'line',
+      scaleID: 'y',
+      value: props.vital.high,
+      borderColor: '#FED7AA',
+      borderDash: [5,3],
+      borderWidth: 1,
+      drawTime: 'beforeDatasetsDraw'
+    }
 
-  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-  const highLine = {
-    type: 'line',
-    scaleID: 'y',
-    value: props.vital.high,
-    borderColor: '#FED7AA',
-    borderDash: [5,3],
-    borderWidth: 1,
-    drawTime: 'beforeDatasetsDraw'
-  }
-
-  /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-  const highBox = {
-    type: 'box',
-    borderWidth: 0,
-    backgroundColor: 'rgba(254, 215, 170, 20%)',
-    yMin: props.vital.high,
-    label: {
-      content: 'high',
-      position: {
-        x: 'center',
-        y: 'end',
+    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
+    const highBox = {
+      type: 'box',
+      borderWidth: 0,
+      backgroundColor: 'rgba(254, 215, 170, 20%)',
+      yMin: props.vital.high,
+      label: {
+        content: 'high',
+        position: {
+          x: 'center',
+          y: 'end',
+        },
+        display: true,
+        color: 'rgb(253 186 116)',
+        font: {
+          weight: 'normal',
+          size: 11
+        }
       },
-      display: true,
-      color: 'rgb(253 186 116)',
-      font: {
-        weight: 'normal',
-        size: 11
-      }
-    },
-  }
+      drawTime: 'beforeDatasetsDraw'
+    }
 
-  options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { highLine, highBox })
-}
+    options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { highLine, highBox })
+  }
+  return options;
+});
 
 </script>
 

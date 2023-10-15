@@ -12,6 +12,7 @@
  * @property {Person[]}         people
  * @property {Vital[]}          vitals
  * @property {Measurement[]}    measurements
+ * @property {Note[]}           notes
  */
 
 /**
@@ -22,6 +23,7 @@
  * @property {Person[]}         people
  * @property {Vital[]}          vitals
  * @property {Measurement[]}    measurements
+ * @property {Note[]}           notes
  * 
  * @deprecated Since version "3". Use `user.firstName` instead.
  * @property {string} firstName
@@ -42,8 +44,8 @@
 
 /**
  * @typedef {object} WebRTCPreference
- * @property {boolean}            enabled
- * @property {string | undefined} signalerUrl
+ * @property {boolean}  enabled
+ * @property {string}   [signalerUrl]
  */
 
 /**
@@ -61,21 +63,43 @@
  * @property {string} name
  * @property {string} description
  * @property {string} unit
- * @property {number} low
- * @property {number} high
+ * @property {number} [low]
+ * @property {number} [high]
  */
 
 /**
  * @typedef {object} Measurement
  * @property {string} id
+ * @property {number} created
+ * @property {number} [updated]
  * @property {number} value
  * @property {number} date
- * @property {string} personId
- * @property {string} vitalId
+ * @property {string} personId  - The ID of the {@link Person} associated with this record.
+ * @property {string} vitalId   - The ID of the {@link Vital} associated with this record.
+ * @property {string} [noteId]  - The ID of the {@link Note} associated with this record.
  */
 
 /**
- * @typedef {("week" | "month" | "quarter" | "year" | "all")} VitalChartRange
+ * @typedef {object} Note
+ * @property {string} id
+ * @property {number} created
+ * @property {number} [updated]
+ * @property {string} text
+ * @property {number} date
+ * @property {string} personId        - The ID of the {@link Person} associated with this record.
+ * @property {string} [measurementId] - The ID of the {@link Measurement} associated with this record.
+ */
+
+/**
+ * @typedef {{unit: import("dayjs").UnitType, length: number, quantity?: number, abbreviation?: string, title?: string}} VitalChartRange
+ */
+
+/**
+ * @typedef {{value: number, date: number, vitalId: string, noteText?: string}} MeasurementPayload
+ */
+
+/**
+ * @typedef {{date: number, text: string, measurementId?: string}} NotePayload
  */
 
 export {}

@@ -14,12 +14,15 @@ const VitalUpdate = () => import(/* webpackChunkName: "group-vitals" */ '../comp
 const Measurements = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Measurements.vue');
 const MeasurementCreate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Create.vue');
 const MeasurementUpdate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Update.vue');
+const NoteCreate = () => import(/* webpackChunkName: "group-notes" */ '../components/Notes/Create.vue');
+const NoteUpdate = () => import(/* webpackChunkName: "group-notes" */ '../components/Notes/Update.vue');
 const Person = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Person.vue');
-const PersonMeasurements = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Measurements.vue');
+const PersonLogbook = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Logbook/Logbook.vue');
 const PersonVitals = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Vitals.vue');
 const PersonVital = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Vital.vue');
 const Settings = () => import('../components/Settings/Settings.vue');
 
+/** @type {import('vue-router').RouteRecordRaw[]} */
 const routes = [
   {
     path: '/start',
@@ -102,6 +105,15 @@ const routes = [
             components: {
               main: PersonVitals
             },
+            children: [
+              {
+                path: 'measurement/create',
+                name: 'PersonVitalsMeasurementCreate',
+                components: {
+                  modal: MeasurementCreate
+                }
+              }
+            ]
           },
           {
             path: ':vitalId',
@@ -113,6 +125,7 @@ const routes = [
               {
                 path: 'measurement/create',
                 name: 'PersonVitalMeasurementCreate',
+                props: true,
                 components: {
                   modal: MeasurementCreate
                 }
@@ -120,6 +133,7 @@ const routes = [
               {
                 path: 'measurement/:measurementId/update',
                 name: 'PersonVitalMeasurementUpdate',
+                props: true,
                 components: {
                   modal: MeasurementUpdate
                 }
@@ -129,11 +143,35 @@ const routes = [
         ]
       },
       {
-        path: ':personId/measurements',
-        name: 'PersonMeasurements',
+        path: ':personId/logbook',
+        name: 'PersonLogbook',
         components: {
-          main: PersonMeasurements
-        }
+          main: PersonLogbook
+        },
+        children: [
+          {
+            path: 'note/create',
+            name: 'PersonNoteCreate',
+            components: {
+              modal: NoteCreate
+            }
+          },
+          {
+            path: 'note/:noteId/update',
+            name: 'PersonNoteUpdate',
+            components: {
+              modal: NoteUpdate
+            }
+          },
+          {
+            path: 'measurement/:measurementId/update',
+            name: 'PersonLogbookMeasurementUpdate',
+            props: true,
+            components: {
+              modal: MeasurementUpdate
+            }
+          },
+        ]
       },
     ]
   },

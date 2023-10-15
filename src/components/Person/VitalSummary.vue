@@ -1,5 +1,6 @@
 <script setup>
-import { VitalInsightsSummary } from '../../insights/insight';
+import { SparklesIcon } from '@heroicons/vue/24/solid';
+import { VitalInsightsSummary } from '../../classes/insight';
 
 const props = defineProps({
   person: {
@@ -14,8 +15,9 @@ const summary = new VitalInsightsSummary(props.person);
 </script>
 
 <template>
-  <div>
-    <p class="mb-5 p-3 px-4 rounded-xl text-sm leading-tight md:leading-snug bg-gray-300 text-gray-500">
+  <div class="grid grid-cols-[min-content_auto] gap-3 mb-5 p-3 px-4 rounded-xl bg-indigo-50">
+    <SparklesIcon class="h-6 w-6 mt-1 text-indigo-600" />
+    <p class="text-sm leading-tight md:leading-snug text-indigo-500">
       {{ summary.description }}
     </p>
   </div>

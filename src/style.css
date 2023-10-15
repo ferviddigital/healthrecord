@@ -109,6 +109,10 @@ body {
   }
 }
 
+button {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 input[type=text],
 input[type=email],
 input[type=date],

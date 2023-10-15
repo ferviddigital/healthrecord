@@ -1,12 +1,17 @@
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { vitals } from '../../store/vitals';
 import dayjs from 'dayjs';
 import { useRoute } from 'vue-router';
+import { Switch, SwitchLabel, SwitchGroup } from '@headlessui/vue';
 
-const router = useRoute();
+const route = useRoute();
 
 const props = defineProps({
+  vitalId: {
+    type: String,
+    default: null
+  },
   value: {
     type: Number,
     default: null
@@ -15,56 +20,61 @@ const props = defineProps({
     type: Number,
     default: Date.now()
   },
-  personId: {
+  noteText: {
     type: String,
-    required: true
-  },
-  vitalId: {
-    type: String,
-    default: ''
+    default: null
   },
   deletable: {
     type: Boolean,
     default: false
   }
 });
-const emit  = defineEmits(['submit', 'delete']);
+const emit  = defineEmits({
+  /** @param {import('../../typedefs').MeasurementPayload} payload */
+  submit(payload) { return true },
+  destroy() { return true },
+  destroyNote() { return true }
+});
 
 const value     = ref(props.value || '');
 const date      = ref(dayjs(props.date).format('YYYY-MM-DDThh:mm') || '');
 const vitalId   = ref(props.vitalId);
-
-const valueInput  = ref();
-const vitalSelect = ref();
+const noteText  = ref(props.noteText);
+const noteEnabled = ref(props.noteText !== null)
 
 const isFormComplete = computed(() => {
   return value.value 
     && date.value.length > 0
 });
 
-const measurement = computed(() => {
-  /** @type {import('../../typedefs').Measurement} */
-  const measurement = {
-    id:       crypto.randomUUID(),
+/** @type {import('vue').ComputedRef<import('../../typedefs').MeasurementPayload>} */
+const params = computed(() => {
+  return {
     value:    Number(value.value),
     date:     dayjs(date.value).valueOf(),
-    personId: props.personId,
     vitalId:  vitalId.value,
+    noteText: noteText.value
   }
-  return measurement;
 });
 
 const vital = computed(() => {
   return vitals.value.find(vital => vital.id === vitalId.value);
 });
+
+watch(
+  () => props.noteText,
+  () => {
+    noteText.value = props.noteText
+});
+
 </script>
 
 <template>
-  <form @submit.prevent="emit('submit', measurement)">
-    <label v-if="!$route.params.vitalId" for="vitalId">
+  <form @submit.prevent="emit('submit', params)">
+    <label v-if="!props.vitalId" for="vitalId">
       Vital
     </label>
-    <select v-if="!$route.params.vitalId" ref="vitalSelect" v-model="vitalId" id="vitalId" required>
+    <select v-if="!props.vitalId" v-model="vitalId" id="vitalId" required>
       <option value="" disabled hidden>Choose vital</option>
       <option v-for="vital in vitals" :key="vital.id" :value="vital.id">{{ vital.name }}</option>
     </select>
@@ -72,15 +82,42 @@ const vital = computed(() => {
       Value
     </label>
     <div class="input-group mb-3">
-      <input v-model="value" type="text" id="value" ref="valueInput" inputmode="decimal" autocomplete="off" tabindex="2">
+      <input v-model="value" type="text" id="value" inputmode="decimal" autocomplete="off">
       <span v-if="vital">{{ vital.unit }}</span>
     </div>
     <label for="date">
       Date
     </label>
     <input v-model="date" type="datetime-local" id="date" required>
+    <div v-if="props.noteText" class="pb-2">
+      <label class="grid grid-cols-[auto_min-content]">
+        Note
+        <button v-if="props.noteText" class="text-red-500 text-xs uppercase hover:underline -mb-1.5" @click="emit('destroyNote')">Remove</button>
+      </label>
+      <div class="bg-gray-100 rounded-md p-3 px-4 pb-2">
+        <p class="text-sm leading-tight">{{ noteText }}</p>
+      </div>
+    </div>
+    <div v-else class="pb-2">
+      <SwitchGroup as="div" class="grid grid-cols-[auto_min-content] items-center justify-end gap-4 mt-2">
+        <SwitchLabel class="mb-0">Add note</SwitchLabel>
+        <Switch
+          v-model="noteEnabled"
+          :class="noteEnabled ? 'active' : ''"
+          class="switch"
+        >
+          <span />
+        </Switch>
+      </SwitchGroup>
+      <div v-if="noteEnabled">
+        <label for="note-text" class="grid grid-cols-[auto_min-content]">
+          Note
+        </label>
+        <textarea v-model="noteText" id="note-text" class="leading-tight h-28" />
+      </div>
+    </div>
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
-      <a v-if="deletable" @click="emit('delete', measurement.id)" class="text-sm text-red-500 font-light cursor-pointer">Delete</a>
+      <a v-if="deletable" @click="emit('destroy')" class="text-sm text-red-500 font-light cursor-pointer">Delete</a>
       <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>

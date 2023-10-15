@@ -36,7 +36,7 @@ const updatePerson = (updatedPerson) => {
   <Dialog :open="true" @close="$router.push({ name: 'People' })" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
-      <DialogPanel class="bg-white w-full max-w-xs rounded-2xl shadow-lg my-10">
+      <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Person</DialogTitle>
         <PersonForm class="p-6" @submit="updatePerson" :firstName="firstName" :lastName="lastName" :sex="sex" :dob="dob" />
       </DialogPanel>

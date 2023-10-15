@@ -1,29 +1,23 @@
 <script setup>
 import { QuestionMarkCircleIcon, LightBulbIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
-import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed, ref } from 'vue';
-import { measurements } from '../../store/measurements';
 import { vitals, createBodyWeightVital, createHeartRateVital } from '../../store/vitals';
 import VitalSummary from './VitalSummary.vue';
-import { scrolled } from '../../store/ui';
-import { selectedPerson } from '../../store/person';
+import { selectedPerson, sortedPersonMeasurements } from '../../store/person';
+import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
 
 const vitalSort = ref('date');
 
-const personMeasurements = computed(() => {
-  return measurements.value.filter(measurement => measurement.personId === selectedPerson.value.id);
-});
-
 const trackedVitals = computed(() => {
-  var vitalIds = personMeasurements.value.map(measurement => measurement.vitalId);
+  var vitalIds = sortedPersonMeasurements.value.map(measurement => measurement.vitalId);
   vitalIds = [...new Set(vitalIds)];
   return vitals.value.filter(vital => vitalIds.includes(vital.id));
 });
 
 const recentlyTrackedVitals = computed(() => {
-  var vitalIds = personMeasurements.value.map(measurement => measurement.vitalId);
+  var vitalIds = sortedPersonMeasurements.value.map(measurement => measurement.vitalId);
   vitalIds = [...new Set(vitalIds)];
   return vitalIds.map(vitalId => {
     return vitals.value.find(vital => vital.id === vitalId);
@@ -40,42 +34,33 @@ const sortedVitals = computed(() => {
 })
 
 const vitalMeasurements = (vitalId) => {
-  return personMeasurements.value.filter(measurement => measurement.vitalId === vitalId)
+  return sortedPersonMeasurements.value.filter(measurement => measurement.vitalId === vitalId)
 }
 </script>
 
 <template>
   <div>
-    <header
-      class="sticky grid grid-cols-[auto_min-content] top-0 p-4 py-2 sm:pt-4 bg-gray-200/70 backdrop-blur-xl border-b border-transparent transition-all"
-      :class="{'!border-gray-300': scrolled }"
-    >
-      <hgroup class="grid grid-cols-[1fr_1fr_1fr] items-center">
-        <RouterLink class="text-indigo-500 justify-self-start" :to="{ name: 'Person', params: { personId: selectedPerson.id }}">
-          <ChevronLeftIcon class="w-6 h-6 inline align-top" /> {{ selectedPerson.firstName }}
+    <HeaderTitleCenter title="Vitals" :backText="selectedPerson.firstName" :backRoute="{ name: 'Person', params: { personId: selectedPerson.id }}">
+      <template #right>
+        <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonVitalsMeasurementCreate' }">
+          <PlusIcon class="h-6 w-6" />
         </RouterLink>
-        <h2 class="text-xl font-bold text-center">Vitals</h2>
-        <div class="grid grid-flow-col gap-3 justify-self-end">
-          <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonMeasurementCreate' }">
-            <PlusIcon class="h-6 w-6" />
-          </RouterLink>
-        </div>
-      </hgroup>
-    </header>
+      </template>
+    </HeaderTitleCenter>
     <div class="m-4">
       <div v-if="sortedVitals.length > 0">
         <VitalSummary :person="selectedPerson" />
         <div class="grid justify-items-end">
           <div class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner">
             <button
-              class="rounded-full p-0.5 px-3 text-sm transition-all"
+              class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
               :class="{'!bg-indigo-500 text-white shadow': vitalSort === 'alpha'}"
               @click="vitalSort = 'alpha'"
             >
               A-Z
             </button>
             <button
-              class="rounded-full p-0.5 px-3 text-sm transition-all"
+              class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
               :class="{'!bg-indigo-500 text-white shadow': vitalSort === 'date'}"
               @click="vitalSort = 'date'"
             >
