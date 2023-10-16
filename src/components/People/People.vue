@@ -10,7 +10,7 @@ import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
   <div>
     <HeaderTitleCenter title="People" backText="Settings" :backRoute="{ name: 'Settings' }">
       <template #right>
-        <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonCreate' }">
+        <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'SettingsPeopleCreate' }">
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
       </template>

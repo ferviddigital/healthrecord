@@ -1,8 +1,9 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import VitalChart from './VitalChart.vue';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
+
 dayjs.extend(isBetween);
 
 const props = defineProps({
@@ -20,6 +21,9 @@ const props = defineProps({
 
 /** @type {import('vue').Ref<import('../../typedefs').VitalChartRange>} */
 const selectedRange = ref({length: 100, unit: 'year'});
+
+/** @type {import('vue').Ref<import('../../typedefs').Measurement | null>} */
+const selectedMeasurement = ref();
 
 const minDate = computed(() => {
   if (selectedRange.value.length === 100) {
@@ -43,6 +47,10 @@ const filteredMeasurements = computed(() => {
 const averageMeasurement = computed(() => {
   return filteredMeasurements.value.map(measurement => measurement.value).reduce((previous, current) => previous + current, 0) / filteredMeasurements.value.length;
 });
+
+const measurementTapped = measurement => {
+  selectedMeasurement.value = measurement
+}
 
 const ranges = computed(() => {
   /** @type {import('../../typedefs').VitalChartRange[]} */
@@ -124,10 +132,27 @@ const highMeasurements = computed(() => {
 
 const language = navigator.language;
 
+watch(selectedRange, () => {
+  selectedMeasurement.value = null;
+});
+
 </script>
 
 <template>
-  <VitalChart :vital="vital" :measurements="measurements" :min-date="dateRangeStart" :max-date="dateRangeEnd" class="ml-2" />
+  <div v-if="selectedMeasurement" class="grid grid-cols-[auto_min-content] bg-indigo-500 text-white rounded-xl mx-2">
+    <div class="grid grid-cols-[min-content_auto] divide-x divide-indigo-400">
+      <div class="p-2 px-4">
+        <p class="font-bold">{{ Intl.NumberFormat(language).format(selectedMeasurement.value) }}</p>
+        <h5 class="uppercase text-xs text-indigo-200">{{ vital.unit }}</h5>
+      </div>
+      <div class="p-2 px-4">
+        <h5 class="uppercase text-xs text-indigo-200">Date</h5>
+        <p class="font-bold">{{ dayjs(selectedMeasurement.date).format('MMM D, YYYY') }}</p>
+      </div>
+    </div>
+    <button @click="selectedMeasurement = null" class="text-indigo-200 text-3xl font-thin self-start justify-self-end mr-3">&times;</button>
+  </div>
+  <VitalChart :vital="vital" :measurements="measurements" :min-date="dateRangeStart" :max-date="dateRangeEnd" class="ml-2" @measurement-tapped="measurementTapped" />
   <div class="grid p-2">
     <div class="grid grid-flow-col gap-2 place-content-between bg-gray-100 rounded-full p-1 mt-2 shadow-inner mx-auto">
       <button
@@ -149,7 +174,7 @@ const language = navigator.language;
       </button>
     </div>
   </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 divide-x divide-y mt-2">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 divide-x divide-y mt-2">
     <span class="grid p-3 border-t">
       <span class="text-xs uppercase text-gray-500">Unit</span>
       <span class="font-bold">{{ vital.unit }}</span>

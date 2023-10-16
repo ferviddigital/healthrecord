@@ -20,7 +20,7 @@ const props = defineProps({
     <DocumentTextIcon class="h-5 w-5 mt-4" v-else-if="(logEntry instanceof NoteLogEntry)" />
     <div class="bg-gray-50 shadow-sm p-4 rounded-xl">
       <p class="leading-tight">
-        A <span class="font-semibold">{{ logEntry.objectType }}</span> was logged on {{ dayjs(logEntry.date).format('MMM D, YYYY') }}.
+        A <span class="font-semibold">{{ logEntry.description }}</span> was logged on {{ dayjs(logEntry.date).format('MMM D, YYYY') }}.
         <span v-if="logEntry instanceof MeasurementLogEntry && logEntry.note">A <span class="font-semibold">note</span> was added:</span>
       </p>
       <MeasurementLogItem v-if="(logEntry instanceof MeasurementLogEntry)" :measurement="logEntry.measurement" :vital="logEntry.vital" />

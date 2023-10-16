@@ -5,11 +5,83 @@ import ZoomPlugin from 'chartjs-plugin-zoom';
 import { Chart as ChartJS, Filler, Title, Tooltip, LinearScale, PointElement, LineElement, TimeSeriesScale } from 'chart.js';
 import { computed, ref, watch } from 'vue';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
+const updateLines = (chart, args, options) => {
+  const ctx = chart.ctx;
 
-ChartJS.register(Title, Filler, Tooltip, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeSeriesScale)
+  ctx.save();
+  if (options.hoverX && (options.hoverX !== options.activeX)) {
+    ctx.beginPath();
+    ctx.strokeStyle = options.color;
+    ctx.lineWidth = options.hoverLineWidth;
+    ctx.setLineDash(options.lineDash);
+    ctx.moveTo(options.hoverX, chart.chartArea.bottom);
+    ctx.lineTo(options.hoverX, 0);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (options.activeX) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = options.color;
+    ctx.lineWidth = options.activeLineWidth;
+    ctx.moveTo(options.activeX, chart.chartArea.bottom);
+    ctx.lineTo(options.activeX, 0);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  options.activeLines
+}
+
+/** @type {import('chart.js').Plugin} */
+const VerticalMouseLine = {
+  id: 'mouseline',
+  defaults: {
+    hoverX: null,
+    activeX: null,
+    color: 'red',
+    hoverLineWidth: 1,
+    activeLineWidth: 2,
+    lineDash: [5,3],
+    unclick: null
+  },
+  afterEvent: (chart, {event, inChartArea}, options) => {
+    if (!inChartArea || !chart.getActiveElements().length) {
+      options.hoverX = null;
+      return
+    }
+
+    const activeElement = chart.getActiveElements()[0].element;
+
+    if (!(activeElement instanceof PointElement)) return;
+
+    const x = activeElement.x;
+
+    switch (event.type) {
+      case 'click':
+        options.hoverX = null;
+        options.activeX = options.activeX === x ? null : x;
+        if (!options.activeX) {
+          options.unclick();
+        }
+        break;
+      case 'mousemove':
+        options.hoverX = x
+        break;
+    }
+  },
+  afterDraw: updateLines,
+  afterDatasetsUpdate: function(chart, args, options) {
+    options.activeX = null;
+    options.hoverX = null;
+  }
+}
+
+
+
+ChartJS.register(Title, Filler, Tooltip, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeSeriesScale, VerticalMouseLine);
 
 ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
 
@@ -35,6 +107,11 @@ const props = defineProps({
     type: Number,
     default: null
   }
+});
+
+const emit = defineEmits({
+  /** @param {import('../../typedefs').Measurement} payload */
+  measurementTapped(payload) { return true; }
 });
 
 const chartInstance = ref(null);
@@ -86,13 +163,26 @@ const data = computed(() => {
         pointHoverBackgroundColor: '#4F46E5',
         tension: 0.3,
       }
-    ],
+    ]
   }
 });
 
 const options = computed(() => {
   /** @type {import('chart.js').ChartOptions<"line">} */
   const options = {
+    layout: {
+      padding: {
+        top: 10
+      }
+    },
+    onClick: (event, elements, chart) => {
+      if (props.small) return;
+      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+        return
+      };
+      const measurement = props.measurements[elements[0].index]
+      emit('measurementTapped', measurement);
+    },
     onHover: (event, elements, chart) => {
       if (props.small) {
         return chart.canvas.style.cursor = 'pointer';
@@ -101,6 +191,10 @@ const options = computed(() => {
         return chart.canvas.style.cursor = 'default';
       };
       return chart.canvas.style.cursor = 'pointer';
+    },
+    hover: {
+      mode: 'index',
+      intersect: false
     },
     plugins: {
       legend: {
@@ -121,7 +215,12 @@ const options = computed(() => {
       annotation: {
         annotations: {},
       },
-      zoom: {}
+      zoom: {},
+      // @ts-ignore
+      mouseline: {
+        color: '#4F46E5',
+        unclick: () => emit('measurementTapped', null)
+      },
     },
     responsive: true,
     aspectRatio: 1.5,
@@ -169,6 +268,8 @@ const options = computed(() => {
   }
 
   if (props.small) {
+    // @ts-ignore
+    options.plugins.mouseline = false;
     options.scales.x.grid.tickLength = 0;
     options.scales.y.grid.tickLength = 0;
     options.layout = {

@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 import { vitals, createBodyWeightVital, createHeartRateVital } from '../../store/vitals';
 import VitalSummary from './VitalSummary.vue';
 import { selectedPerson, sortedPersonMeasurements } from '../../store/person';
-import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
+import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
 
 const vitalSort = ref('date');
 
@@ -40,13 +40,16 @@ const vitalMeasurements = (vitalId) => {
 
 <template>
   <div>
-    <HeaderTitleCenter title="Vitals" :backText="selectedPerson.firstName" :backRoute="{ name: 'Person', params: { personId: selectedPerson.id }}">
+    <HeaderTitleLeft
+      title="Vitals"
+      subtitle="Track Vitals and record new Measurements."
+    >
       <template #right>
         <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonVitalsMeasurementCreate' }">
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
       </template>
-    </HeaderTitleCenter>
+    </HeaderTitleLeft>
     <div class="m-4">
       <div v-if="sortedVitals.length > 0">
         <VitalSummary :person="selectedPerson" />
