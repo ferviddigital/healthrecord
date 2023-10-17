@@ -1,7 +1,7 @@
 <script setup>
 import { vitals } from '../../store/vitals';
 import { useRoute } from 'vue-router';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import Insight from '../Vitals/Insight.vue';
 import { previousRoute } from '../../store/ui';
@@ -16,11 +16,7 @@ const route = useRoute();
 const vitalId   = route.params.vitalId;
 
 const vital = computed(() => {
-  const vital = vitals.value.find(vital => vital.id === vitalId);
-
-  if (! vital) throw new Error(`Could not find vital with ID: ${vitalId}.`)
-
-  return vital;
+  return vitals.value.find(vital => vital.id === vitalId);
 });
 
 const vitalMeasurements = computed(() => {
@@ -72,7 +68,7 @@ const backRoute = computed(() => {
     <div class="m-4 mt-0">
       <p class="text-center text-gray-500 mb-5 leading-none">{{ vital.description }}</p>
       <Insight :person="selectedPerson" :vital="vital" class=""/>
-      <div class="bg-white rounded-xl shadow pt-2">
+      <div class="bg-white rounded-xl shadow">
         <VitalChartSummary :vital="vital" :measurements="vitalMeasurements" />
       </div>
       <div class="pt-9 grid gap-3">

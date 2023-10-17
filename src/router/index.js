@@ -137,6 +137,13 @@ const routes = [
                   modal: MeasurementUpdate
                 }
               },
+              {
+                path: 'note/:noteId/update',
+                name: 'VitalMeasurementNoteUpdate',
+                components: {
+                  modal: NoteUpdate
+                }
+              },
             ]
           }
         ]

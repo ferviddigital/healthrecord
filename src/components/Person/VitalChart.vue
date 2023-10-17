@@ -1,89 +1,15 @@
 <script setup>
 import { Line } from 'vue-chartjs';
-import AnnotationPlugin from 'chartjs-plugin-annotation';
-import ZoomPlugin from 'chartjs-plugin-zoom';
-import { Chart as ChartJS, Filler, Title, Tooltip, LinearScale, PointElement, LineElement, TimeSeriesScale } from 'chart.js';
-import { computed, ref, watch } from 'vue';
-import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
+import { PointElement } from 'chart.js';
+import { computed, onActivated, onMounted, ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import '../../scripts/chartjs';
 
-const updateLines = (chart, args, options) => {
-  const ctx = chart.ctx;
+const router  = useRouter();
+const route   = useRoute();
 
-  ctx.save();
-  if (options.hoverX && (options.hoverX !== options.activeX)) {
-    ctx.beginPath();
-    ctx.strokeStyle = options.color;
-    ctx.lineWidth = options.hoverLineWidth;
-    ctx.setLineDash(options.lineDash);
-    ctx.moveTo(options.hoverX, chart.chartArea.bottom);
-    ctx.lineTo(options.hoverX, 0);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  if (options.activeX) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.strokeStyle = options.color;
-    ctx.lineWidth = options.activeLineWidth;
-    ctx.moveTo(options.activeX, chart.chartArea.bottom);
-    ctx.lineTo(options.activeX, 0);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  options.activeLines
-}
-
-/** @type {import('chart.js').Plugin} */
-const VerticalMouseLine = {
-  id: 'mouseline',
-  defaults: {
-    hoverX: null,
-    activeX: null,
-    color: 'red',
-    hoverLineWidth: 1,
-    activeLineWidth: 2,
-    lineDash: [5,3],
-    unclick: null
-  },
-  afterEvent: (chart, {event, inChartArea}, options) => {
-    if (!inChartArea || !chart.getActiveElements().length) {
-      options.hoverX = null;
-      return
-    }
-
-    const activeElement = chart.getActiveElements()[0].element;
-
-    if (!(activeElement instanceof PointElement)) return;
-
-    const x = activeElement.x;
-
-    switch (event.type) {
-      case 'click':
-        options.hoverX = null;
-        options.activeX = options.activeX === x ? null : x;
-        if (!options.activeX) {
-          options.unclick();
-        }
-        break;
-      case 'mousemove':
-        options.hoverX = x
-        break;
-    }
-  },
-  afterDraw: updateLines,
-  afterDatasetsUpdate: function(chart, args, options) {
-    options.activeX = null;
-    options.hoverX = null;
-  }
-}
-
-
-
-ChartJS.register(Title, Filler, Tooltip, LinearScale, PointElement, LineElement, AnnotationPlugin, ZoomPlugin, TimeSeriesScale, VerticalMouseLine);
-
-ChartJS.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+/** @type {import('vue').Ref<import('vue-chartjs').ChartComponentRef>} */
+const vitalChartInstance = ref(null);
 
 const props = defineProps({
   vital: {
@@ -109,23 +35,10 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits({
-  /** @param {import('../../typedefs').Measurement} payload */
-  measurementTapped(payload) { return true; }
+const selectedMeasurementIndex = computed(() => {
+  const index = props.measurements.findIndex(measurement => measurement.id === route.query.measurementId);
+  return index === -1 ? null : index;
 });
-
-const chartInstance = ref(null);
-
-watch(props, () => {
-  if (!props.minDate || !props.maxDate) return;
-  /** @type {import("chart.js").Chart} */
-  const chart = chartInstance.value.chart;
-
-  chart.options.scales.x.min = props.minDate;
-  chart.options.scales.x.max = props.maxDate;
-  chart.update();
-});
-
 
 const measurementValues = computed(() => {
   return props.measurements.map(measurement => measurement.value);
@@ -135,20 +48,19 @@ const measurementDates = computed(() => {
   return props.measurements.map(measurement => measurement.date);
 });
 
-/** @type {import("vue").ComputedRef<import("chart.js").ChartData<'line'>>} */
+/** @type {import("vue").ComputedRef<import("chart.js").ChartData<"line">>} */
 const data = computed(() => {
   return {
     labels: measurementDates.value,
-    /** @type {import("chart.js").ChartDataset<"line">[]} */
     datasets: [
       {
         label: props.vital.name,
         backgroundColor: function(ctx, options) {
           const context = ctx.chart.ctx;
-          var gradient = context.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0.2, '#eef2ff');
-            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-            return gradient;
+          const gradient = context.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0.2, '#eef2ff');
+          gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          return gradient;
         },
         borderWidth: props.small ? 3 : 6,
         data: measurementValues.value,
@@ -170,36 +82,18 @@ const data = computed(() => {
 const options = computed(() => {
   /** @type {import('chart.js').ChartOptions<"line">} */
   const options = {
+    responsive: true,
+    aspectRatio: 1.5,
     layout: {
       padding: {
         top: 10
       }
-    },
-    onClick: (event, elements, chart) => {
-      if (props.small) return;
-      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
-        return
-      };
-      const measurement = props.measurements[elements[0].index]
-      emit('measurementTapped', measurement);
-    },
-    onHover: (event, elements, chart) => {
-      if (props.small) {
-        return chart.canvas.style.cursor = 'pointer';
-      }
-      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
-        return chart.canvas.style.cursor = 'default';
-      };
-      return chart.canvas.style.cursor = 'pointer';
     },
     hover: {
       mode: 'index',
       intersect: false
     },
     plugins: {
-      legend: {
-        display: false,
-      },
       tooltip: {
         enabled: props.small ? false : true,
         displayColors: false,
@@ -215,22 +109,21 @@ const options = computed(() => {
       annotation: {
         annotations: {},
       },
-      zoom: {},
       // @ts-ignore
-      mouseline: {
+      verticalMouseLine: {
         color: '#4F46E5',
-        unclick: () => emit('measurementTapped', null)
+        activeIndex: selectedMeasurementIndex.value
       },
     },
-    responsive: true,
-    aspectRatio: 1.5,
     scales: {
       x: {
+        min: props.minDate,
+        max: props.maxDate,
         type: 'timeseries',
         time: {
           tooltipFormat: 'MM/DD/YYYY',
           minUnit: 'day',
-          round: 'day'
+          round: 'day',
         },
         border: {
           display: false
@@ -238,16 +131,25 @@ const options = computed(() => {
         grid: {
           display: false,
           color: '#efefef',
+          drawTicks: true,
+          tickLength: 10
         },
         ticks: {
           display: false,
-          autoSkipPadding: 50,
+          autoSkipPadding: 55,
           color: '#aaa',
-        },
+          mirror: false,
+          align: 'inner',
+          maxRotation: 0,
+          padding: 0
+        }
       },
       y: {
+        bounds: 'ticks',
         grid: {
           display: false,
+          drawTicks: true,
+          tickLength: 10
         },
         border: {
           display: false
@@ -255,21 +157,38 @@ const options = computed(() => {
         ticks: {
           color: '#aaa',
           autoSkipPadding: 55,
-          major: {
-            enabled: true
-          },
+          mirror: false,
+          align: 'inner',
           display: false,
+          padding: 0,
           callback: (value) => {
             return Intl.NumberFormat(navigator.language, {notation: 'compact'}).format(Number(value));
           }
         }
       }
-    }
+    },
+    onClick: (event, elements, chart) => {
+      if (props.small) return;
+      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+        return;
+      };
+      const measurement = props.measurements[elements[0].index]
+      router.push({ name: 'PersonVital', query: { measurementId: measurement.id }});
+    },
+    onHover: (event, elements, chart) => {
+      if (props.small) {
+        return chart.canvas.style.cursor = 'pointer';
+      }
+      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+        return chart.canvas.style.cursor = 'default';
+      };
+      return chart.canvas.style.cursor = 'pointer';
+    },
   }
 
   if (props.small) {
     // @ts-ignore
-    options.plugins.mouseline = false;
+    options.plugins.verticalMouseLine = false;
     options.scales.x.grid.tickLength = 0;
     options.scales.y.grid.tickLength = 0;
     options.layout = {
@@ -283,6 +202,12 @@ const options = computed(() => {
     options.scales.x.grid.display = true;
     options.scales.x.ticks.display = true;
     options.scales.y.ticks.display = true;
+    options.layout = {
+      padding: {
+        top: 20,
+        right: 0,
+      }
+    }
   }
 
   if (props.vital.low && !props.small) {
@@ -364,12 +289,39 @@ const options = computed(() => {
   return options;
 });
 
+// Update selected measurement
+// watch(route, () => {
+//   const chart = vitalChartInstance.value.chart
+//   const x = chart.getDatasetMeta(0).data[selectedMeasurementIndex.value].x
+//   if (!route.query.measurementId) {
+//     // @ts-ignore
+//     options.value.plugins.verticalMouseLine.activeX = null
+//   } else {
+//     // @ts-ignore
+//     options.value.plugins.verticalMouseLine.activeX = x
+//   }
+
+//   chart.update();
+// });
+
+// Update date ranges
+watch(props, () => {
+  if (!props.minDate || !props.maxDate) return;
+
+  if (options.value.scales.x.min !== props.minDate) {
+    options.value.scales.x.min = props.minDate;
+  }
+
+  if (options.value.scales.x.max !== props.maxDate) {
+    options.value.scales.x.max = props.maxDate;
+  }
+});
 </script>
 
 <template>
   <Line
     :options="options"
     :data="data"
-    ref="chartInstance"
+    ref="vitalChartInstance"
   />
 </template>

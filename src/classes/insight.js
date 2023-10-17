@@ -95,10 +95,10 @@ export class VitalInsight extends Insight {
   }
 
   /**
-   * Get the trend between the last two measurements
+   * Get the trend between the last ten measurements
    */
   get trend() {
-    const recent = this.#measurements.slice(0, 20).map(measurement => measurement.value);
+    const recent = this.#measurements.slice(0, 10).map(measurement => measurement.value);
     return nonParametricRegressionTrend(recent, 0.01);
   }
 
