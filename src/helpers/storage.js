@@ -36,7 +36,8 @@ export const create = (person) => {
       id: crypto.randomUUID()
     }],
     vitals:       [],
-    measurements: []
+    measurements: [],
+    notes:        []
   }
   load(JSON.stringify(record));
 }

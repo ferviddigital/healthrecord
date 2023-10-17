@@ -13,9 +13,8 @@ import pluralize from 'pluralize';
 import EditableContent from '../Interface/EditableContent.vue';
 import { people } from '../../store/people';
 import { vitals } from '../../store/vitals';
-import { measurements } from '../../store/measurements';
-import { scrolled } from '../../store/ui';
 import { useRouter } from 'vue-router';
+import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
 
 const router = useRouter();
 
@@ -92,15 +91,10 @@ const appVersion = APP_VERSION;
 
 <template>
   <div>
-    <header
-      class="sticky grid grid-cols-[auto_min-content] top-0 p-4 py-2 sm:pt-4 bg-gray-200/70 backdrop-blur-xl border-b border-transparent transition-all"
-      :class="{'!border-gray-300': scrolled }"
-    >
-      <hgroup>
-        <h2 class="text-2xl font-bold">Settings</h2>
-        <p class="text-sm text-gray-500">Update app settings and download data.</p>
-      </hgroup>
-    </header>
+    <HeaderTitleLeft
+      title="Settings"
+      subtitle="Update app settings and download data."
+    />
     <div class="m-4">
       <div class="bg-white rounded-xl divide-y mb-10 overflow-hidden">
         <section class="grid grid-flow-col gap-4 items-center p-4 py-3 pr-3 cursor-pointer hover:bg-gray-100"

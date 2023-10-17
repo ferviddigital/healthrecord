@@ -1,5 +1,5 @@
 <script setup>
-import { SquaresPlusIcon, Cog8ToothIcon, HomeIcon, ChartBarIcon, HeartIcon, UserIcon } from '@heroicons/vue/20/solid';
+import { SquaresPlusIcon, Cog8ToothIcon, ListBulletIcon, HeartIcon, UserIcon } from '@heroicons/vue/20/solid';
 import { record } from '../store/record';
 import { peers, webrtcConnected } from '../providers/webrtc';
 import pluralize from 'pluralize';
@@ -26,7 +26,7 @@ window.addEventListener('scroll', () => {
             <SquaresPlusIcon class="h-6 w-6"/> <span class="hidden lg:inline">HealthRecord</span>
           </RouterLink>
         </h2>
-        <nav class="main-nav justify-self-start">
+        <nav class="main-nav justify-self-start sm:justify-self-auto">
           <ul v-if="selectedPersonId" class="grid gap-2 sm:gap-4 grid-flow-col sm:grid-flow-row">
             <li>
               <RouterLink 
@@ -42,6 +42,14 @@ window.addEventListener('scroll', () => {
                 aria-label="Vitals"
               >
                 <HeartIcon class="h-6 w-6" /> <span>Vitals</span>
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink 
+                :to="{ name: 'PersonLogbook', params: { personId: selectedPersonId } }"
+                aria-label="Logbook"
+              >
+                <ListBulletIcon class="h-6 w-6" /> <span>Logbook</span>
               </RouterLink>
             </li>
           </ul>

@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2023-10-117
+
+### Added
+- Measurements open in Vital and are highlighted on chart 
+- Hovering on chart reveals dashed vertical line
+- User sees date range, average, measurement count on Vital Chart View
+- User sees relevant logs in Vital view
+- User sees logbook preview in Person overview
+- User can see notes and measurements under Logbook
+- User can add note while creating measurement
+
+### Changed
+- Removed ChartJs Zoom plugin
+- Updated headers on Vitals and Logbook to be Left-handed
+- Refactored LogEntry
+- Modals fills more horizontal space on mobile
+- Headers are now components
+
+### Fixed
+- Viewport is not zoomable
+
+
 ## [0.3.5] - 2023-10-13
 
 ### Added
