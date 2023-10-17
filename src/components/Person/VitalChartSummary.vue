@@ -151,7 +151,7 @@ const language = navigator.language;
           </div>
           <div v-if="selectedMeasurement.noteId" class="p-2 px-4">
             <h5 class="uppercase text-xs text-indigo-200">Note</h5>
-            <DocumentTextIcon class="w-6 h-6" @click="$router.push({ name: 'VitalMeasurementNoteUpdate', params: { noteId: selectedMeasurement.noteId }})" />
+            <DocumentTextIcon class="w-6 h-6 cursor-pointer" @click="$router.push({ name: 'VitalMeasurementNoteUpdate', params: { noteId: selectedMeasurement.noteId }})" />
           </div>
         </div>
         <button @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id }})" class="text-indigo-200 hover:text-white text-3xl font-thin self-start justify-self-end mr-3">&times;</button>

@@ -2,7 +2,7 @@
 Record, track, and visualize your personal health data.
 
 ## About
-HealthRecord allows individuals to record, track and visualize vital measurements related to their personal health across their devices. HealthRecord data is stored in the browser for basic privacy using CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture and synced with other devices using WebRTC. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
+HealthRecord allows individuals to record, track and visualize vital measurements and notes related to their personal health across their devices. HealthRecord data is stored in the browser for basic privacy using CRDT ([Conflict-free Replicated Data Type](https://crdt.tech/)) architecture and synced with other devices using WebRTC. HealthRecord also supports tracking multiple people in one HealthRecord. HealthRecord aims to be [local-first software](https://www.inkandswitch.com/local-first/).
 
 See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 
@@ -11,13 +11,15 @@ See a deployment at [healthrecord.pages.dev](https://healthrecord.pages.dev/)
 
 
 ## Features
-* Track personal medical information and vitals for yourself or family members
+* Track personal medical information, vitals and notes for yourself or family members
 * Keep your health data portable
 * Save, edit, and view multiple people to track
 * Save and edit custom vitals to measure
 * Save, edit, and view vital measurements
 * Set low and high values for specific vitals
 * Identify trends with graph visualizations
+* Log a note to keep track of your physical state or symptoms
+* Log a note when adding a measurement to provide more context
 * Download and open passphrase encrypted data
 * Sync health data between devices peer-to-peer with WebRTC
 * Installs as PWA from browser
@@ -50,6 +52,7 @@ Visit [localhost:5173](http://localhost:5173) in your browser.
 - [ ] Track medications
 - [ ] AI insights and vitals suggestions
 - [ ] Optionally sync file to iCloud Drive, Google Drive, NextCloud
+- [ ] Export data in HL7 FHIR specification
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
