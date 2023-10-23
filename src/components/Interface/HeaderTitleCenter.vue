@@ -34,7 +34,7 @@ const scrollToTop = () => {
       <RouterLink class="text-indigo-500 justify-self-start" :to="backRoute">
         <ChevronLeftIcon class="w-6 h-6 inline align-top" /> {{ backText }}
       </RouterLink>
-      <h2 class="text-xl font-bold text-center" @click="scrollToTop">{{ title }}</h2>
+      <h2 class="text-xl font-bold text-center whitespace-nowrap" @click="scrollToTop">{{ title }}</h2>
       <div class="grid grid-flow-col gap-3 justify-self-end">
         <slot name="right"></slot>
       </div>

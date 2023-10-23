@@ -10,7 +10,6 @@ import { ref } from 'vue';
 import { Switch } from '@headlessui/vue';
 import { peers, webrtcConnected } from '../../providers/webrtc';
 import pluralize from 'pluralize';
-import EditableContent from '../Interface/EditableContent.vue';
 import { people } from '../../store/people';
 import { vitals } from '../../store/vitals';
 import { useRouter } from 'vue-router';
@@ -19,7 +18,6 @@ import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
 const router = useRouter();
 
 const passphraseModalOpen = ref(false);
-const signalerUrlError = ref(false);
 
 const downloadHealthRecordFile = (data) => {
   const fileName  = 'healthRecord-' + Date.now() + '.json';
@@ -51,38 +49,6 @@ const logout = async () => {
   }
   clear();
   router.push({ name: 'Start' });
-}
-
-const validateSocketUrl = urlString => {
-  try {
-    const url = new URL(urlString);
-    return url.protocol === 'ws:' || url.protocol === 'wss:';
-  } catch (error) {
-    return false;
-  }
-}
-
-/**
- * Update Record owner first and last name
- * @param {string} newFullName 
- */
- const updateName = newFullName => {
-  const [firstName, lastName] = newFullName.split(' ');
-  record.value.user.firstName = firstName;
-  record.value.user.lastName = lastName;
-}
-
-/**
- * Update Signal Server URL
- * @param {string} newUrl 
- */
- const updateSignalServer = newUrl => {
-  if (validateSocketUrl(newUrl)) {
-    record.value.user.preferences.webRTC.signalerUrl = newUrl;
-  } else {
-    signalerUrlError.value = true;
-
-  }
 }
 
 // @ts-ignore
@@ -120,7 +86,7 @@ const appVersion = APP_VERSION;
         Record Details
       </h3>
       <div class="bg-white rounded-xl divide-y mb-10 overflow-hidden">
-        <section class="grid grid-flow-col gap-4 items-center p-4 py-3 pr-3 cursor-pointer hover:bg-gray-100">
+        <section @click="$router.push({ name: 'SettingsUserUpdate' })" class="grid grid-flow-col gap-4 items-center p-4 py-3 pr-3 cursor-pointer hover:bg-gray-100">
           <h4>Owner</h4>
           <span class="grid grid-flow-col gap-1 justify-self-end items-center text-gray-400">
             {{ record.user.firstName + ' ' + record.user.lastName }}
@@ -186,32 +152,35 @@ const appVersion = APP_VERSION;
         </section>
         <section
           v-if="record.user.preferences && record.user.preferences.webRTC.enabled"
-          class="grid grid-flow-row items-center p-4 py-3"
-          :key="4"
         >
-          <span>
-            <span class="grid grid-flow-col items-start place-content-between">
-              <h4>Signal Server</h4>
-              <span
-                v-if="webrtcConnected"
-                class="text-xs text-right rounded-full bg-gray-200 p-1 px-3">
-                {{ peers > 0 ? pluralize('peer', peers, true) + ' connected' : 'Waiting for peers...' }}
-                <span 
-                  class="h-2 w-2 ml-1 inline-block bg-orange-300 rounded-full"
-                  :class="{ '!bg-green-500' : peers > 0 }"
-                  :title="peers > 0 ? pluralize('peer', peers, true) + ' connected' : 'Waiting for peers...'"
-                ></span>
+          <section
+            class="grid grid-flow-row items-center p-4 py-3"
+            :key="4"
+          >
+            <span>
+              <span class="grid grid-flow-col items-start place-content-between">
+                <h4>Signal Server</h4>
+                <span
+                  v-if="webrtcConnected"
+                  class="text-xs text-right rounded-full bg-gray-200 p-1 px-3">
+                  {{ peers > 0 ? pluralize('peer', peers, true) + ' connected' : 'Waiting for peers...' }}
+                  <span 
+                    class="h-2 w-2 ml-1 inline-block bg-orange-300 rounded-full"
+                    :class="{ '!bg-green-500' : peers > 0 }"
+                    :title="peers > 0 ? pluralize('peer', peers, true) + ' connected' : 'Waiting for peers...'"
+                  ></span>
+                </span>
               </span>
+              <p class="text-xs text-gray-400 mb-2 mt-2">HealthRecord uses a <a href="https://antmedia.io/webrtc-signaling-servers-everything-you-need-to-know/" target="_blank" class="underline">signal server</a> to identify your other devices to synchronize. Your health data is synchronized peer-to-peer and is never transmitted to the signal server. <a href="https://github.com/ferviddigital/y-webrtc-signaler" target="_blank" class="underline">Host your own signal server</a>.</p>
             </span>
-            <p class="text-xs text-gray-400 mb-3 mt-2">HealthRecord uses a <a href="https://antmedia.io/webrtc-signaling-servers-everything-you-need-to-know/" target="_blank" class="underline">signal server</a> to identify your other devices to synchronize. Your health data is synchronized peer-to-peer and is never transmitted to the signal server. <a href="https://github.com/ferviddigital/y-webrtc-signaler" target="_blank" class="underline">Host your own signal server</a>.</p>
-          </span>
-          <span class="mb-1">
-            <EditableContent placeholder="wss://signalserver.com" type="url" :value="record.user.preferences.webRTC.signalerUrl" @updated="updateSignalServer" inputClasses="font-mono text-sm" />
-            <span
-              v-if="signalerUrlError"
-              class="block text-xs text-red-600 pt-1"
-            >Please try re-entering a valid WebSocket url.</span>
-          </span>
+          </section>
+          <section @click="$router.push({ name: 'SettingsSignalServerUpdate' })" class="grid grid-flow-col gap-4 items-center p-4 pr-3 cursor-pointer hover:bg-gray-100 border-t">
+            <h4>URL</h4>
+            <span class="grid grid-flow-col gap-1 justify-self-end items-center text-gray-400">
+              <span class="line-clamp-1 text-sm font-mono">{{ record.user.preferences.webRTC.signalerUrl }}</span>
+              <ChevronRightIcon class="w-5 h-5 text-gray-300" />
+            </span>
+          </section>
         </section>
       </TransitionGroup>
       <h3 class="text-sm ml-4 mb-1 uppercase text-gray-500">

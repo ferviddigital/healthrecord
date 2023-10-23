@@ -23,7 +23,7 @@ window.addEventListener('scroll', () => {
       class="dash-layout grid grid-rows-[auto_min-content] sm:grid-rows-none sm:grid-flow-col sm:grid-cols-[min-content_auto] sm:min-h-0"
     >
       <header
-        class="main-header fixed sm:sticky grid grid-flow-col grid-cols-[auto_min-content] sm:grid-cols-none sm:grid-rows-[min-content_auto_min-content] gap-2 sm:gap-4 overflow-scroll sm:overflow-visible sm:min-h-[calc(100vh-2rem)] items-center sm:items-start sm:justify-normal order-last sm:order-none self-end sm:self-start p-4 py-2 sm:py-6 bottom-0 md:bottom-auto sm:mb-auto sm:mr-0 sm:ml-4 sm:top-4 right-0 left-0 sm:rounded-3xl bg-gray-900 text-white z-20"
+        class="main-header fixed sm:sticky grid grid-flow-col grid-cols-[auto_min-content] sm:grid-cols-none sm:grid-rows-[min-content_auto_min-content] gap-2 sm:gap-4 overflow-scroll sm:overflow-visible sm:min-h-[calc(100vh-2rem)] items-center sm:items-start sm:justify-normal order-last sm:order-none self-end sm:self-start p-4 py-2 sm:py-6 bottom-0 md:bottom-auto sm:mb-auto sm:mr-0 sm:ml-4 sm:mt-4 sm:top-4 right-0 left-0 sm:rounded-3xl bg-gray-900 text-white z-20"
       >
         <h2
           class="app-title hidden sm:grid sm:grid-flow-col items-center self-start font-bold text-xl lg:mb-3 transition-all"
