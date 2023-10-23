@@ -4,7 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0] - 2023-10-117
+
+## [0.4.1] - 2023-10-22
+
+### Added
+- Added Note view with an edit button
+- Vital Summary chart shows high / low badge for specific measurement
+- User can update owner name in Settings
+- Introduced first typescript definition file
+
+### Changed
+- Mobile nav bar looks like traditional app navbar
+- Update Signal Server URL in new edit view
+- Updated packages
+
+### Fixed
+
+
+## [0.4.0] - 2023-10-17
 
 ### Added
 - Measurements open in Vital and are highlighted on chart 

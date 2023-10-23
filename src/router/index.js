@@ -20,7 +20,9 @@ const PersonLogbook = () => import(/* webpackChunkName: "group-person" */ '../co
 const PersonVitals = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Vitals.vue');
 const PersonVital = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Vital.vue');
 const PersonUpdate = () => import(/* webpackChunkName: "group-person" */ '../components/People/Update.vue');
-const Settings = () => import('../components/Settings/Settings.vue');
+const Settings = () => import(/* webpackChunkName: "group-settings" */ '../components/Settings/Settings.vue');
+const SettingsUserUpdate = () => import(/* webpackChunkName: "group-settings" */ '../components/Settings/UserUpdate.vue');
+const SettingsSignalServerUpdate = () => import(/* webpackChunkName: "group-settings" */ '../components/Settings/SignalServerUpdate.vue');
 
 /** @type {import('vue-router').RouteRecordRaw[]} */
 const routes = [
@@ -263,6 +265,20 @@ const routes = [
         name: 'SettingsVitals',
         components: {
           main: Vitals
+        }
+      },
+      {
+        path: 'user',
+        name: 'SettingsUserUpdate',
+        components: {
+          main: SettingsUserUpdate
+        }
+      },
+      {
+        path: 'signal-server',
+        name: 'SettingsSignalServerUpdate',
+        components: {
+          main: SettingsSignalServerUpdate
         }
       }
     ]
