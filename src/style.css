@@ -4,7 +4,11 @@
 
 @media (hover: none) and (display-mode: standalone) {
   .main-header {
-    @apply bottom-[env(safe-area-inset-bottom)] md:bottom-auto mb-0;
+    @apply pb-[env(safe-area-inset-bottom)] md:bottom-auto mb-0;
+
+    .main-nav a {
+      @apply !pb-0;
+    }
   }
 }
 
@@ -20,10 +24,10 @@ body {
 
 .main-nav {
   li > a {
-    @apply grid grid-flow-col gap-4 p-2 px-3 justify-start items-center rounded-md text-gray-500 hover:bg-gray-800 hover:text-gray-400;
+    @apply grid lg:grid-flow-col lg:gap-4 p-2 px-3 justify-center lg:justify-start place-items-center lg:place-items-start rounded-md text-gray-500 hover:bg-gray-800 hover:text-gray-400;
 
     span:last-child {
-      @apply hidden lg:inline;
+      @apply text-xs md:text-sm lg:text-base;
     }
 
     &.router-link-exact-active,
@@ -87,7 +91,7 @@ body {
   .menu-button {
     @apply block rounded-full text-gray-400 hover:text-black hover:bg-gray-200 focus:outline-none transition-all;
 
-    &[aria-expanded=true] {
+    &[aria-expanded='true'] {
       @apply bg-gray-200 text-black;
     }
 
@@ -110,15 +114,15 @@ body {
 }
 
 button {
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-input[type=text],
-input[type=email],
-input[type=date],
-input[type=datetime-local],
-input[type=password],
-input[type=url],
+input[type='text'],
+input[type='email'],
+input[type='date'],
+input[type='datetime-local'],
+input[type='password'],
+input[type='url'],
 textarea,
 select {
   @apply border-gray-200 rounded py-2 px-3 text-gray-700;
@@ -128,33 +132,31 @@ select {
   }
 
   &:invalid::-webkit-datetime-edit {
-    @apply text-gray-300
+    @apply text-gray-300;
   }
 
   &::placeholder {
-    @apply text-gray-300 font-light text-sm
+    @apply text-gray-300 font-light text-sm;
   }
 }
 
-
 form {
-
   label {
     @apply block text-gray-500 text-sm font-light mb-2 cursor-pointer;
   }
 
-  input[type=text],
-  input[type=email],
-  input[type=date],
-  input[type=datetime-local],
-  input[type=password],
-  input[type=url],
+  input[type='text'],
+  input[type='email'],
+  input[type='date'],
+  input[type='datetime-local'],
+  input[type='password'],
+  input[type='url'],
   textarea,
   select {
     @apply shadow-sm mb-3 w-full;
   }
 
-  input[type=radio] {
+  input[type='radio'] {
     @apply border-gray-300 text-indigo-500 cursor-pointer align-text-top;
 
     &:hover,

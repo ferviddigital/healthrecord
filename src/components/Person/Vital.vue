@@ -73,7 +73,7 @@ const backRoute = computed(() => {
       </div>
       <div class="pt-9 grid gap-3">
         <h3 class="text-xl font-bold pb-3">
-          Logs
+          Logbook
           <span class="text-xs font-normal text-gray-500 align-middle">({{ vitalMeasurements.length }})</span>
         </h3>
         <div class="grid gap-3">

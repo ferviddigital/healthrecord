@@ -12,6 +12,7 @@ const VitalCreate = () => import(/* webpackChunkName: "group-vitals" */ '../comp
 const VitalUpdate = () => import(/* webpackChunkName: "group-vitals" */ '../components/Vitals/Update.vue');
 const MeasurementCreate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Create.vue');
 const MeasurementUpdate = () => import(/* webpackChunkName: "group-measurements" */ '../components/Measurements/Update.vue');
+const NoteView = () => import(/* webpackChunkName: "group-notes" */ '../components/Notes/View.vue');
 const NoteCreate = () => import(/* webpackChunkName: "group-notes" */ '../components/Notes/Create.vue');
 const NoteUpdate = () => import(/* webpackChunkName: "group-notes" */ '../components/Notes/Update.vue');
 const Person = () => import(/* webpackChunkName: "group-person" */ '../components/Person/Person.vue');
@@ -106,10 +107,10 @@ const routes = [
             },
             children: [
               {
-                path: 'measurement/create',
-                name: 'PersonVitalsMeasurementCreate',
+                path: 'create',
+                name: 'PersonVitalCreate',
                 components: {
-                  modal: MeasurementCreate
+                  modal: VitalCreate
                 }
               }
             ]
@@ -144,6 +145,13 @@ const routes = [
                   modal: NoteUpdate
                 }
               },
+              {
+                path: 'note/:noteId',
+                name: 'VitalMeasurementNoteView',
+                components: {
+                  modal: NoteView
+                }
+              },
             ]
           }
         ]
@@ -167,6 +175,13 @@ const routes = [
             name: 'PersonNoteUpdate',
             components: {
               modal: NoteUpdate
+            }
+          },
+          {
+            path: 'note/:noteId',
+            name: 'PersonLogbookNoteView',
+            components: {
+              modal: NoteView
             }
           },
           {
