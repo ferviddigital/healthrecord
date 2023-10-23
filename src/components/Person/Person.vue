@@ -74,7 +74,7 @@ const vitalMeasurements = (vitalId) => {
           </div>
         </div>
         <h3 class="grid grid-flow-col text-xl font-bold mb-4 cursor-pointer" @click="$router.push({ name: 'PersonLogbook' })">
-          Logs
+          Logbook
           <span class="font-normal text-base text-indigo-500 justify-self-end whitespace-nowrap">
             View all {{ sortedPersonLogEntries.length }} <ChevronRightIcon class="w-6 h-6 inline align-top" />
           </span>

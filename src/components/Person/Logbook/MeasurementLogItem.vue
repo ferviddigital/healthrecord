@@ -1,6 +1,5 @@
 <script setup>
-import { ArrowSmallDownIcon, ArrowSmallUpIcon } from '@heroicons/vue/20/solid';
-import { useRoute } from 'vue-router';
+import LowHighBadge from '../../Measurements/LowHighBadge.vue';
 
 const props = defineProps({
   measurement: {
@@ -26,10 +25,7 @@ const props = defineProps({
       <h3 class="font-semibold">
         {{ Number(measurement.value).toLocaleString() }}
         <span class="text-xs text-gray-500 font-light mr-3">{{ vital.unit }}</span>
-        <span v-if="vital.high && measurement.value >= Number(vital.high)"
-          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs font-normal cursor-default whitespace-nowrap"><ArrowSmallUpIcon class="inline w-4 h-4 -mt-1" />High</span>
-        <span v-if="vital.low && measurement.value <= Number(vital.low)"
-          class="border border-amber-200 p-1 py-0 pl-0 pr-1.5 rounded-lg text-amber-500 bg-amber-100 text-xs font-normal cursor-default whitespace-nowrap"><ArrowSmallDownIcon class="inline w-4 h-4 -mt-0.5" />Low</span>
+        <LowHighBadge :vital="vital" :measurement="measurement" />
       </h3>
     </div>
   </div>
