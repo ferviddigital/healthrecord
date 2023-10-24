@@ -1,20 +1,33 @@
 import { PointElement } from 'chart.js';
+import type { Chart, ChartEvent, Color, Plugin } from 'chart.js';
 
-/** @type {import('chart.js').Plugin} */
-const VerticalMouseLine = {
+interface VerticalMouseLineOptions {
+  hoverX?: number;
+  activeIndex?: number;
+  color: Color;
+  hoverLineWidth: number;
+  activeLineWidth: number;
+  lineDash: number[];
+}
+
+const VerticalMouseLine: Plugin<'line', VerticalMouseLineOptions> = {
   id: 'verticalMouseLine',
   defaults: {
-    hoverX: null,
-    activeIndex: null,
+    hoverX: undefined,
+    activeIndex: undefined,
     color: 'red',
     hoverLineWidth: 1,
     activeLineWidth: 2,
-    lineDash: [5,3],
+    lineDash: [5, 3],
   },
-  afterEvent: (chart, {event, inChartArea}, options) => {
-    if (!inChartArea || !chart.getActiveElements().length) {
-      options.hoverX = null;
-      return
+  afterEvent: (
+    chart: Chart,
+    args: Object & { event: ChartEvent; inChartArea: boolean },
+    options
+  ) => {
+    if (!args.inChartArea || !chart.getActiveElements().length) {
+      options.hoverX = undefined;
+      return;
     }
 
     const activeElement = chart.getActiveElements()[0].element;
@@ -23,15 +36,15 @@ const VerticalMouseLine = {
 
     const x = activeElement.x;
 
-    switch (event.type) {
+    switch (args.event.type) {
       case 'mousemove':
-        options.hoverX = x
+        options.hoverX = x;
         break;
     }
   },
-  afterDraw: (chart, args, options) => {
+  afterDraw: (chart: Chart, _args: Object, options) => {
     const ctx = chart.ctx;
-  
+
     if (options.hoverX) {
       ctx.save();
       ctx.beginPath();
@@ -43,9 +56,9 @@ const VerticalMouseLine = {
       ctx.stroke();
       ctx.restore();
     }
-  
+
     if (options.activeIndex) {
-      const x = chart.getDatasetMeta(0).data[options.activeIndex].x
+      const x = chart.getDatasetMeta(0).data[options.activeIndex].x;
       ctx.save();
       ctx.beginPath();
       ctx.strokeStyle = options.color;
@@ -55,7 +68,7 @@ const VerticalMouseLine = {
       ctx.stroke();
       ctx.restore();
     }
-  }
-}
+  },
+};
 
 export default VerticalMouseLine;

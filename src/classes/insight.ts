@@ -1,32 +1,19 @@
-import { record } from "../store/record";
-import pluralize from "pluralize";
+import { record } from '../store/record';
+import pluralize from 'pluralize';
 import n2w from 'number-to-words';
 
 class Insight {
-
-  /**
-   * The analyzed object
-   */
-  #object;
-
   /**
    * The analyzed person
    */
-  person;
+  person: Person;
 
-  /**
-   * @param {import("../typedefs").Vital | import("../typedefs").Measurement} object Object to analyze
-   * @param {import("../typedefs").Person} person Person to analyze
-   */
-  constructor(object, person) {
-    this.#object = object
-    this.person = person
+  constructor(person: Person) {
+    this.person = person;
   }
 
   /**
    * Get the text insight for this object
-   * 
-   * @returns {string}
    */
   get description() {
     return '';
@@ -34,49 +21,52 @@ class Insight {
 }
 
 export class VitalInsight extends Insight {
-
   /**
    * The analyzed vital
    */
-  vital;
+  vital: Vital;
 
-  /**
-   * @param {import("../typedefs").Vital} object Vital to be analyzed
-   * @param {import("../typedefs").Person} person Person to analyze
-   */
-  constructor(object, person) {
-    super(object, person);
+  constructor(object: Vital, person: Person) {
+    super(person);
     this.vital = object;
   }
 
   /**
    * Get person's measurements for this vital
-   * 
+   *
    * @returns {import("../typedefs").Measurement[]}
    */
   get #measurements() {
+    if (!record.value) return [];
     if (!this.vital.low && !this.vital.high) return [];
     return record.value.measurements
-      .filter(measurement => measurement.personId === this.person.id && measurement.vitalId === this.vital.id)
+      .filter(
+        measurement =>
+          measurement.personId === this.person.id && measurement.vitalId === this.vital.id
+      )
       .toSorted((a, b) => b.date - a.date);
   }
 
   /**
    * Measurements whose recent values are below the low value for this vital
-   * 
+   *
    * @returns {import("../typedefs").Measurement[]}
    */
   get #lowMeasurements() {
-    return this.#measurements.slice(0, 5).filter(measurement => measurement.value < this.vital.low);
+    if (!this.vital.low) return [];
+    const low = this.vital.low;
+    return this.#measurements.slice(0, 5).filter(measurement => measurement.value < low);
   }
-  
+
   /**
    * Measurements whose recent values are above the high value for this vital
-   * 
+   *
    * @returns {import("../typedefs").Measurement[]}
    */
   get #highMeasurements() {
-    return this.#measurements.slice(0, 5).filter(measurement => measurement.value > this.vital.high);
+    if (!this.vital.high) return [];
+    const high = this.vital.high;
+    return this.#measurements.slice(0, 5).filter(measurement => measurement.value > high);
   }
 
   /**
@@ -104,11 +94,11 @@ export class VitalInsight extends Insight {
 
   /**
    * Get the text description of this vital's Insight
-   * 
+   *
    * @returns {string}
    */
   get description() {
-    if (!this.level) return null;
+    if (!this.level) return '';
 
     let text = `Recent ${this.vital.name} measurements`;
 
@@ -124,9 +114,15 @@ export class VitalInsight extends Insight {
         break;
     }
 
-    if ( (this.level === 'low' && this.trend === 1) || (this.level === 'high' && this.trend === -1) ) {
+    if (
+      (this.level === 'low' && this.trend === 1) ||
+      (this.level === 'high' && this.trend === -1)
+    ) {
       text += ', but are';
-    } else if ( (this.level === 'low' && this.trend === -1) || (this.level === 'high' && this.trend === 1) ) {
+    } else if (
+      (this.level === 'low' && this.trend === -1) ||
+      (this.level === 'high' && this.trend === 1)
+    ) {
       text += ' and are';
     } else if (this.trend !== 0) {
       text += ' and are';
@@ -146,21 +142,23 @@ export class VitalInsight extends Insight {
 }
 
 export class VitalInsightsSummary {
+  person: Person;
 
-  /**
-   * @param {import("../typedefs").Person} person Person whose vitals are being analyzed
-   */
-  constructor(person) {
-    this.person = person
+  constructor(person: Person) {
+    this.person = person;
   }
 
   get #measurements() {
+    if (!record.value) return [];
     return record.value.measurements.filter(measurement => measurement.personId === this.person.id);
   }
 
   get #vitals() {
+    if (!record.value) return [];
+
     let vitalIds = this.#measurements.map(measurement => measurement.vitalId);
     vitalIds = [...new Set(vitalIds)];
+
     return record.value.vitals.filter(vital => vitalIds.includes(vital.id));
   }
 
@@ -195,15 +193,30 @@ export class VitalInsightsSummary {
     const vitalLevelsDescriptions = [];
 
     if (this.#normalLevelVitals.length > 0) {
-      vitalLevelsDescriptions.push(`${n2w.toWords(this.#normalLevelVitals.length)} ${pluralize('vital', this.#normalLevelVitals.length)} ${pluralize('has', this.#normalLevelVitals.length)} normal levels`);
+      vitalLevelsDescriptions.push(
+        `${n2w.toWords(this.#normalLevelVitals.length)} ${pluralize(
+          'vital',
+          this.#normalLevelVitals.length
+        )} ${pluralize('has', this.#normalLevelVitals.length)} normal levels`
+      );
     }
 
     if (this.#lowLevelVitals.length > 0) {
-      vitalLevelsDescriptions.push(`${n2w.toWords(this.#lowLevelVitals.length)} ${pluralize('vital', this.#lowLevelVitals.length)} ${pluralize('has', this.#lowLevelVitals.length)} low levels`);
+      vitalLevelsDescriptions.push(
+        `${n2w.toWords(this.#lowLevelVitals.length)} ${pluralize(
+          'vital',
+          this.#lowLevelVitals.length
+        )} ${pluralize('has', this.#lowLevelVitals.length)} low levels`
+      );
     }
 
     if (this.#highLevelVitals.length > 0) {
-      vitalLevelsDescriptions.push(`${n2w.toWords(this.#highLevelVitals.length)} ${pluralize('vital', this.#highLevelVitals.length)} ${pluralize('has', this.#highLevelVitals.length)} high levels`);
+      vitalLevelsDescriptions.push(
+        `${n2w.toWords(this.#highLevelVitals.length)} ${pluralize(
+          'vital',
+          this.#highLevelVitals.length
+        )} ${pluralize('has', this.#highLevelVitals.length)} high levels`
+      );
     }
 
     // Trends
@@ -213,11 +226,21 @@ export class VitalInsightsSummary {
     const vitalTrendsDescriptions = [];
 
     if (this.#upwardTrendVitals.length > 0) {
-      vitalTrendsDescriptions.push(`${n2w.toWords(this.#upwardTrendVitals.length)} ${pluralize('vital', this.#upwardTrendVitals.length)} ${pluralize('is', this.#upwardTrendVitals.length)} trending upward`);
+      vitalTrendsDescriptions.push(
+        `${n2w.toWords(this.#upwardTrendVitals.length)} ${pluralize(
+          'vital',
+          this.#upwardTrendVitals.length
+        )} ${pluralize('is', this.#upwardTrendVitals.length)} trending upward`
+      );
     }
 
     if (this.#downwardTrendVitals.length > 0) {
-      vitalTrendsDescriptions.push(`${n2w.toWords(this.#downwardTrendVitals.length)} ${pluralize('vital', this.#downwardTrendVitals.length)} ${pluralize('is', this.#downwardTrendVitals.length)} trending downward`);
+      vitalTrendsDescriptions.push(
+        `${n2w.toWords(this.#downwardTrendVitals.length)} ${pluralize(
+          'vital',
+          this.#downwardTrendVitals.length
+        )} ${pluralize('is', this.#downwardTrendVitals.length)} trending downward`
+      );
     }
 
     const trendsDescription = vitalTrendsDescriptions.join(', ');
@@ -230,38 +253,34 @@ export class VitalInsightsSummary {
 
 /**
  * Calculate non-parametric regression
- * 
- * @param {Array<Number>} values Values to consider
- * @param {Number} bandwidth Bandwidth
- * @returns {Number[]}
  */
-const nonParametricRegression = (values, bandwidth = 0.5) => {
+const nonParametricRegression = (values: number[], bandwidth = 0.5) => {
   // Create a kernel function.
-  const kernelFunction = (x) => Math.exp(-(Math.pow(x, 2)) / (2 * Math.pow(bandwidth, 2)));
+  const kernelFunction = (x: number) => Math.exp(-Math.pow(x, 2) / (2 * Math.pow(bandwidth, 2)));
 
   // Calculate the weighted average of the data points.
-  const predictedValues = values.map((yi, i) => {
-    const weights = values.map((yj, j) => kernelFunction((yi - yj) / bandwidth));
-    return values.reduce((acc, yj, j) => acc + weights[j] * yj, 0) / weights.reduce((acc, w) => acc + w, 0);
+  const predictedValues = values.map(yi => {
+    const weights = values.map(yj => kernelFunction((yi - yj) / bandwidth));
+    return (
+      values.reduce((acc, yj, j) => acc + weights[j] * yj, 0) /
+      weights.reduce((acc, w) => acc + w, 0)
+    );
   });
 
   // Return the predicted values.
   return predictedValues;
-}
+};
 
 /**
  * Calculate trend from values
- * 
- * @param {Array<Number>} values Values to consider
- * @param {Number} bandwidth Bandwidth
- * @returns {1 | 0 | -1}
  */
-const nonParametricRegressionTrend = (values, bandwidth = 0.5) => {
+const nonParametricRegressionTrend = (values: number[], bandwidth = 0.5) => {
   // Calculate the predicted values using the nonParametricRegression function.
   const predictedValues = nonParametricRegression(values, bandwidth);
 
   // Calculate the slope of the predicted values.
-  const slope = (predictedValues[predictedValues.length - 1] - predictedValues[0]) / predictedValues.length;
+  const slope =
+    (predictedValues[predictedValues.length - 1] - predictedValues[0]) / predictedValues.length;
 
   // Return 1 if the trend is up, 0 if the trend is flat, and -1 if the trend is down.
   if (slope > 0) {
@@ -271,4 +290,4 @@ const nonParametricRegressionTrend = (values, bandwidth = 0.5) => {
   } else {
     return 0;
   }
-}
+};

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { CheckCircleIcon } from '@heroicons/vue/24/solid';
 import { selectedPersonId } from '../../store/person';
@@ -7,13 +7,11 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const props = defineProps({
-  person: {
-    /** @type {import('vue').PropType<import("../../typedefs").Person>} */
-    type: Object,
-    required: true
-  }
-});
+interface PersonListItemProps {
+  person: Person;
+}
+
+const props = defineProps<PersonListItemProps>();
 
 const goToPerson = () => {
   selectedPersonId.value = props.person.id;

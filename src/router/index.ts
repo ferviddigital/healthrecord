@@ -100,6 +100,7 @@ const routes = [
       },
       {
         path: ':personId/vitals',
+        props: true,
         children: [
           {
             name: 'PersonVitals',

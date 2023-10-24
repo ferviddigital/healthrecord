@@ -2,12 +2,13 @@ import { IndexeddbPersistence } from 'y-indexeddb';
 import { doc } from './syncedstore';
 
 /** @type {IndexeddbPersistence | undefined} */
-let iDBProvider;
+var iDBProvider: IndexeddbPersistence | undefined = undefined;
 
 const setupIDBDocListeners = () => {
   doc.on('destroy', async () => {
+    if (!iDBProvider) return;
     await iDBProvider.clearData();
-    iDBProvider = null;
+    iDBProvider = undefined;
     connect();
     setupIDBDocListeners();
   });

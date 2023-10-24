@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { people } from '../../store/people';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
-import PersonListItem from '../People/PersonListItem.vue';
 import { scrolled } from '../../store/ui';
+import PersonListItem from '../People/PersonListItem.vue';
 </script>
 
 <template>

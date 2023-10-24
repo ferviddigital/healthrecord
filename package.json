@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "generate-pwa-icon": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -c -i ./index.html -v /assets -m ./public/manifest.webmanifest",
     "generate-pwa-splash": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -p -i ./index.html -v /assets \"32%\" -h -r",
@@ -33,16 +33,21 @@
     "yjs": "^13.6.8"
   },
   "devDependencies": {
+    "@types/number-to-words": "^1.2.2",
+    "@types/pluralize": "^0.0.32",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/cli-plugin-router": "~5.0.0",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5",
-    "vite-plugin-pwa": "^0.16.5"
+    "vite-plugin-pwa": "^0.16.5",
+    "vue-tsc": "^1.8.20"
   },
   "prettier": {
     "singleQuote": true,
-    "printWidth": 100
+    "printWidth": 100,
+    "arrowParens": "avoid"
   }
 }
