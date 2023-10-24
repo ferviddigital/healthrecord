@@ -1,6 +1,6 @@
 import { computed } from 'vue';
-import { record } from './record';
-import { removeNote as removeMeasurementNote } from './measurements';
+import { record } from '@store/record';
+import { removeNote as removeMeasurementNote } from '@store/measurements';
 
 /** All Note objects */
 export const notes = computed(() => {

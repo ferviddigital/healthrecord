@@ -1,4 +1,4 @@
-import { HealthRecordSyncedStore, record } from '../store/record';
+import { HealthRecordSyncedStore, record } from '@store/record';
 import { createSyncedStore, doc } from '../providers/syncedstore';
 import '../providers/indexeddb';
 import '../providers/webrtc';
@@ -16,7 +16,7 @@ export const clear = () => {
   record.value = createSyncedStore();
 };
 
-export const create = (person: { firstName: string; lastName: string, sex: string, dob: string }) => {
+export const create = (person: { firstName: string, lastName: string, sex: string, dob: string }) => {
   const record: HealthRecord = {
     id: crypto.randomUUID(),
     version: recordVersion,

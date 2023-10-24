@@ -5,8 +5,8 @@ import { computed, onActivated, onMounted, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import '../../scripts/chartjs';
 
-const router  = useRouter();
-const route   = useRoute();
+const router = useRouter();
+const route = useRoute();
 
 /** @type {import('vue').Ref<import('vue-chartjs').ChartComponentRef>} */
 const vitalChartInstance = ref(null);
@@ -15,28 +15,30 @@ const props = defineProps({
   vital: {
     /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
     type: Object,
-    required: true
+    required: true,
   },
   measurements: {
     /** @type {import('vue').PropType<import("../../typedefs").Measurement[]>} */
     type: Array,
-    required: true
+    required: true,
   },
   small: {
-    type: Boolean
+    type: Boolean,
   },
   minDate: {
     type: Number,
-    default: null
+    default: null,
   },
   maxDate: {
     type: Number,
-    default: null
-  }
+    default: null,
+  },
 });
 
 const selectedMeasurementIndex = computed(() => {
-  const index = props.measurements.findIndex(measurement => measurement.id === route.query.measurementId);
+  const index = props.measurements.findIndex(
+    measurement => measurement.id === route.query.measurementId
+  );
   return index === -1 ? null : index;
 });
 
@@ -55,7 +57,7 @@ const data = computed(() => {
     datasets: [
       {
         label: props.vital.name,
-        backgroundColor: function(ctx, options) {
+        backgroundColor: function (ctx, options) {
           const context = ctx.chart.ctx;
           const gradient = context.createLinearGradient(0, 0, 0, 400);
           gradient.addColorStop(0.2, '#eef2ff');
@@ -74,9 +76,9 @@ const data = computed(() => {
         pointHoverRadius: props.small ? 0 : 6.5,
         pointHoverBackgroundColor: '#4F46E5',
         tension: 0.3,
-      }
-    ]
-  }
+      },
+    ],
+  };
 });
 
 const options = computed(() => {
@@ -86,25 +88,25 @@ const options = computed(() => {
     aspectRatio: 1.5,
     layout: {
       padding: {
-        top: 10
-      }
+        top: 10,
+      },
     },
     hover: {
       mode: 'index',
-      intersect: false
+      intersect: false,
     },
     plugins: {
       tooltip: {
         enabled: props.small ? false : true,
         displayColors: false,
         callbacks: {
-          label: (context) => {
+          label: context => {
             return context.formattedValue + ' ' + props.vital.unit;
           },
-          title: (context) => {
+          title: context => {
             return new Date(context[0].parsed.x).toLocaleDateString();
-          }
-        }
+          },
+        },
       },
       annotation: {
         annotations: {},
@@ -112,7 +114,7 @@ const options = computed(() => {
       // @ts-ignore
       verticalMouseLine: {
         color: '#4F46E5',
-        activeIndex: selectedMeasurementIndex.value
+        activeIndex: selectedMeasurementIndex.value,
       },
     },
     scales: {
@@ -126,13 +128,13 @@ const options = computed(() => {
           round: 'day',
         },
         border: {
-          display: false
+          display: false,
         },
         grid: {
           display: false,
           color: '#efefef',
           drawTicks: true,
-          tickLength: 10
+          tickLength: 10,
         },
         ticks: {
           display: false,
@@ -141,18 +143,18 @@ const options = computed(() => {
           mirror: false,
           align: 'inner',
           maxRotation: 0,
-          padding: 0
-        }
+          padding: 0,
+        },
       },
       y: {
         bounds: 'ticks',
         grid: {
           display: false,
           drawTicks: true,
-          tickLength: 10
+          tickLength: 10,
         },
         border: {
-          display: false
+          display: false,
         },
         ticks: {
           color: '#aaa',
@@ -161,30 +163,32 @@ const options = computed(() => {
           align: 'inner',
           display: false,
           padding: 0,
-          callback: (value) => {
-            return Intl.NumberFormat(navigator.language, {notation: 'compact'}).format(Number(value));
-          }
-        }
-      }
+          callback: value => {
+            return Intl.NumberFormat(navigator.language, { notation: 'compact' }).format(
+              Number(value)
+            );
+          },
+        },
+      },
     },
     onClick: (event, elements, chart) => {
       if (props.small) return;
-      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+      if (elements.length === 0 || !(elements[0].element instanceof PointElement)) {
         return;
-      };
-      const measurement = props.measurements[elements[0].index]
-      router.push({ name: 'PersonVital', query: { measurementId: measurement.id }});
+      }
+      const measurement = props.measurements[elements[0].index];
+      router.push({ name: 'PersonVital', query: { measurementId: measurement.id } });
     },
     onHover: (event, elements, chart) => {
       if (props.small) {
-        return chart.canvas.style.cursor = 'pointer';
+        return (chart.canvas.style.cursor = 'pointer');
       }
-      if ( elements.length === 0 || !(elements[0].element instanceof PointElement)) {
-        return chart.canvas.style.cursor = 'default';
-      };
-      return chart.canvas.style.cursor = 'pointer';
+      if (elements.length === 0 || !(elements[0].element instanceof PointElement)) {
+        return (chart.canvas.style.cursor = 'default');
+      }
+      return (chart.canvas.style.cursor = 'pointer');
     },
-  }
+  };
 
   if (props.small) {
     // @ts-ignore
@@ -195,9 +199,9 @@ const options = computed(() => {
       padding: {
         top: 2,
         right: -1,
-        bottom: -2
-      }
-    }
+        bottom: -2,
+      },
+    };
   } else {
     options.scales.x.grid.display = true;
     options.scales.x.ticks.display = true;
@@ -206,12 +210,11 @@ const options = computed(() => {
       padding: {
         top: 20,
         right: 0,
-      }
-    }
+      },
+    };
   }
 
   if (props.vital.low && !props.small) {
-
     /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
     const lowLine = {
       type: 'line',
@@ -220,8 +223,8 @@ const options = computed(() => {
       borderColor: '#FED7AA',
       borderDash: [5, 3],
       borderWidth: 1,
-      drawTime: 'beforeDatasetsDraw'
-    }
+      drawTime: 'beforeDatasetsDraw',
+    };
 
     /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
     const lowBox = {
@@ -234,33 +237,35 @@ const options = computed(() => {
         content: 'low',
         position: {
           x: 'center',
-          y: 'start'
+          y: 'start',
         },
         display: true,
         color: 'rgb(253 186 116)',
         font: {
           weight: 'normal',
-          size: 11
-        }
+          size: 11,
+        },
       },
-      drawTime: 'beforeDatasetsDraw'
-    }
+      drawTime: 'beforeDatasetsDraw',
+    };
 
-    options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { lowLine, lowBox })
+    options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, {
+      lowLine,
+      lowBox,
+    });
   }
 
   if (props.vital.high && !props.small) {
-
     /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
     const highLine = {
       type: 'line',
       scaleID: 'y',
       value: props.vital.high,
       borderColor: '#FED7AA',
-      borderDash: [5,3],
+      borderDash: [5, 3],
       borderWidth: 1,
-      drawTime: 'beforeDatasetsDraw'
-    }
+      drawTime: 'beforeDatasetsDraw',
+    };
 
     /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
     const highBox = {
@@ -278,13 +283,16 @@ const options = computed(() => {
         color: 'rgb(253 186 116)',
         font: {
           weight: 'normal',
-          size: 11
-        }
+          size: 11,
+        },
       },
-      drawTime: 'beforeDatasetsDraw'
-    }
+      drawTime: 'beforeDatasetsDraw',
+    };
 
-    options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, { highLine, highBox })
+    options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, {
+      highLine,
+      highBox,
+    });
   }
   return options;
 });
@@ -319,9 +327,5 @@ watch(props, () => {
 </script>
 
 <template>
-  <Line
-    :options="options"
-    :data="data"
-    ref="vitalChartInstance"
-  />
+  <Line :options="options" :data="data" ref="vitalChartInstance" />
 </template>

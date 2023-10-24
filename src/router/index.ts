@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { previousRoute } from '../store/ui';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
+import { previousRoute } from '@store/ui';
 
 const Start = () => import(/* webpackChunkName: "group-start" */ '../components/Start/Start.vue');
 const StartNew = () => import(/* webpackChunkName: "group-start" */ '../components/Start/New.vue');
@@ -24,8 +24,7 @@ const Settings = () => import(/* webpackChunkName: "group-settings" */ '../compo
 const SettingsUserUpdate = () => import(/* webpackChunkName: "group-settings" */ '../components/Settings/UserUpdate.vue');
 const SettingsSignalServerUpdate = () => import(/* webpackChunkName: "group-settings" */ '../components/Settings/SignalServerUpdate.vue');
 
-/** @type {import('vue-router').RouteRecordRaw[]} */
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/start',
     name: 'Start',
@@ -289,7 +288,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
     } else {
@@ -309,7 +308,7 @@ router.beforeEach((to) => {
 });
 
 
-router.beforeEach((to, from) => {
+router.beforeEach((_to, from) => {
   previousRoute.value = from;
 });
 

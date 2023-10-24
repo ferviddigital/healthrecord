@@ -1,6 +1,8 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { VitePWA } from 'vite-plugin-pwa'
+import { fileURLToPath, URL } from 'node:url';
+
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
@@ -9,7 +11,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       devOptions: {
         enabled: process.env.NODE_ENV === 'development' ? true : false,
-        type: 'module'
+        type: 'module',
       },
       useCredentials: true,
       manifest: {
@@ -26,43 +28,45 @@ export default defineConfig({
         background_color: 'rgb(229, 231, 235)',
         theme_color: 'rgb(229, 231, 235)',
         launch_handler: {
-          client_mode: 'navigate-existing'
+          client_mode: 'navigate-existing',
         },
-        categories: [
-          'medical',
-          'health',
-          'utilities'
-        ],
+        categories: ['medical', 'health', 'utilities'],
         icons: [
           {
             src: '/assets/manifest-icon-192.maskable.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'any'
+            purpose: 'any',
           },
           {
             src: '/assets/manifest-icon-192.maskable.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'maskable'
+            purpose: 'maskable',
           },
           {
             src: '/assets/manifest-icon-512.maskable.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any'
+            purpose: 'any',
           },
           {
             src: '/assets/manifest-icon-512.maskable.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'maskable'
-          }
-        ]
-      }
-    })
+            purpose: 'maskable',
+          },
+        ],
+      },
+    }),
   ],
   define: {
-    APP_VERSION: JSON.stringify(process.env.npm_package_version)
-  }
-})
+    APP_VERSION: JSON.stringify(process.env.npm_package_version),
+  },
+  resolve: {
+    alias: {
+      '@store': fileURLToPath(new URL('./src/store', import.meta.url)),
+      '@project-types': fileURLToPath(new URL('./src/types', import.meta.url)),
+    },
+  },
+});

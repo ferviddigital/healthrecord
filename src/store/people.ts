@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { record } from './record';
+import { record } from '@store/record';
 
 /**
  * All tracked people

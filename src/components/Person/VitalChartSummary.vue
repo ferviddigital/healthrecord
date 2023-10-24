@@ -25,7 +25,7 @@ const props = defineProps({
 });
 
 const selectedMeasurement = computed(() => {
-  return props.measurements.find((measurement) => measurement.id === route.query.measurementId);
+  return props.measurements.find(measurement => measurement.id === route.query.measurementId);
 });
 
 /** @type {import('vue').Ref<import('../../typedefs').VitalChartRange>} */
@@ -33,27 +33,27 @@ const selectedRange = ref({ length: 100, unit: 'year' });
 
 const minDate = computed(() => {
   if (selectedRange.value.length === 100) {
-    return Math.min(...props.measurements.map((measurement) => measurement.date));
+    return Math.min(...props.measurements.map(measurement => measurement.date));
   }
   return dayjs().subtract(selectedRange.value.length, selectedRange.value.unit).valueOf();
 });
 
 const dateRangeStart = computed(() => {
-  return Math.min(...filteredMeasurements.value.map((measurement) => measurement.date));
+  return Math.min(...filteredMeasurements.value.map(measurement => measurement.date));
 });
 
 const dateRangeEnd = computed(() => {
-  return Math.max(...props.measurements.map((measurement) => measurement.date));
+  return Math.max(...props.measurements.map(measurement => measurement.date));
 });
 
 const filteredMeasurements = computed(() => {
-  return props.measurements.filter((measurement) => measurement.date >= minDate.value);
+  return props.measurements.filter(measurement => measurement.date >= minDate.value);
 });
 
 const averageMeasurement = computed(() => {
   return (
     filteredMeasurements.value
-      .map((measurement) => measurement.value)
+      .map(measurement => measurement.value)
       .reduce((previous, current) => previous + current, 0) / filteredMeasurements.value.length
   );
 });
@@ -105,7 +105,7 @@ const ranges = computed(() => {
     },
   ];
   ranges.forEach((range, index) => {
-    range.quantity = props.measurements.filter((measurement) => {
+    range.quantity = props.measurements.filter(measurement => {
       if (index === 0) {
         return dayjs(measurement.date).isBetween(
           dayjs(),
@@ -121,7 +121,7 @@ const ranges = computed(() => {
       }
     }).length;
   });
-  return ranges.filter((range) => range.quantity > 0).reverse();
+  return ranges.filter(range => range.quantity > 0).reverse();
 });
 
 const dateRangeText = computed(() => {
@@ -140,12 +140,12 @@ const dateRangeText = computed(() => {
 
 const lowMeasurements = computed(() => {
   if (!props.vital.low) return [];
-  return filteredMeasurements.value.filter((measurement) => measurement.value < props.vital.low);
+  return filteredMeasurements.value.filter(measurement => measurement.value < props.vital.low);
 });
 
 const highMeasurements = computed(() => {
   if (!props.vital.high) return [];
-  return filteredMeasurements.value.filter((measurement) => measurement.value > props.vital.high);
+  return filteredMeasurements.value.filter(measurement => measurement.value > props.vital.high);
 });
 
 const language = navigator.language;
@@ -161,8 +161,16 @@ const language = navigator.language;
         <div class="grid grid-flow-col sm:justify-start divide-x divide-indigo-400">
           <div class="p-2 sm:px-4">
             <p class="font-bold whitespace-nowrap">
-              {{ Intl.NumberFormat(language, { notation: 'compact' }).format(selectedMeasurement.value) }}
-              <LowHighBadge :vital="vital" :measurement="selectedMeasurement" class="inline-block ml-2 align-text-top" />
+              {{
+                Intl.NumberFormat(language, { notation: 'compact' }).format(
+                  selectedMeasurement.value
+                )
+              }}
+              <LowHighBadge
+                :vital="vital"
+                :measurement="selectedMeasurement"
+                class="inline-block ml-2 align-text-top"
+              />
             </p>
             <h5 class="uppercase text-xs text-indigo-200">{{ vital.unit }}</h5>
           </div>

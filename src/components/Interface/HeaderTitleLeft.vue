@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { scrolled } from '../../store/ui';
+import { scrolled } from '@store/ui';
 
 interface HeaderTitleLeftProps {
   title: string;

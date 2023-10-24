@@ -1,7 +1,7 @@
 <script setup>
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
-import { store as peopleStore } from '../../store/people';
+import { store as peopleStore } from '@store/people';
 import PersonForm from './Form.vue';
 
 const router = useRouter();

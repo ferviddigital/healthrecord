@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { vitals } from '../../store/vitals';
+import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 import dayjs from 'dayjs';
-import { Switch, SwitchLabel, SwitchGroup } from '@headlessui/vue';
 import type {
   MeasurementFormEmits,
-  MeasurementFormProps,
   MeasurementFormPayload,
-} from 'src/types/measurement';
+  MeasurementFormProps,
+} from '@project-types/measurement';
+import { computed, ref, watch } from 'vue';
+import { vitals } from '@store/vitals';
 
 const props = withDefaults(defineProps<MeasurementFormProps>(), {
   date: Date.now(),

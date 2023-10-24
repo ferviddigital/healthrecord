@@ -1,7 +1,7 @@
 import { WebrtcProvider } from 'y-webrtc';
 import { doc } from './syncedstore';
 import { computed, ref } from 'vue';
-import { record } from '../store/record';
+import { record } from '@store/record';
 
 var webRTCProvider: WebrtcProvider | undefined;
 

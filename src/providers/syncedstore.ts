@@ -2,7 +2,7 @@ import { Doc } from 'yjs';
 import syncedStore from '@syncedstore/core';
 import { enableVueBindings } from '@syncedstore/core';
 import * as Vue from 'vue';
-import { record } from '../store/record';
+import { record } from '@store/record';
 import { DocTypeDescription } from '@syncedstore/core/types/doc';
 
 enableVueBindings(Vue);

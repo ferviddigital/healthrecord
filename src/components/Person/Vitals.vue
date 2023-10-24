@@ -3,9 +3,9 @@ import { QuestionMarkCircleIcon, LightBulbIcon, ChevronRightIcon } from '@heroic
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed, ref } from 'vue';
-import { vitals, createBodyWeightVital, createHeartRateVital } from '../../store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital } from '@tore/vitals';
 import VitalSummary from './VitalSummary.vue';
-import { selectedPerson, sortedPersonMeasurements } from '../../store/person';
+import { selectedPerson, sortedPersonMeasurements } from '@store/person';
 import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
 
 const vitalSort = ref('date');
@@ -27,25 +27,25 @@ const recentlyTrackedVitals = computed(() => {
 const sortedVitals = computed(() => {
   switch (vitalSort.value) {
     case 'alpha':
-      return trackedVitals.value
+      return trackedVitals.value;
     case 'date':
-      return recentlyTrackedVitals.value
+      return recentlyTrackedVitals.value;
   }
-})
+});
 
-const vitalMeasurements = (vitalId) => {
-  return sortedPersonMeasurements.value.filter(measurement => measurement.vitalId === vitalId)
-}
+const vitalMeasurements = vitalId => {
+  return sortedPersonMeasurements.value.filter(measurement => measurement.vitalId === vitalId);
+};
 </script>
 
 <template>
   <div>
-    <HeaderTitleLeft
-      title="Vitals"
-      subtitle="Track Vitals and record new Measurements."
-    >
+    <HeaderTitleLeft title="Vitals" subtitle="Track Vitals and record new Measurements.">
       <template #right>
-        <RouterLink class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center" :to="{ name: 'PersonVitalCreate' }">
+        <RouterLink
+          class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center"
+          :to="{ name: 'PersonVitalCreate' }"
+        >
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
       </template>
@@ -54,17 +54,19 @@ const vitalMeasurements = (vitalId) => {
       <div v-if="sortedVitals.length > 0">
         <VitalSummary :person="selectedPerson" />
         <div class="grid justify-items-end">
-          <div class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner">
+          <div
+            class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner"
+          >
             <button
               class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
-              :class="{'!bg-indigo-500 text-white shadow': vitalSort === 'alpha'}"
+              :class="{ '!bg-indigo-500 text-white shadow': vitalSort === 'alpha' }"
               @click="vitalSort = 'alpha'"
             >
               A-Z
             </button>
             <button
               class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
-              :class="{'!bg-indigo-500 text-white shadow': vitalSort === 'date'}"
+              :class="{ '!bg-indigo-500 text-white shadow': vitalSort === 'date' }"
               @click="vitalSort = 'date'"
             >
               Recent
@@ -80,21 +82,50 @@ const vitalMeasurements = (vitalId) => {
           >
             <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
               <h3 class="font-semibold">{{ vital.name }}</h3>
-              <ChevronRightIcon class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all" />
+              <ChevronRightIcon
+                class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all"
+              />
             </header>
-            <VitalChart class="cursor-pointer" :vital="vital" :measurements="vitalMeasurements(vital.id)" :small="true"/>
+            <VitalChart
+              class="cursor-pointer"
+              :vital="vital"
+              :measurements="vitalMeasurements(vital.id)"
+              :small="true"
+            />
           </div>
         </div>
       </div>
-      <div v-else class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
-        <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center mb-4 pb-4 border-b border-amber-200">
+      <div
+        v-else
+        class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm"
+      >
+        <p
+          class="grid grid-flow-col grid-cols-[min-content_auto] items-center mb-4 pb-4 border-b border-amber-200"
+        >
           <QuestionMarkCircleIcon class="h-6 w-6 mr-3" />
           A Vital is a health statistic to measure.
         </p>
         <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
           <LightBulbIcon class="h-6 w-6 mr-3" />
-          <span v-if="vitals.length === 0">You are not measuring any vitals. <RouterLink class="underline" :to="{ name: 'VitalCreate' }">Add&nbsp;a&nbsp;vital</RouterLink> or start with <span class="underline cursor-pointer" @click="createBodyWeightVital()">body weight</span> or <span class="underline cursor-pointer" @click="createHeartRateVital()">heart rate</span>.</span>
-          <span v-else>You have not recorded any measurements. <RouterLink class="underline" :to="{ name: 'PersonMeasurementCreate' }">Add&nbsp;a&nbsp;measurement</RouterLink>.</span>
+          <span v-if="vitals.length === 0"
+            >You are not measuring any vitals.
+            <RouterLink class="underline" :to="{ name: 'VitalCreate' }"
+              >Add&nbsp;a&nbsp;vital</RouterLink
+            >
+            or start with
+            <span class="underline cursor-pointer" @click="createBodyWeightVital()"
+              >body weight</span
+            >
+            or
+            <span class="underline cursor-pointer" @click="createHeartRateVital()">heart rate</span
+            >.</span
+          >
+          <span v-else
+            >You have not recorded any measurements.
+            <RouterLink class="underline" :to="{ name: 'PersonMeasurementCreate' }"
+              >Add&nbsp;a&nbsp;measurement</RouterLink
+            >.</span
+          >
         </p>
       </div>
     </div>

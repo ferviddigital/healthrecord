@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import type { MeasurementFormPayload, MeasurementUpdateProps } from 'src/types/measurement';
+import type { MeasurementFormPayload, MeasurementUpdateProps } from '@project-types/measurement';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   destroy as destroyMeasurement,
   measurements,
   update as updateMeasurement,
-} from '../../store/measurements';
-import { create as createNote, destroy as destroyNote, notes } from '../../store/notes';
-import { vitals } from '../../store/vitals';
+} from '@store/measurements';
+import { create as createNote, destroy as destroyNote, notes } from '@store/notes';
+import { vitals } from '@store/vitals';
 import MeasurementForm from './Form.vue';
 
 const router = useRouter();

@@ -6,11 +6,11 @@ import {
   HeartIcon,
   UserIcon,
 } from '@heroicons/vue/20/solid';
-import { record } from '../store/record';
+import { record } from '@store/record';
 import { peers, webrtcConnected } from '../providers/webrtc';
 import pluralize from 'pluralize';
-import { scrolled } from '../store/ui';
-import { selectedPersonId } from '../store/person';
+import { scrolled } from '@store/ui';
+import { selectedPersonId } from '@store/person';
 
 window.addEventListener('scroll', () => {
   scrolled.value = window.scrollY > 0;

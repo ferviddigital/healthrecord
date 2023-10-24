@@ -33,6 +33,7 @@
     "yjs": "^13.6.8"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.6",
     "@types/number-to-words": "^1.2.2",
     "@types/pluralize": "^0.0.32",
     "@vitejs/plugin-vue": "^4.2.3",

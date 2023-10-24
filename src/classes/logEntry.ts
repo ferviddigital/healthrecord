@@ -1,6 +1,6 @@
-import { people } from '../store/people';
-import { vitals } from '../store/vitals';
-import { notes } from '../store/notes';
+import { people } from '@store/people';
+import { vitals } from '@store/vitals';
+import { notes } from '@store/notes';
 
 export class LogEntry {
   date: number;

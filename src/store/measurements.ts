@@ -1,7 +1,7 @@
 import { computed } from 'vue';
-import { record } from './record';
-import { destroy as destroyNote } from './notes';
-import type { MeasurementFormPayload } from 'src/types/measurement';
+import { record } from '@store/record';
+import { destroy as destroyNote } from '@store/notes';
+import { MeasurementFormPayload } from '@project-types/measurement';
 
 /** All Measurement objects */
 export const measurements = computed(() => {

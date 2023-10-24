@@ -6,12 +6,11 @@ const props = defineProps({
   person: {
     /** @type {import('vue').PropType<import("../../typedefs").Person>} */
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const summary = new VitalInsightsSummary(props.person);
-
 </script>
 
 <template>
