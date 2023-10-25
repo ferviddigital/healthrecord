@@ -6,16 +6,22 @@ const fields: FormField[] = [
 {
     name: 'firstName',
     placeholder: 'First name',
-    currentValue: record.value.user.firstName,
+    currentValue: record.value?.user.firstName,
     type: 'text',
-    blurCallback: (newValue) => record.value.user.firstName = newValue
+    blurCallback: (newValue) => {
+      if (!record.value) throw new Error('Record not found.');
+      record.value.user.firstName = newValue;
+    }
   },
   {
     name: 'lastName',
     placeholder: 'Last name',
-    currentValue: record.value.user.lastName,
+    currentValue: record.value?.user.lastName,
     type: 'text',
-    blurCallback: (newValue) => record.value.user.lastName = newValue
+    blurCallback: (newValue) => {
+      if (!record.value) throw new Error('Record not found.');
+      record.value.user.lastName = newValue;
+    }
   },
 ];
 </script>

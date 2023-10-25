@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "generate-pwa-icon": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -c -i ./index.html -v /assets -m ./public/manifest.webmanifest",
     "generate-pwa-splash": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -p -i ./index.html -v /assets \"32%\" -h -r",

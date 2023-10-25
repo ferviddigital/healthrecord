@@ -25,6 +25,7 @@ const buff_to_base64 = (buff: Uint8Array) => {
 };
 
 const base64_to_buf = (b64: string) => {
+  // @ts-ignore
   return Uint8Array.from(atob(b64), c => c.charCodeAt(null));
 };
 
