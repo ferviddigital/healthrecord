@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { RouteLocationNormalized } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router';
 import { scrolled, previousRoute } from '@store/ui';
 import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
 
 interface HeaderTitleCenterProps {
   title: string;
   backText?: string;
-  backRoute?: RouteLocationNormalized;
+  backRoute?: RouteLocationRaw;
 }
 
 const props = withDefaults(defineProps<HeaderTitleCenterProps>(), {

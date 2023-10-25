@@ -1,18 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
-import { store as vitalsStore } from '@store/vitals';
+import { create } from '@store/vitals';
 import VitalForm from './Form.vue';
 
 const router = useRouter();
 
 /**
  * Create Vital
- *
- * @param {import("../../typedefs").Vital} vital
  */
-const createVital = vital => {
-  vitalsStore.create(vital);
+const createVital = (vital: Vital) => {
+  create(vital);
   router.push({ name: 'Vitals' });
 };
 </script>

@@ -23,6 +23,7 @@ const validateSocketUrl = (urlString: string) => {
 };
 
 const updateSignalServer = (newUrl: string) => {
+  if (!record.value.user.preferences) return;
   if (validateSocketUrl(newUrl) || newUrl.length === 0) {
     record.value.user.preferences.webRTC.signalerUrl = newUrl;
   } else {

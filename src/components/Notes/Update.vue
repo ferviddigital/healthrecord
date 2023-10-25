@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -22,9 +22,8 @@ const text = ref(note.value.text);
 
 /**
  * Submit Measurement form action
- * @param {import('../../typedefs').NotePayload} params
  */
-const submit = ({ date, text }) => {
+const submit = ({ date, text }: NotePayload) => {
   router.back();
   updateNote(noteId.value, date, text, note.value.measurementId);
 };

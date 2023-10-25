@@ -27,15 +27,18 @@ const goToPerson = () => {
     @click="goToPerson"
   >
     <div class="grid items-end content-end">
-      <h3 class="font-semibold mb-1">{{ person.firstName + ' ' + person.lastName }}</h3>
+      <h3 class="font-semibold mb-1">{{ props.person.firstName + ' ' + props.person.lastName }}</h3>
       <p class="text-gray-400 text-sm">
-        <strong>Age</strong>: {{ dayjs().diff(dayjs(person.dob), 'year') }} &emsp;
+        <strong>Age</strong>: {{ dayjs().diff(dayjs(props.person.dob), 'year') }} &emsp;
         <br class="lg:hidden" />
-        <strong>Sex</strong>: {{ person.sex }}
+        <strong>Sex</strong>: {{ props.person.sex }}
       </p>
     </div>
     <div class="grid justify-items-end">
-      <CheckCircleIcon v-if="person.id === selectedPersonId" class="h-7 w-7 text-indigo-500" />
+      <CheckCircleIcon
+        v-if="props.person.id === selectedPersonId"
+        class="h-7 w-7 text-indigo-500"
+      />
       <ChevronRightIcon
         class="h-5 w-5 self-end text-gray-400 group-hover/person:text-black transition-all"
       />

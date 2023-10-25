@@ -1,30 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
 
-const props = defineProps({
-  date: {
-    type: Number,
-    default: Date.now(),
-  },
-  text: {
-    type: String,
-    default: null,
-  },
-  deletable: {
-    type: Boolean,
-    default: false,
-  },
+const props = withDefaults(defineProps<{
+  date?: number;
+  text?: string;
+  deletable: boolean;
+}>(), {
+  date: Date.now(),
+  deletable: false
 });
-const emit = defineEmits({
-  /** @param {import('../../typedefs').NotePayload} payload */
-  submit(payload) {
-    return true;
-  },
-  destroy() {
-    return true;
-  },
-});
+
+const emit = defineEmits<{
+  submit: [payload: NotePayload];
+  destroy: [];
+}>();
 
 const date = ref(dayjs(props.date).format('YYYY-MM-DDThh:mm') || '');
 const text = ref(props.text);
@@ -34,10 +24,10 @@ const isFormComplete = computed(() => {
 });
 
 /** @type {import('vue').ComputedRef<import('../../typedefs').NotePayload>} */
-const params = computed(() => {
+const params = computed<NotePayload>(() => {
   return {
     date: dayjs(date.value).valueOf(),
-    text: text.value,
+    text: text.value!,
   };
 });
 </script>

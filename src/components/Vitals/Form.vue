@@ -1,8 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue';
 
 const props = defineProps(['name', 'description', 'unit', 'low', 'high', 'deletable']);
-const emit = defineEmits(['submit', 'delete']);
+const emit = defineEmits<{
+  submit: [vital: Vital];
+  destroy: []
+}>();
 
 const name = ref(props.name || '');
 const description = ref(props.description || '');
@@ -15,14 +18,13 @@ const isFormComplete = computed(() => {
 });
 
 const vital = computed(() => {
-  /** @type {import('../../typedefs').Vital} */
-  const vital = {
+  const vital: Vital = {
     id: crypto.randomUUID(),
     name: name.value,
     description: description.value,
     unit: unit.value,
-    low: low.value ? Number(low.value) : null,
-    high: high.value ? Number(high.value) : null,
+    low: low.value ? Number(low.value) : undefined,
+    high: high.value ? Number(high.value) : undefined,
   };
   return vital;
 });
@@ -70,7 +72,7 @@ const vital = computed(() => {
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-6">
       <a
         v-if="deletable"
-        @click="emit('delete')"
+        @click="emit('destroy')"
         class="text-sm text-red-500 font-light cursor-pointer"
         >Delete</a
       >

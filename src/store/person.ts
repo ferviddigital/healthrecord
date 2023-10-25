@@ -7,9 +7,10 @@ import { MeasurementLogEntry, NoteLogEntry } from '../classes/logEntry';
 export const selectedPersonId = ref(localStorage.getItem('selectedPersonId'));
 
 export const selectedPerson = computed(() => {
-  return selectedPersonId.value
-    ? people.value.find(person => person.id === selectedPersonId.value)
-    : null;
+  if (!selectedPersonId.value) throw new Error('There is no selected person ID.');
+  const selectedPerson = people.value.find(person => person.id === selectedPersonId.value);
+  if (!selectedPerson) throw new Error('There is no Person with that ID');
+  return selectedPerson;
 });
 
 export const personMeasurements = computed(() => {

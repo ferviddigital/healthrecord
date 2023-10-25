@@ -1,12 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { vitals } from '@store/vitals';
 import { useRoute } from 'vue-router';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import Insight from '../Vitals/Insight.vue';
 import { previousRoute } from '@store/ui';
 import VitalChartSummary from './VitalChartSummary.vue';
-import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
+import HeaderTitleCenter from '@interface/HeaderTitleCenter.vue';
 import LogbookListItem from './Logbook/LogbookListItem.vue';
 import { selectedPerson, sortedPersonMeasurements } from '@store/person';
 import { MeasurementLogEntry } from '../../classes/logEntry';
@@ -16,7 +16,9 @@ const route = useRoute();
 const vitalId = route.params.vitalId;
 
 const vital = computed(() => {
-  return vitals.value.find(vital => vital.id === vitalId);
+  const vital = vitals.value.find(vital => vital.id === vitalId);
+  if (!vital) throw new Error('Vital not found.');
+  return vital;
 });
 
 const vitalMeasurements = computed(() => {
@@ -28,6 +30,7 @@ const logEntries = computed(() => {
 });
 
 const backText = computed(() => {
+  if (!previousRoute.value) return 'Back';
   switch (previousRoute.value.name) {
     case 'Person':
     case undefined:
@@ -42,6 +45,7 @@ const backText = computed(() => {
 });
 
 const backRoute = computed(() => {
+  if (!previousRoute.value) return { name: 'Person', params: { personId: selectedPerson.value.id } };
   switch (previousRoute.value.name) {
     case 'Person':
     case undefined:

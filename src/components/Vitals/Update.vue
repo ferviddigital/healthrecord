@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { vitals, store as vitalStore } from '@store/vitals';
+import { vitals, update, destroy } from '@store/vitals';
 import VitalForm from './Form.vue';
 
 const route = useRoute();
@@ -24,17 +24,15 @@ const low = ref(vital.value.low);
 
 /**
  * Update Vital
- *
- * @param {import("../../typedefs").Vital} updatedVital
  */
-const updateVital = updatedVital => {
-  vitalStore.update(vital.value.id, updatedVital);
+const updateVital = (updatedVital: Vital) => {
+  update(vital.value.id, updatedVital);
   router.back();
 };
 
-const deleteMeasurement = () => {
+const destroyVital = () => {
   router.back();
-  vitalStore.delete(vital.value.id);
+  destroy(vital.value.id);
 };
 </script>
 
@@ -59,7 +57,7 @@ const deleteMeasurement = () => {
           :unit="unit"
           :high="high"
           :low="low"
-          @delete="deleteMeasurement"
+          @destroy="destroyVital"
           :deletable="true"
         />
       </DialogPanel>

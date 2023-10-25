@@ -13,7 +13,7 @@ import pluralize from 'pluralize';
 import { people } from '@store/people';
 import { vitals } from '@store/vitals';
 import { useRouter } from 'vue-router';
-import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
+import HeaderTitleLeft from '@interface/HeaderTitleLeft.vue';
 
 const router = useRouter();
 
@@ -82,7 +82,7 @@ const appVersion = APP_VERSION;
         </section>
       </div>
       <h3 class="text-sm ml-4 mb-1 uppercase text-gray-500">Record Details</h3>
-      <div class="bg-white rounded-xl divide-y mb-10 overflow-hidden">
+      <div v-if="record" class="bg-white rounded-xl divide-y mb-10 overflow-hidden">
         <section
           @click="$router.push({ name: 'SettingsUserUpdate' })"
           class="grid grid-flow-col gap-4 items-center p-4 py-3 pr-3 cursor-pointer hover:bg-gray-100"
@@ -134,6 +134,7 @@ const appVersion = APP_VERSION;
         name="list"
         tag="div"
         class="bg-white rounded-xl divide-y overflow-hidden mb-10 relative"
+        v-if="record"
       >
         <section class="grid grid-flow-col items-center p-4 py-3 bg-white z-10 relative" :key="3">
           <span>

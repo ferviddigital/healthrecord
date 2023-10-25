@@ -1,39 +1,25 @@
-<script setup>
-import { Line } from 'vue-chartjs';
+<script setup lang="ts">
+import type { ActiveElement, ChartData, ChartOptions, ScriptableContext } from 'chart.js';
 import { PointElement } from 'chart.js';
-import { computed, onActivated, onMounted, ref, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import type { AnnotationOptions } from 'chartjs-plugin-annotation';
+import { computed, ref, watch } from 'vue';
+import type { ChartComponentRef } from 'vue-chartjs';
+import { Line } from 'vue-chartjs';
+import { useRoute, useRouter } from 'vue-router';
 import '../../scripts/chartjs';
 
 const router = useRouter();
 const route = useRoute();
 
-/** @type {import('vue').Ref<import('vue-chartjs').ChartComponentRef>} */
-const vitalChartInstance = ref(null);
+const vitalChartInstance = ref<ChartComponentRef>();
 
-const props = defineProps({
-  vital: {
-    /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
-    type: Object,
-    required: true,
-  },
-  measurements: {
-    /** @type {import('vue').PropType<import("../../typedefs").Measurement[]>} */
-    type: Array,
-    required: true,
-  },
-  small: {
-    type: Boolean,
-  },
-  minDate: {
-    type: Number,
-    default: null,
-  },
-  maxDate: {
-    type: Number,
-    default: null,
-  },
-});
+const props = defineProps<{
+  vital: Vital;
+  measurements: Measurement[];
+  small?: boolean;
+  minDate?: number;
+  maxDate?: number;
+}>();
 
 const selectedMeasurementIndex = computed(() => {
   const index = props.measurements.findIndex(
@@ -50,14 +36,13 @@ const measurementDates = computed(() => {
   return props.measurements.map(measurement => measurement.date);
 });
 
-/** @type {import("vue").ComputedRef<import("chart.js").ChartData<"line">>} */
 const data = computed(() => {
-  return {
+  const chartData: ChartData<'line'> = {
     labels: measurementDates.value,
     datasets: [
       {
         label: props.vital.name,
-        backgroundColor: function (ctx, options) {
+        backgroundColor: (ctx: ScriptableContext<'line'>) => {
           const context = ctx.chart.ctx;
           const gradient = context.createLinearGradient(0, 0, 0, 400);
           gradient.addColorStop(0.2, '#eef2ff');
@@ -79,11 +64,11 @@ const data = computed(() => {
       },
     ],
   };
+  return chartData
 });
 
 const options = computed(() => {
-  /** @type {import('chart.js').ChartOptions<"line">} */
-  const options = {
+  const options: ChartOptions<'line'> = {
     responsive: true,
     aspectRatio: 1.5,
     layout: {
@@ -100,11 +85,11 @@ const options = computed(() => {
         enabled: props.small ? false : true,
         displayColors: false,
         callbacks: {
-          label: context => {
-            return context.formattedValue + ' ' + props.vital.unit;
+          label: (tooltipItem) => {
+            return tooltipItem.formattedValue + ' ' + props.vital.unit;
           },
-          title: context => {
-            return new Date(context[0].parsed.x).toLocaleDateString();
+          title: (tooltipItem) => {
+            return new Date(tooltipItem[0].parsed.x).toLocaleDateString();
           },
         },
       },
@@ -163,7 +148,7 @@ const options = computed(() => {
           align: 'inner',
           display: false,
           padding: 0,
-          callback: value => {
+          callback: (value) => {
             return Intl.NumberFormat(navigator.language, { notation: 'compact' }).format(
               Number(value)
             );
@@ -171,7 +156,7 @@ const options = computed(() => {
         },
       },
     },
-    onClick: (event, elements, chart) => {
+    onClick: (_event, elements: ActiveElement[], _chart) => {
       if (props.small) return;
       if (elements.length === 0 || !(elements[0].element instanceof PointElement)) {
         return;
@@ -179,7 +164,7 @@ const options = computed(() => {
       const measurement = props.measurements[elements[0].index];
       router.push({ name: 'PersonVital', query: { measurementId: measurement.id } });
     },
-    onHover: (event, elements, chart) => {
+    onHover: (_event, elements, chart) => {
       if (props.small) {
         return (chart.canvas.style.cursor = 'pointer');
       }
@@ -193,7 +178,9 @@ const options = computed(() => {
   if (props.small) {
     // @ts-ignore
     options.plugins.verticalMouseLine = false;
+    // @ts-ignore
     options.scales.x.grid.tickLength = 0;
+    // @ts-ignore
     options.scales.y.grid.tickLength = 0;
     options.layout = {
       padding: {
@@ -203,8 +190,11 @@ const options = computed(() => {
       },
     };
   } else {
+    // @ts-ignore
     options.scales.x.grid.display = true;
+    // @ts-ignore
     options.scales.x.ticks.display = true;
+    // @ts-ignore
     options.scales.y.ticks.display = true;
     options.layout = {
       padding: {
@@ -215,8 +205,8 @@ const options = computed(() => {
   }
 
   if (props.vital.low && !props.small) {
-    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-    const lowLine = {
+
+    const lowLine: AnnotationOptions = {
       type: 'line',
       scaleID: 'y',
       value: props.vital.low,
@@ -226,8 +216,7 @@ const options = computed(() => {
       drawTime: 'beforeDatasetsDraw',
     };
 
-    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-    const lowBox = {
+    const lowBox: AnnotationOptions = {
       type: 'box',
       borderWidth: 0,
       backgroundColor: 'rgba(254, 215, 170, 20%)',
@@ -249,6 +238,7 @@ const options = computed(() => {
       drawTime: 'beforeDatasetsDraw',
     };
 
+    // @ts-ignore
     options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, {
       lowLine,
       lowBox,
@@ -256,8 +246,8 @@ const options = computed(() => {
   }
 
   if (props.vital.high && !props.small) {
-    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-    const highLine = {
+
+    const highLine: AnnotationOptions = {
       type: 'line',
       scaleID: 'y',
       value: props.vital.high,
@@ -267,8 +257,7 @@ const options = computed(() => {
       drawTime: 'beforeDatasetsDraw',
     };
 
-    /** @type {import('chartjs-plugin-annotation').AnnotationOptions} */
-    const highBox = {
+    const highBox: AnnotationOptions = {
       type: 'box',
       borderWidth: 0,
       backgroundColor: 'rgba(254, 215, 170, 20%)',
@@ -289,6 +278,7 @@ const options = computed(() => {
       drawTime: 'beforeDatasetsDraw',
     };
 
+    // @ts-ignore
     options.plugins.annotation.annotations = Object.assign(options.plugins.annotation.annotations, {
       highLine,
       highBox,
@@ -297,30 +287,19 @@ const options = computed(() => {
   return options;
 });
 
-// Update selected measurement
-// watch(route, () => {
-//   const chart = vitalChartInstance.value.chart
-//   const x = chart.getDatasetMeta(0).data[selectedMeasurementIndex.value].x
-//   if (!route.query.measurementId) {
-//     // @ts-ignore
-//     options.value.plugins.verticalMouseLine.activeX = null
-//   } else {
-//     // @ts-ignore
-//     options.value.plugins.verticalMouseLine.activeX = x
-//   }
-
-//   chart.update();
-// });
-
 // Update date ranges
 watch(props, () => {
   if (!props.minDate || !props.maxDate) return;
 
+  // @ts-ignore
   if (options.value.scales.x.min !== props.minDate) {
+    // @ts-ignore
     options.value.scales.x.min = props.minDate;
   }
 
+  // @ts-ignore
   if (options.value.scales.x.max !== props.maxDate) {
+    // @ts-ignore
     options.value.scales.x.max = props.maxDate;
   }
 });

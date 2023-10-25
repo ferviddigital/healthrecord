@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
@@ -11,25 +11,16 @@ const route = useRoute();
 
 dayjs.extend(isBetween);
 
-const props = defineProps({
-  vital: {
-    /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
-    type: Object,
-    required: true,
-  },
-  measurements: {
-    /** @type {import('vue').PropType<import("../../typedefs").Measurement[]>} */
-    type: Array,
-    required: true,
-  },
-});
+const props = defineProps<{
+  measurements: Measurement[];
+  vital: Vital;
+}>();
 
 const selectedMeasurement = computed(() => {
   return props.measurements.find(measurement => measurement.id === route.query.measurementId);
 });
 
-/** @type {import('vue').Ref<import('../../typedefs').VitalChartRange>} */
-const selectedRange = ref({ length: 100, unit: 'year' });
+const selectedRange = ref<VitalChartRange>({ length: 100, unit: 'year', quantity: 1, abbreviation: 'All', title: 'All' });
 
 const minDate = computed(() => {
   if (selectedRange.value.length === 100) {
@@ -58,50 +49,56 @@ const averageMeasurement = computed(() => {
   );
 });
 
-const ranges = computed(() => {
-  /** @type {import('../../typedefs').VitalChartRange[]} */
-  const ranges = [
+const availableRanges = computed(() => {
+  const ranges: VitalChartRange[] = [
     {
       unit: 'days',
       length: 7,
       abbreviation: 'W',
       title: 'Week',
+      quantity: 0
     },
     {
       unit: 'month',
       length: 1,
       abbreviation: 'M',
       title: 'Month',
+      quantity: 0
     },
     {
       unit: 'months',
       length: 3,
       abbreviation: '3M',
       title: 'Three months',
+      quantity: 0
     },
     {
       unit: 'year',
       length: 1,
       abbreviation: 'Y',
       title: 'Year',
+      quantity: 0
     },
     {
       unit: 'years',
       length: 5,
       abbreviation: '5Y',
       title: 'Five years',
+      quantity: 0
     },
     {
       unit: 'years',
       length: 10,
       abbreviation: '10Y',
       title: 'Ten years',
+      quantity: 0
     },
     {
       unit: 'years',
       length: 15,
       abbreviation: '15Y',
       title: 'Fifteen years',
+      quantity: 0
     },
   ];
   ranges.forEach((range, index) => {
@@ -136,16 +133,6 @@ const dateRangeText = computed(() => {
     ' - ' +
     dayjs(dateRangeEnd.value).format(dateFormat)
   );
-});
-
-const lowMeasurements = computed(() => {
-  if (!props.vital.low) return [];
-  return filteredMeasurements.value.filter(measurement => measurement.value < props.vital.low);
-});
-
-const highMeasurements = computed(() => {
-  if (!props.vital.high) return [];
-  return filteredMeasurements.value.filter(measurement => measurement.value > props.vital.high);
 });
 
 const language = navigator.language;
@@ -229,13 +216,13 @@ const language = navigator.language;
               '!bg-indigo-500 text-white shadow':
                 selectedRange.length === 100 && selectedRange.unit === 'year',
             }"
-            @click="selectedRange = { length: 100, unit: 'year' }"
+            @click="selectedRange = { length: 100, unit: 'year', quantity: 0, abbreviation: 'All', title: 'All' }"
             title="All data"
           >
             All
           </button>
           <button
-            v-for="range in ranges"
+            v-for="range in availableRanges"
             class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all disabled:text-gray-300 disabled:hover:bg-transparent"
             :class="{
               '!bg-indigo-500 text-white shadow':

@@ -74,3 +74,13 @@ type FormField = {
   classes?: string;
   blurCallback(newValue: string): void;
 };
+
+type VitalChartRange = {
+  unit: import("dayjs").ManipulateType,
+  length: number,
+  quantity: number,
+  abbreviation: string,
+  title: string
+}
+
+declare module 'file-saver';

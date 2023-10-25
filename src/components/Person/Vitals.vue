@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { QuestionMarkCircleIcon, LightBulbIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed, ref } from 'vue';
-import { vitals, createBodyWeightVital, createHeartRateVital } from '@tore/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital } from '@store/vitals';
 import VitalSummary from './VitalSummary.vue';
 import { selectedPerson, sortedPersonMeasurements } from '@store/person';
 import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
 
-const vitalSort = ref('date');
+const vitalSort = ref<VitalSortBy>('date');
 
 const trackedVitals = computed(() => {
   var vitalIds = sortedPersonMeasurements.value.map(measurement => measurement.vitalId);
@@ -21,7 +21,7 @@ const recentlyTrackedVitals = computed(() => {
   vitalIds = [...new Set(vitalIds)];
   return vitalIds.map(vitalId => {
     return vitals.value.find(vital => vital.id === vitalId);
-  });
+  }).filter((v): v is Vital => Boolean(v));
 });
 
 const sortedVitals = computed(() => {
@@ -33,7 +33,7 @@ const sortedVitals = computed(() => {
   }
 });
 
-const vitalMeasurements = vitalId => {
+const vitalMeasurements = (vitalId: string) => {
   return sortedPersonMeasurements.value.filter(measurement => measurement.vitalId === vitalId);
 };
 </script>

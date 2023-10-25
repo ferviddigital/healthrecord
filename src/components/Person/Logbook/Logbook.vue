@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { PlusIcon } from '@heroicons/vue/20/solid';
-import { selectedPerson, sortedPersonLogEntries } from '@store/person';
+import { sortedPersonLogEntries } from '@store/person';
 import LogbookListItem from './LogbookListItem.vue';
-import HeaderTitleLeft from '../../Interface/HeaderTitleLeft.vue';
+import HeaderTitleLeft from '@interface/HeaderTitleLeft.vue';
 </script>
 
 <template>

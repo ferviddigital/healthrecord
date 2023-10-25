@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { VitalInsight } from '../../classes/insight';
 import {
   ArrowTrendingDownIcon,
@@ -6,18 +6,10 @@ import {
   HandThumbUpIcon,
 } from '@heroicons/vue/20/solid';
 
-const props = defineProps({
-  vital: {
-    /** @type {import('vue').PropType<import("../../typedefs").Vital>} */
-    type: Object,
-    required: true,
-  },
-  person: {
-    /** @type {import('vue').PropType<import("../../typedefs").Person>} */
-    type: Object,
-    required: true,
-  },
-});
+const props = defineProps<{
+  vital: Vital;
+  person: Person;
+}>();
 
 const vitalInsight = new VitalInsight(props.vital, props.person);
 </script>
@@ -41,4 +33,3 @@ const vitalInsight = new VitalInsight(props.vital, props.person);
     </p>
   </div>
 </template>
-../../classes/insight

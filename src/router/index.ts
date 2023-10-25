@@ -305,6 +305,7 @@ router.beforeEach((to) => {
       name: 'Start'
     }
   }
+  return true;
 });
 
 

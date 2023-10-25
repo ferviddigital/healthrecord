@@ -1,18 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import LowHighBadge from '../../Measurements/LowHighBadge.vue';
 
-const props = defineProps({
-  measurement: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Measurement>} */
-    type: Object,
-    required: true,
-  },
-  vital: {
-    /** @type {import('vue').PropType<import("../../../typedefs").Vital>} */
-    type: Object,
-    required: true,
-  },
-});
+const props = defineProps<{
+  measurement: Measurement;
+  vital: Vital;
+}>();
 </script>
 
 <template>
@@ -28,9 +20,9 @@ const props = defineProps({
   >
     <div>
       <h3 class="font-semibold">
-        {{ Number(measurement.value).toLocaleString() }}
-        <span class="text-xs text-gray-500 font-light mr-3">{{ vital.unit }}</span>
-        <LowHighBadge :vital="vital" :measurement="measurement" />
+        {{ Number(props.measurement.value).toLocaleString() }}
+        <span class="text-xs text-gray-500 font-light mr-3">{{ props.vital.unit }}</span>
+        <LowHighBadge :vital="props.vital" :measurement="props.measurement" />
       </h3>
     </div>
   </div>

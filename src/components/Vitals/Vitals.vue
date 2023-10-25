@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import { vitals, createBodyWeightVital, createHeartRateVital } from '@store/vitals';
@@ -8,7 +8,7 @@ import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
 
 <template>
   <div>
-    <HeaderTitleCenter title="Vitals" backText="Settings" :backRoute="{ name: 'Settings' }">
+    <HeaderTitleCenter title="Vitals" backText="Settings" :back-route="{ name: 'Settings' }">
       <template #right>
         <RouterLink
           class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center"

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';

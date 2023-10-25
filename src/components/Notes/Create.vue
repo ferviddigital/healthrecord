@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
 import { create as createNote } from '@store/notes';
@@ -9,9 +9,8 @@ const router = useRouter();
 
 /**
  * Submit Measurement form action
- * @param {import('../../typedefs').NotePayload} params - Measurement payload
  */
-const submit = ({ date, text }) => {
+const submit = ({ date, text }: NotePayload) => {
   router.back();
   createNote(date, text, selectedPerson.value.id);
 };

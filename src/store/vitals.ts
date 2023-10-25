@@ -39,7 +39,7 @@ export const createBodyWeightVital = () => {
 /**
  * Create Vital
  */
-const create = (vital: Vital) => {
+export const create = (vital: Vital) => {
   if (!record.value) return;
 
   record.value.vitals.push(vital);

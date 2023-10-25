@@ -25,11 +25,13 @@
       "vue-router",
       "vite-plugin-pwa/client",
       "./src/types/index",
-      "vue-router/dist/vue-router"
+      "vue-router/dist/vue-router",
+      "@types/file-saver"
     ],
     "paths": {
       "@store/*": ["./src/store/*"],
-      "@project-types/*": ["./src/types/*"]
+      "@project-types/*": ["./src/types/*"],
+      "@interface/*": ["./src/components/Interface/*"]
     }
   },
   "include": ["src/**/*", "src/types/**/*.d.ts", "vite.config.ts"],

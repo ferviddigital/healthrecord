@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { people, store as peopleStore } from '@store/people';
+import { people, update } from '@store/people';
 import PersonForm from './Form.vue';
 
 const route = useRoute();
@@ -23,11 +23,9 @@ const dob = ref(person.value.dob);
 
 /**
  * Update Person
- *
- * @param {import("../../typedefs").Person} updatedPerson
  */
-const updatePerson = updatedPerson => {
-  peopleStore.update(person.value.id, updatedPerson);
+const updatePerson = (updatedPerson: Person) => {
+  update(person.value.id, updatedPerson);
   router.push({ name: 'Person', params: { personId: person.value.id } });
 };
 </script>
