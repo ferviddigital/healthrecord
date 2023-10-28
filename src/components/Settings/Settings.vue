@@ -5,7 +5,7 @@ import { clear } from '../../helpers/storage';
 import { DocumentArrowDownIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { encrypt } from '../../helpers/encrypto';
-import PassphraseModal from './PassphraseModal.vue';
+import PassphraseModal from '@components/Settings/PassphraseModal.vue';
 import { ref } from 'vue';
 import { Switch } from '@headlessui/vue';
 import { peers, webrtcConnected } from '../../providers/webrtc';
@@ -13,7 +13,7 @@ import pluralize from 'pluralize';
 import { people } from '@store/people';
 import { vitals } from '@store/vitals';
 import { useRouter } from 'vue-router';
-import HeaderTitleLeft from '@interface/HeaderTitleLeft.vue';
+import HeaderTitleLeft from '@components/Interface/HeaderTitleLeft.vue';
 
 const router = useRouter();
 

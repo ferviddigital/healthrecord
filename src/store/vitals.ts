@@ -11,6 +11,20 @@ export const vitals = computed(() => {
 /**
  * Create heart rate sample vital
  */
+export const createWellBeingVital = () => {
+  create({
+    id: crypto.randomUUID(),
+    name: 'Well-being',
+    description: 'General well-being on a scale fom 0-10.',
+    unit: 'pts',
+    low: 5,
+    high: undefined,
+  });
+};
+
+/**
+ * Create heart rate sample vital
+ */
 export const createHeartRateVital = () => {
   create({
     id: crypto.randomUUID(),

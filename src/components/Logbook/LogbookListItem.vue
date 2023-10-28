@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { LogEntry, MeasurementLogEntry, NoteLogEntry } from '../../../classes/logEntry';
+import { LogEntry, MeasurementLogEntry, NoteLogEntry } from '../../classes/logEntry';
 import { ChartBarIcon, DocumentTextIcon } from '@heroicons/vue/20/solid';
 import dayjs from 'dayjs';
-import MeasurementLogItem from './MeasurementLogItem.vue';
-import NoteLogItem from './NoteLogItem.vue';
+import MeasurementLogItem from '@components/Logbook/MeasurementLogItem.vue';
+import NoteLogItem from '@components/Logbook/NoteLogItem.vue';
 
 const props = defineProps<{
   logEntry: LogEntry;

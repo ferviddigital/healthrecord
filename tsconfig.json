@@ -31,7 +31,7 @@
     "paths": {
       "@store/*": ["./src/store/*"],
       "@project-types/*": ["./src/types/*"],
-      "@interface/*": ["./src/components/Interface/*"]
+      "@components/*": ["./src/components/*"]
     }
   },
   "include": ["src/**/*", "src/types/**/*.d.ts", "vite.config.ts"],

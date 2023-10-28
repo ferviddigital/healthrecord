@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<MeasurementFormProps>(), {
 
 const emit = defineEmits<MeasurementFormEmits>();
 
+const vitalId = ref(props.vitalId);
 const value = ref(props.value);
 const date = ref(dayjs(props.date).format('YYYY-MM-DDThh:mm'));
 const noteText = ref(props.noteText);
@@ -29,14 +30,14 @@ const measurementFormPayload = computed<MeasurementFormPayload>(() => {
   return {
     value: Number(value.value),
     date: dayjs(date.value).valueOf(),
-    vitalId: props.vitalId,
+    vitalId: vitalId.value,
     noteText: noteText.value,
     personId: props.personId,
   };
 });
 
 const vital = computed(() => {
-  return vitals.value.find(vital => vital.id === props.vitalId);
+  return vitals.value.find(vital => vital.id === vitalId.value);
 });
 
 watch(
@@ -49,6 +50,13 @@ watch(
 
 <template>
   <form @submit.prevent="emit('submit', measurementFormPayload)">
+    <label v-if="!props.vitalId" for="vitalId">
+      Vital
+    </label>
+    <select v-if="!props.vitalId" v-model="vitalId" id="vitalId" required>
+      <option value="" disabled hidden>Choose vital</option>
+      <option v-for="vital in vitals" :key="vital.id" :value="vital.id">{{ vital.name }}</option>
+    </select>
     <label for="value">Value</label>
     <div class="input-group mb-3">
       <input v-model="value" type="text" id="value" inputmode="decimal" autocomplete="off" />

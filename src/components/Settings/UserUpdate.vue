@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { record } from '@store/record';
-import EditFields from '@interface/EditFields.vue';
+import EditFields from '@components/Interface/EditFields.vue';
 
 const fields: FormField[] = [
 {

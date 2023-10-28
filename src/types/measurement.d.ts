@@ -1,5 +1,5 @@
 export type MeasurementCreateProps = {
-  vitalId: string;
+  vitalId?: string;
   personId: string;
 };
 
@@ -9,7 +9,7 @@ export interface MeasurementUpdateProps extends MeasurementCreateProps {
 
 export type MeasurementFormProps = {
   personId: string;
-  vitalId: string;
+  vitalId?: string;
   value?: number;
   date?: number;
   noteText?: string;

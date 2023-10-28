@@ -3,7 +3,7 @@ import { QuestionMarkCircleIcon, LightBulbIcon, ChevronRightIcon } from '@heroic
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed, ref } from 'vue';
-import { vitals, createBodyWeightVital, createHeartRateVital } from '@store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@store/vitals';
 import VitalSummary from './VitalSummary.vue';
 import { selectedPerson, sortedPersonMeasurements } from '@store/person';
 import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
@@ -19,9 +19,11 @@ const trackedVitals = computed(() => {
 const recentlyTrackedVitals = computed(() => {
   var vitalIds = sortedPersonMeasurements.value.map(measurement => measurement.vitalId);
   vitalIds = [...new Set(vitalIds)];
-  return vitalIds.map(vitalId => {
-    return vitals.value.find(vital => vital.id === vitalId);
-  }).filter((v): v is Vital => Boolean(v));
+  return vitalIds
+    .map(vitalId => {
+      return vitals.value.find(vital => vital.id === vitalId);
+    })
+    .filter((v): v is Vital => Boolean(v));
 });
 
 const sortedVitals = computed(() => {
@@ -44,8 +46,7 @@ const vitalMeasurements = (vitalId: string) => {
       <template #right>
         <RouterLink
           class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center"
-          :to="{ name: 'PersonVitalCreate' }"
-        >
+          :to="{ name: 'PersonVitalCreate' }">
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
       </template>
@@ -55,20 +56,17 @@ const vitalMeasurements = (vitalId: string) => {
         <VitalSummary :person="selectedPerson" />
         <div class="grid justify-items-end">
           <div
-            class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner"
-          >
+            class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner">
             <button
               class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
               :class="{ '!bg-indigo-500 text-white shadow': vitalSort === 'alpha' }"
-              @click="vitalSort = 'alpha'"
-            >
+              @click="vitalSort = 'alpha'">
               A-Z
             </button>
             <button
               class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
               :class="{ '!bg-indigo-500 text-white shadow': vitalSort === 'date' }"
-              @click="vitalSort = 'date'"
-            >
+              @click="vitalSort = 'date'">
               Recent
             </button>
           </div>
@@ -78,54 +76,50 @@ const vitalMeasurements = (vitalId: string) => {
             v-for="vital in sortedVitals"
             :key="vital.id"
             class="group bg-gray-50 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all overflow-hidden"
-            @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })"
-          >
+            @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
             <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
               <h3 class="font-semibold">{{ vital.name }}</h3>
               <ChevronRightIcon
-                class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all"
-              />
+                class="h-5 w-5 self-start text-gray-400 group-hover:text-black transition-all" />
             </header>
             <VitalChart
               class="cursor-pointer"
               :vital="vital"
               :measurements="vitalMeasurements(vital.id)"
-              :small="true"
-            />
+              :small="true" />
           </div>
         </div>
       </div>
       <div
         v-else
-        class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm"
-      >
+        class="border border-amber-200 p-4 rounded-lg text-amber-500 bg-amber-100 text-sm">
         <p
-          class="grid grid-flow-col grid-cols-[min-content_auto] items-center mb-4 pb-4 border-b border-amber-200"
-        >
+          class="grid grid-flow-col grid-cols-[min-content_auto] items-center mb-4 pb-4 border-b border-amber-200">
           <QuestionMarkCircleIcon class="h-6 w-6 mr-3" />
           A Vital is a health statistic to measure.
         </p>
         <p class="grid grid-flow-col grid-cols-[min-content_auto] items-center">
           <LightBulbIcon class="h-6 w-6 mr-3" />
-          <span v-if="vitals.length === 0"
-            >You are not measuring any vitals.
-            <RouterLink class="underline" :to="{ name: 'VitalCreate' }"
-              >Add&nbsp;a&nbsp;vital</RouterLink
-            >
+          <span v-if="vitals.length === 0">
+            You are not measuring any vitals.
+            <RouterLink class="underline" :to="{ name: 'VitalCreate' }">
+              Add&nbsp;a&nbsp;vital
+            </RouterLink>
             or start with
-            <span class="underline cursor-pointer" @click="createBodyWeightVital()"
-              >body weight</span
-            >
+            <span class="underline cursor-pointer" @click="createBodyWeightVital()">
+              body weight</span>, 
+            <span class="underline cursor-pointer" @click="createHeartRateVital()">
+              heart rate</span>,
             or
-            <span class="underline cursor-pointer" @click="createHeartRateVital()">heart rate</span
-            >.</span
-          >
-          <span v-else
-            >You have not recorded any measurements.
-            <RouterLink class="underline" :to="{ name: 'PersonMeasurementCreate' }"
-              >Add&nbsp;a&nbsp;measurement</RouterLink
-            >.</span
-          >
+            <span class="underline cursor-pointer" @click="createWellBeingVital()">well-being</span>.
+          </span>
+          <span v-else>
+            You have not recorded any measurements.
+            <RouterLink class="underline" :to="{ name: 'PersonMeasurementCreate' }">
+              Add&nbsp;a&nbsp;measurement
+            </RouterLink>
+            .
+          </span>
         </p>
       </div>
     </div>
