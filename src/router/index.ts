@@ -5,11 +5,6 @@ const Start = () => import(/* webpackChunkName: "group-start" */ '@components/St
 const StartNew = () => import(/* webpackChunkName: "group-start" */ '@components/Start/New.vue');
 const DashboardLayout = () => import(/* webpackChunkName: "group-dashboard" */ '@components/Layout.vue');
 const Dashboard = () => import(/* webpackChunkName: "group-dashboard" */ '@components/Dashboard/Dashboard.vue');
-const People = () => import(/* webpackChunkName: "group-people" */ '@components/People/People.vue');
-const PeopleCreate = () => import(/* webpackChunkName: "group-people" */ '@components/People/Create.vue');
-const Vitals = () => import(/* webpackChunkName: "group-vitals" */ '@components/Vitals/Vitals.vue');
-const VitalCreate = () => import(/* webpackChunkName: "group-vitals" */ '@components/Vitals/Create.vue');
-const VitalUpdate = () => import(/* webpackChunkName: "group-vitals" */ '@components/Vitals/Update.vue');
 const MeasurementCreate = () => import(/* webpackChunkName: "group-measurements" */ '@components/Measurements/Create.vue');
 const MeasurementUpdate = () => import(/* webpackChunkName: "group-measurements" */ '@components/Measurements/Update.vue');
 const NoteView = () => import(/* webpackChunkName: "group-notes" */ '@components/Notes/View.vue');
@@ -19,8 +14,13 @@ const Person = () => import(/* webpackChunkName: "group-person" */ '@components/
 const PersonLogbook = () => import(/* webpackChunkName: "group-person" */ '@components/Logbook/Logbook.vue');
 const PersonVitals = () => import(/* webpackChunkName: "group-person" */ '@components/Person/Vitals.vue');
 const PersonVital = () => import(/* webpackChunkName: "group-person" */ '@components/Person/Vital.vue');
-const PersonUpdate = () => import(/* webpackChunkName: "group-person" */ '@components/People/Update.vue');
+const PersonUpdate = () => import(/* webpackChunkName: "group-person" */ '@components/Person/Update.vue');
 const Settings = () => import(/* webpackChunkName: "group-settings" */ '@components/Settings/Settings.vue');
+const SettingsPeople = () => import(/* webpackChunkName: "group-people" */ '@components/Settings/People/People.vue');
+const SettingsPersonCreate = () => import(/* webpackChunkName: "group-settings" */ '@components/Settings/People/Create.vue');
+const SettingsVitals = () => import(/* webpackChunkName: "group-vitals" */ '@components/Settings/Vitals/Vitals.vue');
+const SettingsVitalCreate = () => import(/* webpackChunkName: "group-settings" */ '@components/Settings/Vitals/Create.vue');
+const SettingsVitalUpdate = () => import(/* webpackChunkName: "group-settings" */ '@components/Settings/Vitals/Update.vue');
 const SettingsUserUpdate = () => import(/* webpackChunkName: "group-settings" */ '@components/Settings/UserUpdate.vue');
 const SettingsSignalServerUpdate = () => import(/* webpackChunkName: "group-settings" */ '@components/Settings/SignalServerUpdate.vue');
 
@@ -78,6 +78,7 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'update',
             name: 'PersonUpdate',
+            props: true,
             components: {
               modal: PersonUpdate
             }
@@ -109,15 +110,6 @@ const routes: RouteRecordRaw[] = [
             components: {
               main: PersonVitals
             },
-            children: [
-              {
-                path: 'create',
-                name: 'PersonVitalCreate',
-                components: {
-                  modal: VitalCreate
-                }
-              }
-            ]
           },
           {
             path: ':vitalId',
@@ -178,6 +170,7 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'note/:noteId/update',
             name: 'PersonNoteUpdate',
+            props: true,
             components: {
               modal: NoteUpdate
             }
@@ -185,6 +178,7 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'note/:noteId',
             name: 'PersonLogbookNoteView',
+            props: true,
             components: {
               modal: NoteView
             }
@@ -195,38 +189,6 @@ const routes: RouteRecordRaw[] = [
             props: true,
             components: {
               modal: MeasurementUpdate
-            }
-          },
-        ]
-      },
-    ]
-  },
-  {
-    path: '/vitals',
-    component: DashboardLayout,
-    meta: {
-      requiresAuth: true
-    },
-    children: [
-      {
-        path: '',
-        name: 'Vitals',
-        components: {
-          main: Vitals
-        },
-        children: [
-          {
-            path: 'create',
-            name: 'VitalCreate',
-            components: {
-              modal: VitalCreate
-            }
-          },
-          {
-            path: ':vitalId/update',
-            name: 'VitalUpdate',
-            components: {
-              modal: VitalUpdate
             }
           },
         ]
@@ -251,14 +213,14 @@ const routes: RouteRecordRaw[] = [
         path: 'people',
         name: 'SettingsPeople',
         components: {
-          main: People
+          main: SettingsPeople
         },
         children: [
           {
             path: 'create',
-            name: 'SettingsPeopleCreate',
+            name: 'SettingsPersonCreate',
             components: {
-              modal: PeopleCreate
+              modal: SettingsPersonCreate
             }
           }
         ]
@@ -267,8 +229,24 @@ const routes: RouteRecordRaw[] = [
         path: 'vitals',
         name: 'SettingsVitals',
         components: {
-          main: Vitals
-        }
+          main: SettingsVitals
+        },
+        children: [
+          {
+            path: 'create',
+            name: 'SettingsVitalCreate',
+            components: {
+              modal: SettingsVitalCreate
+            }
+          },
+          {
+            path: ':vitalId/update',
+            name: 'SettingsVitalUpdate',
+            components: {
+              modal: SettingsVitalUpdate
+            }
+          },
+        ]
       },
       {
         path: 'user',

@@ -10,7 +10,7 @@ import {
 } from '@store/measurements';
 import { create as createNote, destroy as destroyNote, notes } from '@store/notes';
 import { vitals } from '@store/vitals';
-import MeasurementForm from './Form.vue';
+import MeasurementForm from '@components/Measurements/Form.vue';
 
 const router = useRouter();
 

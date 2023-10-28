@@ -2,7 +2,7 @@
 import { people } from '@store/people';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { scrolled } from '@store/ui';
-import PersonListItem from '../People/PersonListItem.vue';
+import PersonListItem from '@components/Settings/People/PersonListItem.vue';
 </script>
 
 <template>

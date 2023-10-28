@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 import { notes } from '@store/notes';
 
-const route = useRoute();
+const props = defineProps<{
+  noteId: string;
+  vitalId?: string;
+}>();
 
 const note = computed(() => {
-  const note = notes.value.find(note => note.id === noteId.value);
+  const note = notes.value.find(note => note.id === props.noteId);
 
-  if (!note) throw Error(`Could not find Note with ID: ${route.params.noteId}.`);
+  if (!note) throw Error(`Could not find Note with ID: ${props.noteId}.`);
 
   return note;
 });
 
-const noteId = ref(String(route.params.noteId));
+const routeName = computed(() => {
+  return props.vitalId ? 'VitalMeasurementNoteUpdate' : 'PersonNoteUpdate';
+});
 </script>
 
 <template>
@@ -26,12 +30,10 @@ const noteId = ref(String(route.params.noteId));
         <p class="p-6 pb-0 py-3">{{ note.text }}</p>
         <div class="grid grid-flow-col justify-end items-center gap-5 mt-4 p-6">
           <a
-            @click="
-              $router.push({ name: 'VitalMeasurementNoteUpdate', params: { noteId: note.id } })
-            "
-            class="text-sm text-gray-500 font-light cursor-pointer"
-            >Edit</a
-          >
+            @click="$router.push({ name: routeName, params: { noteId: note.id } })"
+            class="text-sm text-gray-500 font-light cursor-pointer">
+            Edit
+          </a>
           <button class="btn" @click="$router.back()">Done</button>
         </div>
       </DialogPanel>

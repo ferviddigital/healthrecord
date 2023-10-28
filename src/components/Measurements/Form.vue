@@ -50,9 +50,7 @@ watch(
 
 <template>
   <form @submit.prevent="emit('submit', measurementFormPayload)">
-    <label v-if="!props.vitalId" for="vitalId">
-      Vital
-    </label>
+    <label v-if="!props.vitalId" for="vitalId">Vital</label>
     <select v-if="!props.vitalId" v-model="vitalId" id="vitalId" required>
       <option value="" disabled hidden>Choose vital</option>
       <option v-for="vital in vitals" :key="vital.id" :value="vital.id">{{ vital.name }}</option>
@@ -70,8 +68,7 @@ watch(
         <button
           v-if="props.noteText"
           class="text-red-500 text-xs uppercase hover:underline -mb-1.5"
-          @click="emit('destroyNote')"
-        >
+          @click="emit('destroyNote')">
           Remove
         </button>
       </label>
@@ -82,15 +79,14 @@ watch(
     <div v-else class="pb-2">
       <SwitchGroup
         as="div"
-        class="grid grid-cols-[auto_min-content] items-center justify-end gap-4 mt-2"
-      >
+        class="grid grid-cols-[auto_min-content] items-center justify-end gap-4 mt-2">
         <SwitchLabel class="mb-0">Add note</SwitchLabel>
         <Switch v-model="noteEnabled" :class="noteEnabled ? 'active' : ''" class="switch">
           <span />
         </Switch>
       </SwitchGroup>
       <div v-if="noteEnabled">
-        <label for="note-text" class="grid grid-cols-[auto_min-content]"> Note </label>
+        <label for="note-text" class="grid grid-cols-[auto_min-content]">Note</label>
         <textarea v-model="noteText" id="note-text" class="leading-tight h-28" />
       </div>
     </div>
@@ -98,9 +94,9 @@ watch(
       <a
         v-if="deletable"
         @click="emit('destroy')"
-        class="text-sm text-red-500 font-light cursor-pointer"
-        >Delete</a
-      >
+        class="text-sm text-red-500 font-light cursor-pointer">
+        Delete
+      </a>
       <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>

@@ -22,7 +22,7 @@ const submit = ({ date, text }: NotePayload) => {
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Note</DialogTitle>
-        <NoteForm @submit="submit" class="p-6" />
+        <NoteForm @submit="submit" :deletable="false" class="p-6" />
       </DialogPanel>
     </div>
   </Dialog>

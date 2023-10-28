@@ -2,7 +2,7 @@
 import { SquaresPlusIcon } from '@heroicons/vue/20/solid';
 import { ref } from 'vue';
 import { decrypt } from '../../helpers/encrypto';
-import PassphraseModal from '../Settings/PassphraseModal.vue';
+import PassphraseModal from '@components/Settings/PassphraseModal.vue';
 import { load } from '../../helpers/storage';
 import { useRouter } from 'vue-router';
 

@@ -23,7 +23,6 @@ const isFormComplete = computed(() => {
   return text.value && text.value.length > 0;
 });
 
-/** @type {import('vue').ComputedRef<import('../../typedefs').NotePayload>} */
 const params = computed<NotePayload>(() => {
   return {
     date: dayjs(date.value).valueOf(),

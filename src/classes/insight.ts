@@ -33,8 +33,6 @@ export class VitalInsight extends Insight {
 
   /**
    * Get person's measurements for this vital
-   *
-   * @returns {import("../typedefs").Measurement[]}
    */
   get #measurements() {
     if (!record.value) return [];
@@ -49,8 +47,6 @@ export class VitalInsight extends Insight {
 
   /**
    * Measurements whose recent values are below the low value for this vital
-   *
-   * @returns {import("../typedefs").Measurement[]}
    */
   get #lowMeasurements() {
     if (!this.vital.low) return [];
@@ -60,8 +56,6 @@ export class VitalInsight extends Insight {
 
   /**
    * Measurements whose recent values are above the high value for this vital
-   *
-   * @returns {import("../typedefs").Measurement[]}
    */
   get #highMeasurements() {
     if (!this.vital.high) return [];

@@ -3,7 +3,7 @@ import { vitals } from '@store/vitals';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import { PlusIcon } from '@heroicons/vue/20/solid';
-import Insight from '@components/Vitals/Insight.vue';
+import Insight from '@components/Person/Insight.vue';
 import { previousRoute } from '@store/ui';
 import VitalChartSummary from '@components/Person/VitalChartSummary.vue';
 import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';

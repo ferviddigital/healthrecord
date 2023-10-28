@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SquaresPlusIcon } from '@heroicons/vue/20/solid';
-import PersonForm from '../People/Form.vue';
+import PersonForm from '@components/Settings/People/Form.vue';
 import { create } from '../../helpers/storage';
 import { useRouter } from 'vue-router';
 

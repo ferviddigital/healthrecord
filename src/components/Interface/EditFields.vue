@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HeaderTitleCenter from './HeaderTitleCenter.vue';
+import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 
 defineProps<{
   fields: FormField[];

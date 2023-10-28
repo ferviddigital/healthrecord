@@ -11,12 +11,12 @@ const router = useRouter();
  */
 const createVital = (vital: Vital) => {
   create(vital);
-  router.push({ name: 'Vitals' });
+  router.push({ name: 'SettingsVitals' });
 };
 </script>
 
 <template>
-  <Dialog :open="true" @close="$router.push({ name: 'Vitals' })" class="relative z-50">
+  <Dialog :open="true" @close="$router.push({ name: 'SettingsVitals' })" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">

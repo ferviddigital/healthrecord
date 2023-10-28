@@ -3,6 +3,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
 import { create } from '@store/people';
 import PersonForm from './Form.vue';
+import { selectedPersonId } from '@store/person';
 
 const router = useRouter();
 
@@ -10,8 +11,8 @@ const router = useRouter();
  * Create Person
  */
 const createPerson = (person: Person) => {
-  create(person);
-  router.push({ name: 'Person', params: { personId: person.id } });
+  selectedPersonId.value = create(person);
+  router.push({ name: 'Person', params: { personId: selectedPersonId.value } });
 }
 </script>
 

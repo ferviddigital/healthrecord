@@ -3,7 +3,7 @@ import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@store/vitals';
 import VitalListItem from './VitalListItem.vue';
-import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
+import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
       <template #right>
         <RouterLink
           class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center"
-          :to="{ name: 'VitalCreate' }">
+          :to="{ name: 'SettingsVitalCreate' }">
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
       </template>
@@ -33,7 +33,7 @@ import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
           <LightBulbIcon class="h-6 w-6 mr-3" />
           <span>
             You are not measuring any vitals.
-            <RouterLink class="underline" :to="{ name: 'VitalCreate' }">
+            <RouterLink class="underline" :to="{ name: 'SettingsVitalCreate' }">
               Add&nbsp;a&nbsp;vital
             </RouterLink>
             or start with

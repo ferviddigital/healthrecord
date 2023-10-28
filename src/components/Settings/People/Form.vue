@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import type { PersonFormEmits, PersonFormProps } from '@project-types/person';
 import { computed, ref } from 'vue';
 
-const props = defineProps(['firstName', 'lastName', 'sex', 'dob']);
+const props = defineProps<PersonFormProps>();
 
-const emit = defineEmits<{
-  submit: [person: Person];
-}>();
+const emit = defineEmits<PersonFormEmits>();
 
 const firstName = ref(props.firstName || '');
 const lastName = ref(props.lastName || '');
@@ -73,6 +72,12 @@ const person = computed(() => {
     <label class="mt-3" for="dob"> Date of Birth </label>
     <input v-model="dob" type="date" id="dob" required />
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
+      <a
+        v-if="deletable"
+        @click="emit('destroy')"
+        class="text-sm text-red-500 font-light cursor-pointer">
+        Delete
+      </a>
       <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>

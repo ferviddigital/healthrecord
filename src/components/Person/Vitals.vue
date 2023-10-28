@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@store/vitals';
 import VitalSummary from './VitalSummary.vue';
 import { selectedPerson, sortedPersonMeasurements } from '@store/person';
-import HeaderTitleLeft from '../Interface/HeaderTitleLeft.vue';
+import HeaderTitleLeft from '@components/Interface/HeaderTitleLeft.vue';
 
 const vitalSort = ref<VitalSortBy>('date');
 
@@ -46,7 +46,7 @@ const vitalMeasurements = (vitalId: string) => {
       <template #right>
         <RouterLink
           class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center"
-          :to="{ name: 'PersonVitalCreate' }">
+          :to="{ name: 'PersonMeasurementCreate' }">
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
       </template>
@@ -102,7 +102,7 @@ const vitalMeasurements = (vitalId: string) => {
           <LightBulbIcon class="h-6 w-6 mr-3" />
           <span v-if="vitals.length === 0">
             You are not measuring any vitals.
-            <RouterLink class="underline" :to="{ name: 'VitalCreate' }">
+            <RouterLink class="underline" :to="{ name: 'SettingsVitalCreate' }">
               Add&nbsp;a&nbsp;vital
             </RouterLink>
             or start with

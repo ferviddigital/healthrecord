@@ -34,7 +34,7 @@ import { vitals, createHeartRateVital, createBodyWeightVital, createWellBeingVit
           <LightBulbIcon class="h-6 w-6 mr-3" />
           <span v-if="vitals.length === 0">
             You are not measuring any vitals.
-            <RouterLink class="underline" :to="{ name: 'VitalCreate' }">
+            <RouterLink class="underline" :to="{ name: 'SettingsVitalCreate' }">
               Add&nbsp;a&nbsp;vital
             </RouterLink>
             or start with

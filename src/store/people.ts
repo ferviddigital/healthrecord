@@ -13,9 +13,10 @@ export const people = computed(() => {
 /**
  * Create Person
  */
-export const create = (person: Person) => {
-  if (!record.value) return;
+export const create = (person: Person): string => {
+  if (!record.value) throw new Error('Record does not exist.');
   record.value.people.push(person);
+  return person.id
 };
 
 /**

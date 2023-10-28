@@ -30,6 +30,9 @@ const updateVital = (updatedVital: Vital) => {
   router.back();
 };
 
+/**
+ * Destroy Vital
+ */
 const destroyVital = () => {
   router.back();
   destroy(vital.value.id);

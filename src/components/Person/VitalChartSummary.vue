@@ -5,7 +5,7 @@ import VitalChart from './VitalChart.vue';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { useRoute } from 'vue-router';
-import LowHighBadge from '../Measurements/LowHighBadge.vue';
+import LowHighBadge from '@components/Measurements/LowHighBadge.vue';
 
 const route = useRoute();
 

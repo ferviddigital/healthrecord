@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MeasurementForm from '@components/Measurements/Form.vue';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import type { MeasurementFormPayload, MeasurementFormProps } from '@project-types/measurement';
 import { create as createMeasurement } from '@store/measurements';
@@ -6,7 +7,6 @@ import { create as createNote, update as updateNote } from '@store/notes';
 import { vitals } from '@store/vitals';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import MeasurementForm from './Form.vue';
 
 const router = useRouter();
 

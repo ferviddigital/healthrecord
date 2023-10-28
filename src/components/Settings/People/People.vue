@@ -3,7 +3,7 @@ import { people } from '@store/people';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import PersonListItem from './PersonListItem.vue';
-import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
+import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
       <template #right>
         <RouterLink
           class="grid rounded-full bg-gray-300 hover:bg-gray-100 h-9 w-9 sm:h-10 sm:w-10 items-center justify-items-center"
-          :to="{ name: 'SettingsPeopleCreate' }"
+          :to="{ name: 'SettingsPersonCreate' }"
         >
           <PlusIcon class="h-6 w-6" />
         </RouterLink>
@@ -36,7 +36,7 @@ import HeaderTitleCenter from '../Interface/HeaderTitleCenter.vue';
           <LightBulbIcon class="h-6 w-6 mr-3" />
           <span
             >You are not tracking any people.
-            <RouterLink class="underline" :to="{ name: 'PersonCreate' }"
+            <RouterLink class="underline" :to="{ name: 'SettingsPersonCreate' }"
               >Add&nbsp;a&nbsp;person</RouterLink
             >.</span
           >
