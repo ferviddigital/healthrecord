@@ -1,32 +1,32 @@
 <script setup lang="ts">
+import VitalForm from '@components/Settings/Vitals/Form.vue';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { vitals, update, destroy } from '@store/vitals';
-import VitalForm from './Form.vue';
+import { destroy, update, vitals } from '@store/vitals';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-const route = useRoute();
 const router = useRouter();
 
+const props = defineProps<{
+  vitalId: string;
+}>();
+
 const vital = computed(() => {
-  const vital = vitals.value.find(vital => vital.id === route.params.vitalId);
-
-  if (!vital) throw new Error(`Could not find vital with ID: ${route.params.vitalId}.`);
-
-  return vital;
+  const targetVital = vitals.value.find(vital => vital.id === props.vitalId);
+  if (!targetVital) throw Error(`Could not find Vital with ID: ${props.vitalId}.`);
+  return targetVital;
 });
-
-const name = ref(vital.value.name);
-const description = ref(vital.value.description);
-const unit = ref(vital.value.unit);
-const high = ref(vital.value.high);
-const low = ref(vital.value.low);
 
 /**
  * Update Vital
  */
-const updateVital = (updatedVital: Vital) => {
-  update(vital.value.id, updatedVital);
+const updateVital = (partialVital: PartialVital) => {
+  try {
+    update(partialVital);
+  } catch (e) {
+    console.log(e);
+  }
+
   router.back();
 };
 
@@ -34,35 +34,32 @@ const updateVital = (updatedVital: Vital) => {
  * Destroy Vital
  */
 const destroyVital = () => {
+  setTimeout(() => {
+    destroy(props.vitalId);
+  }, 150);
+
   router.back();
-  destroy(vital.value.id);
 };
 </script>
 
 <template>
-  <Dialog
-    :open="true"
-    @close="$router.push({ name: 'SettingsVitals' })"
-    :initial-focus="null"
-    class="relative z-50"
-  >
+  <Dialog :open="true" @close="$router.push({ name: 'SettingsVitals' })" class="relative z-50">
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">
-        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3"
-          >Edit Vital</DialogTitle
-        >
+        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">
+          Edit Vital
+        </DialogTitle>
         <VitalForm
           class="p-6"
           @submit="updateVital"
-          :name="name"
-          :description="description"
-          :unit="unit"
-          :high="high"
-          :low="low"
           @destroy="destroyVital"
-          :deletable="true"
-        />
+          :id="vital.id"
+          :name="vital.name"
+          :description="vital.description"
+          :unit="vital.unit"
+          :low="vital.low"
+          :high="vital.high" />
       </DialogPanel>
     </div>
   </Dialog>

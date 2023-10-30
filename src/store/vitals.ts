@@ -1,11 +1,12 @@
-import { computed } from 'vue';
 import { record } from '@store/record';
+import { computed } from 'vue';
 
 /**
  * All vitals
  */
 export const vitals = computed(() => {
-  return record.value?.vitals.toSorted((a, b) => a.name.localeCompare(b.name)) || [];
+  if (!record.value) throw new Error('Record does not exist.');
+  return record.value.vitals.toSorted((a, b) => a.name.localeCompare(b.name)) || [];
 });
 
 /**
@@ -52,28 +53,44 @@ export const createBodyWeightVital = () => {
 
 /**
  * Create Vital
+ * @returns {string} New Vital ID
  */
-export const create = (vital: Vital) => {
-  if (!record.value) return;
+export const create = ({ name, description, unit, low, high }: PartialVital): string => {
+  if (!record.value) throw new Error('Record not found.');
+  if (!name) throw new Error('Vital must have a name.');
+  if (!unit) throw new Error('Vital must have a unit of measurement.');
+
+  const vital: Vital = {
+    id: crypto.randomUUID(),
+    name,
+    description,
+    unit,
+    low,
+    high,
+  };
 
   record.value.vitals.push(vital);
+  return vital.id;
 };
 
 /**
  * Update Vital
  */
-export const update = (vitalId: string, vitalObject: Vital) => {
-  if (!record.value) return;
+export const update = ({ id, name, description, unit, low, high }: PartialVital) => {
+  if (!record.value) throw new Error('Record not found.');
+  if (!id) throw new Error('Vital must have an ID.');
+  if (!name) throw new Error('Vital must have a name.');
+  if (!unit) throw new Error('Vital must have a unit of measurement.');
 
-  const index = record.value.vitals.findIndex(vital => vital.id === vitalId);
+  const index = record.value.vitals.findIndex(vital => vital.id === id);
 
-  if (index === -1) throw new Error(`Could not find vital with ID: ${vitalId}.`);
+  if (index === -1) throw new Error(`Could not find Vital with ID: ${id}.`);
 
-  record.value.vitals[index].name = vitalObject.name;
-  record.value.vitals[index].description = vitalObject.description;
-  record.value.vitals[index].unit = vitalObject.unit;
-  record.value.vitals[index].low = vitalObject.low;
-  record.value.vitals[index].high = vitalObject.high;
+  record.value.vitals[index].name = name;
+  record.value.vitals[index].description = description;
+  record.value.vitals[index].unit = unit;
+  record.value.vitals[index].low = low;
+  record.value.vitals[index].high = high;
 };
 
 /**

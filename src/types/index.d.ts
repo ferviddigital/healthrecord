@@ -1,14 +1,3 @@
-type Measurement = {
-  id: string;
-  created: number;
-  updated?: number;
-  value: number;
-  date: number;
-  personId: string;
-  vitalId: string;
-  noteId?: string;
-};
-
 type HealthRecord = {
   id: string;
   version: string;
@@ -39,33 +28,6 @@ type WebRTCPreference = {
   signalerUrl?: string;
 };
 
-type Person = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  sex: string;
-  dob: string;
-};
-
-type Vital = {
-  id: string;
-  name: string;
-  description: string;
-  unit: string;
-  low?: number;
-  high?: number;
-};
-
-type Note = {
-  id: string;
-  created: number;
-  updated?: number;
-  text: string;
-  date: number;
-  personId: string;
-  measurementId?: string;
-};
-
 type FormField = {
   name: string;
   type: string;
@@ -75,12 +37,9 @@ type FormField = {
   blurCallback(newValue: string): void;
 };
 
-type VitalChartRange = {
-  unit: import("dayjs").ManipulateType,
-  length: number,
-  quantity: number,
-  abbreviation: string,
-  title: string
-}
+type FormItemEmittable<T> = {
+  submit: [payload: T];
+  destroy: [];
+};
 
 declare module 'file-saver';

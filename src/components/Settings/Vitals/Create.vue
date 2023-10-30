@@ -2,15 +2,19 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
 import { create } from '@store/vitals';
-import VitalForm from './Form.vue';
+import VitalForm from '@components/Settings/Vitals/Form.vue';
 
 const router = useRouter();
 
 /**
  * Create Vital
  */
-const createVital = (vital: Vital) => {
-  create(vital);
+const createVital = (partialVital: PartialVital) => {
+  try {
+    create(partialVital);
+  } catch (e) {
+    console.log(e);
+  }
   router.push({ name: 'SettingsVitals' });
 };
 </script>

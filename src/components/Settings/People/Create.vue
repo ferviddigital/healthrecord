@@ -10,9 +10,10 @@ const router = useRouter();
 /**
  * Create Person
  */
-const createPerson = (person: Person) => {
-  selectedPersonId.value = create(person);
-  router.push({ name: 'Person', params: { personId: selectedPersonId.value } });
+const createPerson = (person: PartialPerson) => {
+  const personId = create(person);
+  selectedPersonId.value = personId;
+  router.push({ name: 'Person', params: { personId } });
 }
 </script>
 

@@ -7,32 +7,52 @@ import { record } from '@store/record';
  * @since 0.1.0
  */
 export const people = computed(() => {
-  return record.value?.people || [];
+  if (!record.value) throw new Error('Record does not exist.');
+  return record.value.people || [];
 });
 
 /**
  * Create Person
+ * @returns {string} New Person ID
  */
-export const create = (person: Person): string => {
-  if (!record.value) throw new Error('Record does not exist.');
+export const create = ({ firstName, lastName, sex, dob }: PartialPerson): string => {
+  if (!record.value) throw new Error('Record not found.');
+  if (!firstName) throw new Error('Person must have a first name.');
+  if (!lastName) throw new Error('Person must have a last name.');
+  if (!sex) throw new Error('Person must have a sex.');
+  if (!dob) throw new Error('Person must have a date of birth.');
+
+  const person: Person = {
+    id: crypto.randomUUID(),
+    firstName,
+    lastName,
+    sex,
+    dob,
+  };
+
   record.value.people.push(person);
-  return person.id
+  return person.id;
 };
 
 /**
  * Update Person
  */
-export const update = (personId: string, personObject: Person) => {
-  if (!record.value) return;
+export const update = ({ id, firstName, lastName, sex, dob }: PartialPerson) => {
+  if (!record.value) throw new Error('Record not found.');
+  if (!id) throw new Error('Person must have an ID.');
+  if (!firstName) throw new Error('Person must have a first name.');
+  if (!lastName) throw new Error('Person must have a last name.');
+  if (!sex) throw new Error('Person must have a sex.');
+  if (!dob) throw new Error('Person must have a date of birth.');
 
-  const index = record.value.people.findIndex((person) => person.id === personId);
+  const index = record.value.people.findIndex(person => person.id === id);
 
-  if (index === -1) throw new Error(`Could not find person with ID: ${personId}.`);
+  if (index === -1) throw new Error(`Could not find person with ID: ${id}.`);
 
-  record.value.people[index].firstName = personObject.firstName;
-  record.value.people[index].lastName = personObject.lastName;
-  record.value.people[index].sex = personObject.sex;
-  record.value.people[index].dob = personObject.dob;
+  record.value.people[index].firstName = firstName;
+  record.value.people[index].lastName = lastName;
+  record.value.people[index].sex = sex;
+  record.value.people[index].dob = dob;
 };
 
 /**
@@ -47,7 +67,7 @@ export const destroy = (id: string) => {
 
   deletePersonMeasurements(id);
 
-  const index = record.value.people.findIndex((person) => person.id === id);
+  const index = record.value.people.findIndex(person => person.id === id);
 
   if (index === -1) throw new Error(`Could not find Person with ID: ${id}.`);
 
@@ -59,11 +79,11 @@ export const destroy = (id: string) => {
  */
 const deletePersonMeasurements = (personId: string) => {
   if (!record.value) return;
-  record.value.measurements.slice().forEach((_) => {
+  record.value.measurements.slice().forEach(_ => {
     if (!record.value) return;
 
     const lastIndex = record.value.measurements.findLastIndex(
-      (measurement) => measurement.personId === personId
+      measurement => measurement.personId === personId
     );
 
     if (lastIndex === -1) return;

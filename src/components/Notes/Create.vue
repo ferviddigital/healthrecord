@@ -1,18 +1,25 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
-import { create as createNote } from '@store/notes';
+import { create } from '@store/notes';
 import NoteForm from './Form.vue';
-import { selectedPerson } from '@store/person';
 
 const router = useRouter();
 
+const props = defineProps<{
+  personId: string;
+}>();
+
 /**
- * Submit Measurement form action
+ * Create Note
  */
-const submit = ({ date, text }: NotePayload) => {
+const createNote = (partialNote: PartialNote) => {
+  try {
+    create(partialNote);
+  } catch (e) {
+    console.log(e);
+  }
   router.back();
-  createNote(date, text, selectedPerson.value.id);
 };
 </script>
 
@@ -22,7 +29,7 @@ const submit = ({ date, text }: NotePayload) => {
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add Note</DialogTitle>
-        <NoteForm @submit="submit" :deletable="false" class="p-6" />
+        <NoteForm @submit="createNote" :person-id="props.personId" class="p-6" />
       </DialogPanel>
     </div>
   </Dialog>

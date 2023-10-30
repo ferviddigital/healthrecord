@@ -1,25 +1,16 @@
-export type MeasurementCreateProps = {
-  vitalId?: string;
+type Measurement = {
+  id: string;
+  created: number;
+  updated?: number;
+  value: number;
+  date: number;
   personId: string;
+  vitalId: string;
+  noteId?: string;
 };
 
-export interface MeasurementUpdateProps extends MeasurementCreateProps {
-  measurementId: string;
-}
+type PartialMeasurement = Partial<Measurement>;
 
-export type MeasurementFormProps = {
-  personId: string;
-  vitalId?: string;
-  value?: number;
-  date?: number;
-  noteText?: string;
-  deletable?: boolean;
-}
+type MeasurementFormProps = PartialMeasurement;
 
-export type MeasurementFormEmits = {
-  submit: [payload: MeasurementFormPayload];
-  destroy: [];
-  destroyNote: [];
-}
-
-export type MeasurementFormPayload = Omit<MeasurementFormProps,'deletable'> & Pick<Measurement,'noteId'|'date'|'value'>;
+type MeasurementFormEmits = FormItemEmittable<PartialMeasurement>;

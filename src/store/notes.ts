@@ -1,10 +1,11 @@
-import { computed } from 'vue';
-import { record } from '@store/record';
 import { removeNote as removeMeasurementNote } from '@store/measurements';
+import { record } from '@store/record';
+import { computed } from 'vue';
 
 /** All Note objects */
 export const notes = computed(() => {
-  return record.value?.notes || [];
+  if (!record.value) throw new Error('Record does not exist.');
+  return record.value.notes || [];
 });
 
 /** All Note objects sorted from newest to oldest by `date` */
@@ -14,14 +15,13 @@ export const sorted = computed(() => {
 
 /**
  * Create Note
+ * @returns {string} New Note ID
  */
-export const create = (
-  date: number,
-  text: string,
-  personId: string,
-  measurementId?: string
-): string => {
+export const create = ({ date, text, personId, measurementId }: PartialNote): string => {
   if (!record.value) throw new Error('Record does not exist.');
+  if (!date) throw new Error('Note must have a date.');
+  if (!text) throw new Error('Note must have text.');
+  if (!personId) throw new Error('Note must have an associated person.');
 
   const note: Note = {
     id: crypto.randomUUID(),
@@ -31,16 +31,18 @@ export const create = (
     personId,
     measurementId,
   };
-  record.value.notes.push(note);
 
+  record.value.notes.push(note);
   return note.id;
 };
 
 /**
  * Update Note
  */
-export const update = (id: string, date: number, text: string, measurementId?: string) => {
+export const update = ({ id, text, date, measurementId }: PartialNote) => {
   if (!record.value) throw new Error('Record does not exist.');
+  if (!date) throw new Error('Note must have a date.');
+  if (!text) throw new Error('Note must have text.');
 
   const index = record.value.notes.findIndex(note => note.id === id);
 
@@ -49,7 +51,6 @@ export const update = (id: string, date: number, text: string, measurementId?: s
   record.value.notes[index].date = date;
   record.value.notes[index].text = text;
   record.value.notes[index].measurementId = measurementId;
-
   record.value.notes[index].updated = Date.now();
 };
 

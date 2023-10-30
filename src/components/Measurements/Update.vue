@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import type { MeasurementFormPayload, MeasurementUpdateProps } from '@project-types/measurement';
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import {
-  destroy as destroyMeasurement,
-  measurements,
-  update as updateMeasurement,
-} from '@store/measurements';
-import { create as createNote, destroy as destroyNote, notes } from '@store/notes';
-import { vitals } from '@store/vitals';
 import MeasurementForm from '@components/Measurements/Form.vue';
+import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
+import { destroy, measurements, update } from '@store/measurements';
+import { vitals } from '@store/vitals';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const props = defineProps<MeasurementUpdateProps>();
+const props = defineProps<{
+  measurementId: string;
+  personId: string;
+  vitalId: string;
+}>();
 
 const measurement = computed(() => {
   const measurement = measurements.value.find(
@@ -24,36 +22,28 @@ const measurement = computed(() => {
   return measurement;
 });
 
-const value = ref(measurement.value.value);
-const date = ref(measurement.value.date);
-
 const vital = computed(() => {
   const vital = vitals.value.find(vital => vital.id === props.vitalId);
-  if (!vital) throw new Error('Vital not found.');
+  if (!vital) throw new Error('Vital not found');
   return vital;
 });
 
-const noteText = computed(() => {
-  if (!measurement.value.noteId) return undefined;
-  return notes.value.find(note => note.id === measurement.value.noteId)?.text;
-});
-
-const submit = ({ value, date, noteText, personId }: MeasurementFormPayload) => {
-  router.back();
-  let noteId = undefined;
-
-  if (!measurement.value.noteId && noteText) {
-    noteId = createNote(Date.now(), noteText, personId, props.measurementId);
+const updateMeasurement = (partialMeasurement: PartialMeasurement) => {
+  try {
+    update(partialMeasurement);
+  } catch (e) {
+    console.log(e);
   }
 
-  updateMeasurement(props.measurementId, date, value, noteId);
+  router.back();
 };
 
-const destroy = () => {
-  router.back();
+const destroyMeasurement = () => {
   setTimeout(() => {
-    destroyMeasurement(props.measurementId);
-  }, 100);
+    destroy(props.measurementId);
+  }, 150);
+
+  router.back();
 };
 </script>
 
@@ -62,21 +52,19 @@ const destroy = () => {
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">
-        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3"
-          >Edit {{ vital.name }} Measurement</DialogTitle
-        >
+        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">
+          Edit {{ vital.name }} Measurement
+        </DialogTitle>
         <MeasurementForm
           class="p-6"
-          @submit="submit"
-          @destroy="destroy"
-          @destroy-note="measurement.noteId ? destroyNote(measurement.noteId) : null"
-          :value="value"
-          :date="date"
+          @submit="updateMeasurement"
+          @destroy="destroyMeasurement"
+          :id="measurement.id"
+          :value="measurement.value"
+          :date="measurement.date"
           :vital-id="props.vitalId"
-          :note-text="noteText"
           :person-id="props.personId"
-          :deletable="true"
-        />
+          :note-id="measurement.noteId" />
       </DialogPanel>
     </div>
   </Dialog>

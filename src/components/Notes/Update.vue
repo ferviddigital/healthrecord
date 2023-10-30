@@ -1,38 +1,41 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import NoteForm from './Form.vue';
-import { notes, update as updateNote, destroy as destroyNote } from '@store/notes';
+import { notes, update, destroy } from '@store/notes';
 
-const route = useRoute();
 const router = useRouter();
 
+const props = defineProps<{
+  noteId: string;
+}>();
+
 const note = computed(() => {
-  const note = notes.value.find(note => note.id === noteId.value);
-
-  if (!note) throw Error(`Could not find Note with ID: ${route.params.noteId}.`);
-
+  const note = notes.value.find(note => note.id === props.noteId);
+  if (!note) throw Error(`Could not find Note with ID: ${props.noteId}.`);
   return note;
 });
-
-const noteId = ref(String(route.params.noteId));
-const date = ref(note.value.date);
-const text = ref(note.value.text);
 
 /**
  * Submit Measurement form action
  */
-const submit = ({ date, text }: NotePayload) => {
+const updateNote = (partialNote: PartialNote) => {
+  try {
+    update(partialNote);
+  } catch (e) {
+    console.log(e);
+  }
+
   router.back();
-  updateNote(noteId.value, date, text, note.value.measurementId);
 };
 
-const destroy = () => {
-  router.back();
+const destroyNote = () => {
   setTimeout(() => {
-    destroyNote(noteId.value);
-  }, 100);
+    destroy(props.noteId);
+  }, 150);
+
+  router.back();
 };
 </script>
 
@@ -44,12 +47,13 @@ const destroy = () => {
         <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Edit Note</DialogTitle>
         <NoteForm
           class="p-6"
-          @submit="submit"
-          @destroy="destroy"
-          :date="date"
-          :text="text"
-          :deletable="true"
-        />
+          @submit="updateNote"
+          @destroy="destroyNote"
+          :id="note.id"
+          :date="note.date"
+          :text="note.text"
+          :person-id="note.personId"
+          :measurement-id="note.measurementId"/>
       </DialogPanel>
     </div>
   </Dialog>

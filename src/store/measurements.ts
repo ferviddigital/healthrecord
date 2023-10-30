@@ -1,11 +1,11 @@
-import { computed } from 'vue';
-import { record } from '@store/record';
 import { destroy as destroyNote } from '@store/notes';
-import { MeasurementFormPayload } from '@project-types/measurement';
+import { record } from '@store/record';
+import { computed } from 'vue';
 
 /** All Measurement objects */
 export const measurements = computed(() => {
-  return record.value?.measurements || [];
+  if (!record.value) throw new Error('Record does not exist.');
+  return record.value.measurements || [];
 });
 
 /** All Measurement objects sorted from newest to oldest by `date` */
@@ -15,10 +15,14 @@ export const sorted = computed(() => {
 
 /**
  * Create Measurement
- * @returns {string} Measurement ID
+ * @returns {string} New Measurement ID
  */
-export const create = ({ date, value, personId, vitalId, noteId }: MeasurementFormPayload): string => {
+export const create = ({ date, value, personId, vitalId, noteId }: PartialMeasurement): string => {
   if (!record.value) throw new Error('Record does not exist.');
+  if (!date) throw new Error('Measurement must have a date.');
+  if (!value) throw new Error('Measurement must have a value.');
+  if (!personId) throw new Error('Measurement must have an associated Person.');
+  if (!vitalId) throw new Error('Measurement must have an associated Vital.');
 
   const measurement: Measurement = {
     id: crypto.randomUUID(),
@@ -37,8 +41,10 @@ export const create = ({ date, value, personId, vitalId, noteId }: MeasurementFo
 /**
  * Update Measurement
  */
-export const update = (id: string, date: number, value: number, noteId?: string) => {
+export const update = ({ id, date, value, noteId }: PartialMeasurement) => {
   if (!record.value) throw new Error('Record does not exist.');
+  if (!date) throw new Error('Measurement must have a date.');
+  if (!value) throw new Error('Measurement must have a value.');
 
   const index = record.value.measurements.findIndex(measurement => measurement.id === id);
 
@@ -47,7 +53,6 @@ export const update = (id: string, date: number, value: number, noteId?: string)
   record.value.measurements[index].date = date;
   record.value.measurements[index].value = value;
   record.value.measurements[index].noteId = noteId;
-
   record.value.measurements[index].updated = Date.now();
 };
 
@@ -81,5 +86,9 @@ export const destroy = (id: string) => {
 export const removeNote = (noteId: string) => {
   const measurement = measurements.value.find(measurement => measurement.noteId === noteId);
   if (!measurement) return;
-  update(measurement.id, measurement.date, measurement.value, undefined);
+  const partialMeasurement = {
+    ...measurement,
+    noteId: undefined,
+  };
+  update(partialMeasurement);
 };

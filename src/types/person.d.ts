@@ -1,18 +1,13 @@
-export type PersonCreateProps = {
-  personId: string;
+type Person = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  sex: string;
+  dob: string;
 };
 
-export type PersonUpdateProps = PersonCreateProps;
+type PartialPerson = Partial<Person>;
 
-export type PersonFormProps = {
-  firstName?: string;
-  lastName?: string;
-  sex?: string;
-  dob?: string;
-  deletable?: boolean;
-}
+type PersonFormProps = PartialPerson;
 
-export type PersonFormEmits = {
-  submit: [payload: Person];
-  destroy: [];
-}
+type PersonFormEmits = FormItemEmittable<PartialPerson>;

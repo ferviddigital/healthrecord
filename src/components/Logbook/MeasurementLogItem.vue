@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LowHighBadge from '@components/Measurements/LowHighBadge.vue';
+import LowHighBadge from '@components/Interface/LowHighBadge.vue';
 
 const props = defineProps<{
   measurement: Measurement;
