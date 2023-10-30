@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
-import { create } from '@store/notes';
+import { create } from '@stores/notes';
 import NoteForm from './Form.vue';
 
 const router = useRouter();

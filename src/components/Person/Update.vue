@@ -2,9 +2,9 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { people, update, destroy } from '@store/people';
+import { people, update, destroy } from '@stores/people';
 import PersonForm from '@components/Settings/People/Form.vue';
-import { selectedPersonId } from '@store/person';
+import { selectedPersonId } from '@stores/person';
 
 const router = useRouter();
 

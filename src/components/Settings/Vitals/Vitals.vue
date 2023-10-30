@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
-import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@stores/vitals';
 import VitalListItem from './VitalListItem.vue';
 import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 </script>

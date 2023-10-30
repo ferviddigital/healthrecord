@@ -1,6 +1,6 @@
-import { people } from '@store/people';
-import { vitals } from '@store/vitals';
-import { notes } from '@store/notes';
+import { people } from '@stores/people';
+import { vitals } from '@stores/vitals';
+import { notes } from '@stores/notes';
 
 export class LogEntry {
   date: number;
@@ -39,7 +39,7 @@ export class MeasurementLogEntry extends LogEntry {
     super(measurement.personId);
     this.measurement = measurement;
     this.objectId = this.measurement.id;
-    this.date = this.measurement.created || this.measurement.date;
+    this.date = this.measurement.date;
   }
 
   get vital() {
@@ -63,7 +63,7 @@ export class NoteLogEntry extends LogEntry {
     super(note.personId);
     this.#note = note;
     this.objectId = note.id;
-    this.date = note.created;
+    this.date = note.date;
   }
 
   get description() {

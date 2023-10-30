@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import MeasurementForm from '@components/Measurements/Form.vue';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import { create } from '@store/measurements';
-import { notes, update as updateNote } from '@store/notes';
-import { vitals } from '@store/vitals';
+import { create } from '@stores/measurements';
+import { notes, update as updateNote } from '@stores/notes';
+import { vitals } from '@stores/vitals';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 

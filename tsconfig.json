@@ -29,7 +29,7 @@
       "@types/file-saver"
     ],
     "paths": {
-      "@store/*": ["./src/store/*"],
+      "@stores/*": ["./src/stores/*"],
       "@project-types/*": ["./src/types/*"],
       "@components/*": ["./src/components/*"]
     }

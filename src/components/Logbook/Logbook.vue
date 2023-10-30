@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import { PlusIcon } from '@heroicons/vue/20/solid';
-import { sortedPersonLogEntries } from '@store/person';
+import { sortedPersonLogEntries } from '@stores/person';
 import LogbookListItem from '@components/Logbook/LogbookListItem.vue';
 import HeaderTitleLeft from '@components/Interface/HeaderTitleLeft.vue';
-import { vitals, createHeartRateVital, createBodyWeightVital, createWellBeingVital } from '@store/vitals';
+import { vitals, createHeartRateVital, createBodyWeightVital, createWellBeingVital } from '@stores/vitals';
 </script>
 
 <template>

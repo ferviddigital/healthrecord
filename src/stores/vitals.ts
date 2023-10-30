@@ -1,4 +1,4 @@
-import { record } from '@store/record';
+import { record } from '@stores/record';
 import { computed } from 'vue';
 
 /**

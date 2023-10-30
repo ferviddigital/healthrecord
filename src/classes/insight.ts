@@ -1,4 +1,4 @@
-import { record } from '@store/record';
+import { record } from '@stores/record';
 import pluralize from 'pluralize';
 import n2w from 'number-to-words';
 

@@ -3,7 +3,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import NoteForm from './Form.vue';
-import { notes, update, destroy } from '@store/notes';
+import { notes, update, destroy } from '@stores/notes';
 
 const router = useRouter();
 

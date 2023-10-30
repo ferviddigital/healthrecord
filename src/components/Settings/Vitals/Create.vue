@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { useRouter } from 'vue-router';
-import { create } from '@store/vitals';
+import { create } from '@stores/vitals';
 import VitalForm from '@components/Settings/Vitals/Form.vue';
 
 const router = useRouter();

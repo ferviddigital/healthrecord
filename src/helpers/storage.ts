@@ -1,4 +1,4 @@
-import { HealthRecordSyncedStore, record } from '@store/record';
+import { HealthRecordSyncedStore, record } from '@stores/record';
 import { createSyncedStore, doc } from '../providers/syncedstore';
 import '../providers/indexeddb';
 import '../providers/webrtc';

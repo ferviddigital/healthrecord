@@ -3,9 +3,9 @@ import { LightBulbIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { PencilIcon } from '@heroicons/vue/24/solid';
 import VitalChart from '@components/Person/VitalChart.vue';
 import { computed, ref } from 'vue';
-import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@stores/vitals';
 import pluralize from 'pluralize';
-import { selectedPerson, sortedPersonMeasurements, sortedPersonLogEntries } from '@store/person';
+import { selectedPerson, sortedPersonMeasurements, sortedPersonLogEntries } from '@stores/person';
 import LogbookListItem from '@components/Logbook/LogbookListItem.vue';
 import HeaderTitleLeft from '@components/Interface/HeaderTitleLeft.vue';
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VitalForm from '@components/Settings/Vitals/Form.vue';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import { destroy, update, vitals } from '@store/vitals';
+import { destroy, update, vitals } from '@stores/vitals';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 

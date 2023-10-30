@@ -2,8 +2,8 @@
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue';
 import dayjs from 'dayjs';
 import { computed, ref } from 'vue';
-import { vitals } from '@store/vitals';
-import { notes, destroy as destroyNote, create as createNote } from '@store/notes';
+import { vitals } from '@stores/vitals';
+import { notes, destroy as destroyNote, create as createNote } from '@stores/notes';
 
 /** Type `MeasurementFormProps` defined in Measurement type declarations but unusable in Vue `defineProps` */
 interface MeasurementFormProps {

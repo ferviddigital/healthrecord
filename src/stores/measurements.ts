@@ -1,5 +1,5 @@
-import { destroy as destroyNote } from '@store/notes';
-import { record } from '@store/record';
+import { destroy as destroyNote } from '@stores/notes';
+import { record } from '@stores/record';
 import { computed } from 'vue';
 
 /** All Measurement objects */

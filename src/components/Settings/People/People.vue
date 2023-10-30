@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { people } from '@store/people';
+import { people } from '@stores/people';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import PersonListItem from './PersonListItem.vue';

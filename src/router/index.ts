@@ -1,4 +1,4 @@
-import { previousRoute } from '@store/ui';
+import { previousRoute } from '@stores/ui';
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
 const Start = () => import(/* webpackChunkName: "group-start" */ '@components/Start/Start.vue');

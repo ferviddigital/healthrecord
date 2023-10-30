@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { vitals } from '@store/vitals';
+import { vitals } from '@stores/vitals';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import Insight from '@components/Person/Insight.vue';
-import { previousRoute } from '@store/ui';
+import { previousRoute } from '@stores/ui';
 import VitalChartSummary from '@components/Person/VitalChartSummary.vue';
 import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 import LogbookListItem from '@components/Logbook/LogbookListItem.vue';
-import { selectedPerson, sortedPersonMeasurements } from '@store/person';
+import { selectedPerson, sortedPersonMeasurements } from '@stores/person';
 import { MeasurementLogEntry } from '../../classes/logEntry';
 
 const route = useRoute();

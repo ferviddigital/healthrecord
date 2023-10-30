@@ -1,5 +1,5 @@
-import { removeNote as removeMeasurementNote } from '@store/measurements';
-import { record } from '@store/record';
+import { removeNote as removeMeasurementNote } from '@stores/measurements';
+import { record } from '@stores/record';
 import { computed } from 'vue';
 
 /** All Note objects */

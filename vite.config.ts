@@ -65,7 +65,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@store': fileURLToPath(new URL('./src/store', import.meta.url)),
+      '@stores': fileURLToPath(new URL('./src/stores', import.meta.url)),
       '@project-types': fileURLToPath(new URL('./src/types', import.meta.url)),
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
     },

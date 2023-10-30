@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import { computed } from 'vue';
-import { notes } from '@store/notes';
+import { notes } from '@stores/notes';
 
 const props = defineProps<{
   noteId: string;

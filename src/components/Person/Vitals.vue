@@ -3,9 +3,9 @@ import { QuestionMarkCircleIcon, LightBulbIcon, ChevronRightIcon } from '@heroic
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import VitalChart from './VitalChart.vue';
 import { computed, ref } from 'vue';
-import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@store/vitals';
+import { vitals, createBodyWeightVital, createHeartRateVital, createWellBeingVital } from '@stores/vitals';
 import VitalSummary from './VitalSummary.vue';
-import { selectedPerson, sortedPersonMeasurements } from '@store/person';
+import { selectedPerson, sortedPersonMeasurements } from '@stores/person';
 import HeaderTitleLeft from '@components/Interface/HeaderTitleLeft.vue';
 
 const vitalSort = ref<VitalSortBy>('date');

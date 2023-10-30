@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { CheckCircleIcon } from '@heroicons/vue/24/solid';
-import { selectedPersonId } from '@store/person';
+import { selectedPersonId } from '@stores/person';
 import dayjs from 'dayjs';
 import { useRouter } from 'vue-router';
 

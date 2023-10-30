@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router';
-import { scrolled, previousRoute } from '@store/ui';
+import { scrolled, previousRoute } from '@stores/ui';
 import { ChevronLeftIcon } from '@heroicons/vue/24/solid';
 
 interface HeaderTitleCenterProps {

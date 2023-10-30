@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { record, downloadable } from '@store/record';
+import { record, downloadable } from '@stores/record';
 import FileSaver from 'file-saver';
 import { clear } from '../../helpers/storage';
 import { DocumentArrowDownIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
@@ -10,8 +10,8 @@ import { ref } from 'vue';
 import { Switch } from '@headlessui/vue';
 import { peers, webrtcConnected } from '../../providers/webrtc';
 import pluralize from 'pluralize';
-import { people } from '@store/people';
-import { vitals } from '@store/vitals';
+import { people } from '@stores/people';
+import { vitals } from '@stores/vitals';
 import { useRouter } from 'vue-router';
 import HeaderTitleLeft from '@components/Interface/HeaderTitleLeft.vue';
 
