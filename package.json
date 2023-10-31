@@ -1,7 +1,7 @@
 {
   "name": "healthrecord",
   "private": true,
-  "version": "0.4.1",
+  "version": "0.4.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -33,16 +33,24 @@
     "yjs": "^13.6.8"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.6",
+    "@types/number-to-words": "^1.2.2",
+    "@types/pluralize": "^0.0.32",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/cli-plugin-router": "~5.0.0",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5",
-    "vite-plugin-pwa": "^0.16.5"
+    "vite-plugin-pwa": "^0.16.5",
+    "vue-tsc": "^1.8.20"
   },
   "prettier": {
     "singleQuote": true,
-    "printWidth": 100
+    "printWidth": 100,
+    "arrowParens": "avoid",
+    "bracketSameLine": true,
+    "htmlWhitespaceSensitivity": "ignore"
   }
 }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   SquaresPlusIcon,
   Cog8ToothIcon,
@@ -6,11 +6,11 @@ import {
   HeartIcon,
   UserIcon,
 } from '@heroicons/vue/20/solid';
-import { record } from '../store/record';
+import { record } from '@stores/record';
 import { peers, webrtcConnected } from '../providers/webrtc';
 import pluralize from 'pluralize';
-import { scrolled } from '../store/ui';
-import { selectedPersonId } from '../store/person';
+import { scrolled } from '@stores/ui';
+import { selectedPersonId } from '@stores/person';
 
 window.addEventListener('scroll', () => {
   scrolled.value = window.scrollY > 0;

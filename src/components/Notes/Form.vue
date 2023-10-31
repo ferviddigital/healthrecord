@@ -1,56 +1,60 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
 
-const props = defineProps({
-  date: {
-    type: Number,
-    default: Date.now()
-  },
-  text: {
-    type: String,
-    default: null
-  },
-  deletable: {
-    type: Boolean,
-    default: false
-  }
-});
-const emit  = defineEmits({
-  /** @param {import('../../typedefs').NotePayload} payload */
-  submit(payload) { return true },
-  destroy() { return true }
-});
+/** Type `NoteFormProps` defined in Note type declarations but unusable in Vue `defineProps` */
+interface NoteFormProps {
+  id?: string;
+  created?: number;
+  updated?: number;
+  text?: string;
+  date?: number;
+  personId?: string;
+  measurementId?: string;
+}
 
-const date = ref(dayjs(props.date).format('YYYY-MM-DDThh:mm') || '');
+/** Type `NoteFormEmits` defined in Note type declarations but unusable in Vue `defineEmits` */
+interface NoteFormEmits {
+  (e: 'submit', payload: PartialNote): void;
+  (e: 'destroy'): void;
+}
+
+const props = defineProps<NoteFormProps>();
+
+const emit = defineEmits<NoteFormEmits>();
+
 const text = ref(props.text);
+const date = ref(dayjs(props.date ? props.date : undefined).format('YYYY-MM-DDThh:mm'));
+const personId = ref(props.personId);
 
 const isFormComplete = computed(() => {
-  return text.value 
-    && text.value.length > 0
+  return text.value && text.value.length > 0;
 });
 
-/** @type {import('vue').ComputedRef<import('../../typedefs').NotePayload>} */
-const params = computed(() => {
+const partialNote = computed<PartialNote>(() => {
   return {
+    id: props.id,
+    text: text.value,
     date: dayjs(date.value).valueOf(),
-    text: text.value
-  }
+    personId: personId.value,
+    measurementId: props.measurementId,
+  };
 });
 </script>
 
 <template>
-  <form @submit.prevent="emit('submit', params)">
-    <label for="text">
-      Note
-    </label>
-    <textarea v-model="text" id="text" class="leading-tight h-28"/>
-    <label for="date">
-      Date
-    </label>
-    <input v-model="date" type="datetime-local" id="date" required>
+  <form @submit.prevent="emit('submit', partialNote)">
+    <label for="text">Note</label>
+    <textarea v-model="text" id="text" class="leading-tight h-28" />
+    <label for="date">Date</label>
+    <input v-model="date" type="datetime-local" id="date" required />
     <div class="grid grid-flow-col justify-end items-center gap-5 mt-4">
-      <a v-if="deletable" @click="emit('destroy')" class="text-sm text-red-500 font-light cursor-pointer">Delete</a>
+      <a
+        v-if="props.id"
+        @click="emit('destroy')"
+        class="text-sm text-red-500 font-light cursor-pointer">
+        Delete
+      </a>
       <a @click="$router.back()" class="text-sm text-gray-500 font-light cursor-pointer">Cancel</a>
       <button type="submit" class="btn" :disabled="!isFormComplete">Save</button>
     </div>

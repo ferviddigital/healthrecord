@@ -1,47 +1,44 @@
-<script setup>
+<script setup lang="ts">
+import MeasurementForm from '@components/Measurements/Form.vue';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
-import { useRouter } from 'vue-router';
-import { create as createMeasurement } from '../../store/measurements';
-import { create as createNote, update as updateNote } from '../../store/notes';
-import MeasurementForm from './Form.vue';
-import { selectedPerson } from '../../store/person';
+import { create } from '@stores/measurements';
+import { notes, update as updateNote } from '@stores/notes';
+import { vitals } from '@stores/vitals';
 import { computed } from 'vue';
-import { vitals } from '../../store/vitals';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const props = defineProps({
-  vitalId: {
-    type: String,
-    default: null
-  }
-});
+const props = defineProps<{
+  personId: string;
+  vitalId?: string;
+}>();
 
 const vitalName = computed(() => {
-  if (!props.vitalId) return
-  return vitals.value.find(vital => vital.id === props.vitalId).name;
+  return vitals.value.find(vital => vital.id === props.vitalId)?.name;
 });
 
 /**
  * Submit Measurement form action
- * @param {import('../../typedefs').MeasurementPayload} params - Measurement payload
  */
-const submit = ({date, value, vitalId, noteText}) => {
-  let noteId = null;
+const createMeasurement = (partialMeasurement: PartialMeasurement) => {
+  try {
+    const measurementId = create(partialMeasurement);
 
-  if (noteText) {
-    noteId = createNote(date, noteText, selectedPerson.value.id);
+    if (partialMeasurement.noteId) {
+      const note = notes.value.find(note => note.id === partialMeasurement.noteId);
+      if (!note) throw new Error('Note not found.');
+      updateNote({ id: note.id, text: note.text, date: note.date, measurementId });
+    }
+  } catch(e) {
+    console.log(e);
   }
 
-  const measurementId = createMeasurement(date, value, selectedPerson.value.id, vitalId, noteId);
-
-  // Update note with associated Measurement ID
-  if (noteId) {
-    updateNote(noteId, date, noteText, measurementId);
-  }
-
-  router.push({ name: 'PersonVital', params: { personId: selectedPerson.value.id, vitalId } });
-}
+  router.push({
+    name: 'PersonVital',
+    params: { personId: props.personId, vitalId: partialMeasurement.vitalId },
+  });
+};
 </script>
 
 <template>
@@ -49,8 +46,14 @@ const submit = ({date, value, vitalId, noteText}) => {
     <div class="fixed inset-0 bg-black/30 backdrop-blur-sm" />
     <div class="fixed flex w-screen h-screen top-0 items-start justify-center overflow-y-auto">
       <DialogPanel class="bg-white w-full sm:max-w-xs rounded-2xl shadow-lg m-2 sm:mt-10">
-        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">Add {{ vitalName }} Measurement</DialogTitle>
-        <MeasurementForm @submit="submit" class="p-6" :vital-id="vitalId" />
+        <DialogTitle as="h3" class="text-lg font-semibold border-b p-6 py-3">
+          Add {{ vitalName }} Measurement
+        </DialogTitle>
+        <MeasurementForm
+          @submit="createMeasurement"
+          class="p-6"
+          :vital-id="props.vitalId"
+          :person-id="props.personId" />
       </DialogPanel>
     </div>
   </Dialog>

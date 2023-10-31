@@ -1,17 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { SparklesIcon } from '@heroicons/vue/24/solid';
 import { VitalInsightsSummary } from '../../classes/insight';
 
-const props = defineProps({
-  person: {
-    /** @type {import('vue').PropType<import("../../typedefs").Person>} */
-    type: Object,
-    required: true
-  }
-});
+const props = defineProps<{
+  person: Person;
+}>();
 
 const summary = new VitalInsightsSummary(props.person);
-
 </script>
 
 <template>

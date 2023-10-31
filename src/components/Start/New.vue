@@ -1,15 +1,15 @@
-<script setup>
-import { SquaresPlusIcon } from '@heroicons/vue/20/solid'
-import PersonForm from '../People/Form.vue';
+<script setup lang="ts">
+import { SquaresPlusIcon } from '@heroicons/vue/20/solid';
+import PersonForm from '@components/Settings/People/Form.vue';
 import { create } from '../../helpers/storage';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const createAccount = (person) => {
+const createAccount = (person: Person) => {
   create(person);
   router.push({ name: 'Dashboard' });
-}
+};
 </script>
 
 <template>
@@ -19,7 +19,10 @@ const createAccount = (person) => {
         <SquaresPlusIcon class="h-5 w-5 inline -mt-1.5" />
         HealthRecord
       </h1>
-      <p class="text-center text-sm mb-10 text-gray-500">Setup new record. This record is stored in your browser. You will be reminded to download it periodically.</p>
+      <p class="text-center text-sm mb-10 text-gray-500">
+        Setup new record. This record is stored in your browser. You will be reminded to download it
+        periodically.
+      </p>
       <PersonForm @submit="createAccount" />
     </div>
   </div>

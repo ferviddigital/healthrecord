@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import HeaderTitleCenter from './HeaderTitleCenter.vue';
+import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 
 defineProps<{
-  fields: FormField[],
-  title: string
+  fields: FormField[];
+  title: string;
 }>();
 
 const runUpdateCallback = (event: FocusEvent, field: FormField) => {
   if (!(event.target instanceof HTMLInputElement)) return;
-  const newValue = event.target.value
-  field.blurCallback(newValue)
-}
+  const newValue = event.target.value;
+  field.blurCallback(newValue);
+};
 </script>
 
 <template>
