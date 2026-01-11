@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
-import { people, create, update, destroy } from './people';
-import { record } from './record';
+import { people, create, update, destroy } from '../../src/stores/people';
+import { record } from '../../src/stores/record';
 
 // Mock the record store
-vi.mock('./record', () => ({
+vi.mock('../../src/stores/record', () => ({
   record: {
     value: {
       people: [],
