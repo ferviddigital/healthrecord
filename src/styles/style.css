@@ -1,13 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @media (hover: none) and (display-mode: standalone) {
   .main-header {
     @apply pb-[env(safe-area-inset-bottom)] md:bottom-auto mb-0;
 
     .main-nav a {
-      @apply !pb-0;
+      @apply pb-0!;
     }
   }
 }
@@ -46,7 +64,7 @@ body {
 }
 
 .btn {
-  @apply p-2 px-4 rounded bg-indigo-600 text-white grid grid-flow-col gap-2;
+  @apply p-2 px-4 rounded-sm bg-indigo-600 text-white grid grid-flow-col gap-2;
 
   &:hover {
     @apply bg-indigo-700;
@@ -89,7 +107,7 @@ body {
   @apply relative inline-block;
 
   .menu-button {
-    @apply block rounded-full text-gray-400 hover:text-black hover:bg-gray-200 focus:outline-none transition-all;
+    @apply block rounded-full text-gray-400 hover:text-black hover:bg-gray-200 focus:outline-hidden transition-all;
 
     &[aria-expanded='true'] {
       @apply bg-gray-200 text-black;
@@ -101,7 +119,7 @@ body {
   }
 
   .menu-items {
-    @apply absolute right-0 w-32 mt-2 rounded-lg border border-indigo-50 bg-white divide-y divide-gray-100 shadow-md focus:outline-none z-10;
+    @apply absolute right-0 w-32 mt-2 rounded-lg border border-indigo-50 bg-white divide-y divide-gray-100 shadow-md focus:outline-hidden z-10;
   }
 
   .menu-item {
@@ -125,10 +143,10 @@ input[type='password'],
 input[type='url'],
 textarea,
 select {
-  @apply border-gray-200 rounded py-2 px-3 text-gray-700;
+  @apply border-gray-200 rounded-sm py-2 px-3 text-gray-700;
 
   &:focus {
-    @apply outline-none border-indigo-500 ring-indigo-200 ring-4;
+    @apply outline-hidden border-indigo-500 ring-indigo-200 ring-4;
   }
 
   &:invalid::-webkit-datetime-edit {
@@ -153,7 +171,7 @@ form {
   input[type='url'],
   textarea,
   select {
-    @apply shadow-sm mb-3 w-full;
+    @apply shadow-xs mb-3 w-full;
   }
 
   input[type='radio'] {
@@ -166,7 +184,7 @@ form {
     }
 
     &:focus-visible {
-      @apply border-0 ring-2 ring-indigo-200 outline-none;
+      @apply border-0 ring-2 ring-indigo-200 outline-hidden;
     }
 
     &:checked,
@@ -182,7 +200,7 @@ form {
   }
 
   .input-group {
-    @apply grid grid-flow-col grid-cols-[auto_min-content] items-center border rounded shadow-sm overflow-hidden mb-3;
+    @apply grid grid-flow-col grid-cols-[auto_min-content] items-center border rounded-sm shadow-xs overflow-hidden mb-3;
 
     input {
       @apply border-none shadow-none mb-0 w-full;
