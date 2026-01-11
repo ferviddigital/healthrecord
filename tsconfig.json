@@ -9,7 +9,7 @@
     "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noEmit": true,
 
     "strict": true,
@@ -24,9 +24,7 @@
       "@syncedstore/core/types",
       "vue-router",
       "vite-plugin-pwa/client",
-      "./src/types/index",
-      "vue-router/dist/vue-router",
-      "@types/file-saver"
+      "./src/types/index"
     ],
     "paths": {
       "@stores/*": ["./src/stores/*"],
