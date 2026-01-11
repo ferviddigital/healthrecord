@@ -1,114 +1,134 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-input[type='text'],
-input[type='email'],
-input[type='date'],
-input[type='datetime-local'],
-input[type='password'],
-input[type='url'],
-textarea,
-select {
-  @apply border-gray-200 rounded-sm py-2 px-3 text-gray-700;
+@plugin '@tailwindcss/forms';
 
-  &:focus {
-    @apply outline-none border-indigo-500 ring-indigo-200 ring-4;
-  }
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-  &:invalid::-webkit-datetime-edit {
-    @apply text-gray-300;
-  }
-
-  &::placeholder {
-    @apply text-gray-300 font-light text-sm;
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
-form {
-  label {
-    @apply block text-gray-500 text-sm font-light mb-2 cursor-pointer;
-  }
+@media (hover: none) and (display-mode: standalone) {
+  .main-header {
+    @apply pb-[env(safe-area-inset-bottom)] md:bottom-auto mb-0;
 
-  input[type='text'],
-  input[type='email'],
-  input[type='date'],
-  input[type='datetime-local'],
-  input[type='password'],
-  input[type='url'],
-  textarea,
-  select {
-    @apply mb-3 w-full;
-  }
-
-  input[type='radio'] {
-    @apply border-gray-300 text-indigo-500 cursor-pointer align-text-top;
-
-    &:hover,
-    &:checked:hover,
-    &:checked:focus {
-      @apply ring-2 ring-indigo-200 border-white ring-offset-0;
-    }
-
-    &:focus-visible {
-      @apply border-0 ring-2 ring-indigo-200 outline-none;
-    }
-
-    &:checked,
-    &:active {
-      @apply border border-white bg-indigo-500 ring-2 ring-indigo-200;
+    .main-nav a {
+      @apply pb-0!;
     }
   }
+}
 
-  select {
-    &:invalid {
-      @apply text-gray-300;
-    }
+body {
+  min-width: -webkit-fill-available;
+}
+
+.main-header {
+  &::-webkit-scrollbar {
+    display: none;
   }
+}
 
-  .input-group {
-    @apply grid grid-flow-col grid-cols-[auto_min-content] items-center border rounded-sm overflow-hidden mb-3;
+.main-nav {
+  li > a {
+    @apply grid lg:grid-flow-col lg:gap-4 p-2 px-3 justify-center lg:justify-start place-items-center lg:place-items-start rounded-md text-gray-500 hover:bg-gray-800 hover:text-gray-400;
 
-    input {
-      @apply border-none shadow-none mb-0 w-full;
+    span:last-child {
+      @apply text-xs md:text-sm lg:text-base;
+    }
 
-      &:focus {
-        @apply border-none ring-0;
+    &.router-link-exact-active,
+    &.router-link-active {
+      @apply text-white;
+
+      svg {
+        @apply text-indigo-400 transition-all;
       }
+    }
+  }
+}
+
+.box-columns {
+  @apply grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6;
+}
+
+.btn {
+  @apply p-2 px-4 rounded-sm bg-indigo-600 text-white grid grid-flow-col gap-2;
+
+  &:hover {
+    @apply bg-indigo-700;
+  }
+
+  &:disabled {
+    @apply bg-gray-300;
+  }
+
+  svg {
+    @apply w-4 h-4 inline-block self-center stroke-white;
+  }
+}
+
+.switch {
+  @apply bg-gray-300 inline-flex h-9 w-14 items-center rounded-full;
+
+  &:hover {
+    @apply bg-gray-400;
+  }
+
+  span {
+    @apply translate-x-1 inline-block h-7 w-7 transform rounded-full bg-white transition;
+  }
+
+  &.active {
+    @apply bg-indigo-600;
+
+    &:hover {
+      @apply bg-indigo-700;
     }
 
     span {
-      @apply grid bg-gray-50 border-l p-1 px-2 text-gray-400 text-sm h-full content-center;
+      @apply translate-x-6;
     }
   }
 }
 
-.list-move,
-.list-enter-active,
-.list-leave-active {
-  transition: transform 150ms linear, opacity 100ms;
-  width: 100%;
-}
+.menu {
+  @apply relative inline-block;
 
-.list-enter-from,
-.list-leave-to {
-  transform: translateY(-100px);
-  width: 100%;
-  opacity: 0;
-}
+  .menu-button {
+    @apply block rounded-full text-gray-400 hover:text-black hover:bg-gray-200 focus:outline-hidden transition-all;
 
-.list-leave-active {
-  position: absolute;
-  width: 100%;
-}
+    &[aria-expanded='true'] {
+      @apply bg-gray-200 text-black;
+    }
+
+    svg {
+      @apply w-6 h-6 md:w-5 md:h-5;
+    }
+  }
 
   .menu-items {
-    @apply absolute right-0 w-32 mt-2 rounded-lg border border-indigo-50 bg-white divide-y divide-gray-100 shadow-md focus:outline-none z-10;
+    @apply absolute right-0 w-32 mt-2 rounded-lg border border-indigo-50 bg-white divide-y divide-gray-100 shadow-md focus:outline-hidden z-10;
   }
 
   .menu-item {
     @apply w-full text-sm justify-start grid grid-cols-[min-content_auto] rounded-lg p-2 items-center hover:bg-indigo-600 hover:text-white;
 
+    svg {
+      @apply h-4 w-4 mr-2 text-indigo-700;
+    }
+  }
 }
 
 button {
@@ -126,7 +146,7 @@ select {
   @apply border-gray-200 rounded-sm py-2 px-3 text-gray-700;
 
   &:focus {
-    @apply outline-none border-indigo-500 ring-indigo-200 ring-4;
+    @apply outline-hidden border-indigo-500 ring-indigo-200 ring-4;
   }
 
   &:invalid::-webkit-datetime-edit {
@@ -151,7 +171,7 @@ form {
   input[type='url'],
   textarea,
   select {
-    @apply mb-3 w-full;
+    @apply shadow-xs mb-3 w-full;
   }
 
   input[type='radio'] {
@@ -164,7 +184,7 @@ form {
     }
 
     &:focus-visible {
-      @apply border-0 ring-2 ring-indigo-200 outline-none;
+      @apply border-0 ring-2 ring-indigo-200 outline-hidden;
     }
 
     &:checked,
@@ -180,7 +200,7 @@ form {
   }
 
   .input-group {
-    @apply grid grid-flow-col grid-cols-[auto_min-content] items-center border rounded-sm overflow-hidden mb-3;
+    @apply grid grid-flow-col grid-cols-[auto_min-content] items-center border rounded-sm shadow-xs overflow-hidden mb-3;
 
     input {
       @apply border-none shadow-none mb-0 w-full;
