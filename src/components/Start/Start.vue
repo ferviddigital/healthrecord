@@ -33,6 +33,7 @@ const processFile = () => {
     const result = JSON.parse(reader.result);
     if (result.hasOwnProperty('type') && result.type === 'healthRecord') {
       load(JSON.stringify(result));
+      router.push({ name: 'Dashboard' });
     } else if (result.hasOwnProperty('encrypted') && result.encrypted && !passphrase.value) {
       passphraseModalOpen.value = true;
     } else if (result.hasOwnProperty('encrypted') && result.encrypted && passphrase.value) {
