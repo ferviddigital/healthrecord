@@ -7,8 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "generate-pwa-icon": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -c -i ./index.html -v /assets -m ./public/manifest.webmanifest",
-    "generate-pwa-splash": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -p -i ./index.html -v /assets \"32%\" -h -r",
+    "generate-pwa-splash": "pwa-asset-generator public/healthrecord.svg public/assets/ -b \"rgb(229, 231, 235)\" -o false -c -p -i ./index.html -v /assets \"32%\" -h -r",
     "generate-pwa-assets": "npm run generate-pwa-icon && npm run generate-pwa-splash"
   },
   "dependencies": {
@@ -39,11 +43,16 @@
     "@types/number-to-words": "^1.2.2",
     "@types/pluralize": "^0.0.32",
     "@vitejs/plugin-vue": "^6.0.3",
+    "@vitest/ui": "^4.0.16",
     "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.1.0",
+    "jsdom": "^27.4.0",
     "postcss": "^8.4.29",
     "typescript": "^5.2.2",
     "vite": "^7.3.1",
     "vite-plugin-pwa": "^1.2.0",
+    "vitest": "^4.0.16",
     "vue-tsc": "^3.2.2"
   },
   "prettier": {
