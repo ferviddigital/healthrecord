@@ -9,7 +9,7 @@ import VitalChartSummary from '@components/Person/VitalChartSummary.vue';
 import HeaderTitleCenter from '@components/Interface/HeaderTitleCenter.vue';
 import LogbookListItem from '@components/Logbook/LogbookListItem.vue';
 import { selectedPerson, sortedPersonMeasurements } from '@stores/person';
-import { MeasurementLogEntry } from '../../classes/logEntry';
+import { MeasurementLogEntry } from '../../utils/logEntry';
 
 const route = useRoute();
 

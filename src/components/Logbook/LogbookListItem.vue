@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LogEntry, MeasurementLogEntry, NoteLogEntry } from '../../classes/logEntry';
+import { LogEntry, MeasurementLogEntry, NoteLogEntry } from '../../utils/logEntry';
 import { ChartBarIcon, DocumentTextIcon } from '@heroicons/vue/20/solid';
 import dayjs from 'dayjs';
 import MeasurementLogItem from '@components/Logbook/MeasurementLogItem.vue';

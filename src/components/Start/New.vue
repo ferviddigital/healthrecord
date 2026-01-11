@@ -6,8 +6,8 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const createAccount = (person: Person) => {
-  create(person);
+const createAccount = (person: Partial<Person>) => {
+  create(person as { firstName: string; lastName: string; sex: string; dob: string });
   router.push({ name: 'Dashboard' });
 };
 </script>

@@ -2,7 +2,7 @@ import { computed, ref, watch } from 'vue';
 import { people } from '@stores/people';
 import { measurements } from '@stores/measurements';
 import { notes } from '@stores/notes';
-import { MeasurementLogEntry, NoteLogEntry } from '../classes/logEntry';
+import { MeasurementLogEntry, NoteLogEntry } from '../utils/logEntry';
 
 export const selectedPersonId = ref(localStorage.getItem('selectedPersonId'));
 

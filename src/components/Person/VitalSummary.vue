@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SparklesIcon } from '@heroicons/vue/24/solid';
-import { VitalInsightsSummary } from '../../classes/insight';
+import { VitalInsightsSummary } from '../../utils/insight';
 
 const props = defineProps<{
   person: Person;

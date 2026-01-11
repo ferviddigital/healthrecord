@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VitalInsight } from '../../classes/insight';
+import { VitalInsight } from '../../utils/insight';
 import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon,

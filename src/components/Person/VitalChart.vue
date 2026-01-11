@@ -2,16 +2,13 @@
 import type { ActiveElement, ChartData, ChartOptions, ScriptableContext } from 'chart.js';
 import { PointElement } from 'chart.js';
 import type { AnnotationOptions } from 'chartjs-plugin-annotation';
-import { computed, ref, watch } from 'vue';
-import type { ChartComponentRef } from 'vue-chartjs';
+import { computed, watch } from 'vue';
 import { Line } from 'vue-chartjs';
 import { useRoute, useRouter } from 'vue-router';
-import '../../scripts/chartjs';
+import '../../../scripts/chartjs';
 
 const router = useRouter();
 const route = useRoute();
-
-const vitalChartInstance = ref<ChartComponentRef>();
 
 const props = defineProps<{
   vital: Vital;
@@ -89,7 +86,7 @@ const options = computed(() => {
             return tooltipItem.formattedValue + ' ' + props.vital.unit;
           },
           title: (tooltipItem) => {
-            return new Date(tooltipItem[0].parsed.x).toLocaleDateString();
+            return new Date(tooltipItem[0].parsed.x || 0).toLocaleDateString();
           },
         },
       },
