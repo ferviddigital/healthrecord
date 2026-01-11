@@ -9,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="grid bg-gray-200 p-3 px-4 gap-2 md:gap-10 rounded-md hover:shadow hover:bg-gray-100 cursor-pointer transition-all mt-2"
+    class="grid bg-gray-200 p-3 px-4 gap-2 md:gap-10 rounded-md hover:shadow-sm hover:bg-gray-100 cursor-pointer transition-all mt-2"
     @click.stop="
       $router.push({
         name: 'PersonVital',

@@ -59,13 +59,13 @@ const vitalMeasurements = (vitalId: string) => {
             class="grid grid-flow-col gap-2 self-end justify-end mb-2 bg-gray-300 rounded-full p-1 shadow-inner">
             <button
               class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
-              :class="{ '!bg-indigo-500 text-white shadow': vitalSort === 'alpha' }"
+              :class="{ 'bg-indigo-500! text-white shadow-sm': vitalSort === 'alpha' }"
               @click="vitalSort = 'alpha'">
               A-Z
             </button>
             <button
               class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all"
-              :class="{ '!bg-indigo-500 text-white shadow': vitalSort === 'date' }"
+              :class="{ 'bg-indigo-500! text-white shadow-sm': vitalSort === 'date' }"
               @click="vitalSort = 'date'">
               Recent
             </button>
@@ -75,7 +75,7 @@ const vitalMeasurements = (vitalId: string) => {
           <div
             v-for="vital in sortedVitals"
             :key="vital.id"
-            class="group bg-gray-50 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all overflow-hidden"
+            class="group bg-gray-50 rounded-xl cursor-pointer shadow-xs hover:shadow-md hover:bg-white transition-all overflow-hidden"
             @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
             <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
               <h3 class="font-semibold">{{ vital.name }}</h3>

@@ -74,7 +74,7 @@ const vitalMeasurements = (vitalId: string) => {
           <div
             v-for="vital in sortedVitals.slice(0, 4)"
             :key="vital.id"
-            class="group bg-gray-50 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all overflow-hidden"
+            class="group bg-gray-50 rounded-xl cursor-pointer shadow-xs hover:shadow-md hover:bg-white transition-all overflow-hidden"
             @click="$router.push({ name: 'PersonVital', params: { vitalId: vital.id } })">
             <header class="grid grid-cols-[auto_min-content] p-3 pb-0">
               <h3 class="font-semibold">{{ vital.name }}</h3>

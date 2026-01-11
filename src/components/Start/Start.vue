@@ -60,7 +60,7 @@ const passphraseSubmitted = (_passphrase: string) => {
 <template>
   <div class="grid h-screen justify-center items-center p-10">
     <div
-      class="border border-gray-200 shadow-sm hover:shadow rounded-lg max-w-xs mx-auto p-10 bg-white"
+      class="border border-gray-200 shadow-xs hover:shadow-sm rounded-lg max-w-xs mx-auto p-10 bg-white"
     >
       <h1 class="text-2xl font-bold text-center mb-5">
         <SquaresPlusIcon class="h-5 w-5 inline -mt-1.5" />
@@ -71,7 +71,7 @@ const passphraseSubmitted = (_passphrase: string) => {
       </p>
       <button
         @click="$router.push({ name: 'StartNew' })"
-        class="block w-full p-2 px-5 rounded bg-indigo-500 text-white mb-2 hover:bg-indigo-600"
+        class="block w-full p-2 px-5 rounded-sm bg-indigo-500 text-white mb-2 hover:bg-indigo-600"
       >
         Start with new record
       </button>

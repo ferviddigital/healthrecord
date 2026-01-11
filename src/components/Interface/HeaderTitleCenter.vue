@@ -25,7 +25,7 @@ const scrollToTop = () => {
 <template>
   <header
     class="sticky grid grid-cols-[auto_min-content] top-0 p-4 py-2 sm:pt-4 bg-gray-200/70 backdrop-blur-xl border-b border-transparent transition-all"
-    :class="{ '!border-gray-300': scrolled }"
+    :class="{ 'border-gray-300!': scrolled }"
   >
     <hgroup class="grid grid-cols-[1fr_1fr_1fr] items-center">
       <RouterLink class="text-indigo-500 justify-self-start" :to="props.backRoute">

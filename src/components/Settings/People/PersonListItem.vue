@@ -23,7 +23,7 @@ const goToPerson = () => {
 
 <template>
   <div
-    class="group/person grid grid-cols-[auto_min-content] bg-gray-50 min-h-[10em] p-3 rounded-xl cursor-pointer shadow-sm hover:shadow-md hover:bg-white transition-all"
+    class="group/person grid grid-cols-[auto_min-content] bg-gray-50 min-h-[10em] p-3 rounded-xl cursor-pointer shadow-xs hover:shadow-md hover:bg-white transition-all"
     @click="goToPerson"
   >
     <div class="grid items-end content-end">

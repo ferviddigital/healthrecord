@@ -75,7 +75,7 @@ const backRoute = computed(() => {
     <div class="m-4 mt-0">
       <p class="text-center text-gray-500 mb-5 leading-none">{{ vital.description }}</p>
       <Insight :person="selectedPerson" :vital="vital" class="" />
-      <div class="bg-white rounded-xl shadow">
+      <div class="bg-white rounded-xl shadow-sm">
         <VitalChartSummary :vital="vital" :measurements="vitalMeasurements" />
       </div>
       <div class="pt-9 grid gap-3">

@@ -8,7 +8,7 @@ const fields: FormField[] = [
     placeholder: 'wss://signalserver.com',
     currentValue: record.value?.user.preferences?.webRTC.signalerUrl,
     type: 'url',
-    classes: 'font-mono text-sm !p-4 !px-4',
+    classes: 'font-mono text-sm p-4! px-4!',
     blurCallback: (newValue) => updateSignalServer(newValue),
   },
 ];

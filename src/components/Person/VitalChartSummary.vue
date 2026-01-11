@@ -212,7 +212,7 @@ const language = navigator.language;
           <button
             class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all disabled:text-gray-300 disabled:hover:bg-transparent"
             :class="{
-              '!bg-indigo-500 text-white shadow':
+              'bg-indigo-500! text-white shadow-sm':
                 selectedRange.length === 100 && selectedRange.unit === 'year',
             }"
             @click="
@@ -231,7 +231,7 @@ const language = navigator.language;
             v-for="range in availableRanges"
             class="rounded-full p-0.5 px-3 text-sm hover:bg-gray-200 transition-all disabled:text-gray-300 disabled:hover:bg-transparent"
             :class="{
-              '!bg-indigo-500 text-white shadow':
+              'bg-indigo-500! text-white shadow-sm':
                 selectedRange.length === range.length && selectedRange.unit === range.unit,
             }"
             @click="selectedRange = range"
@@ -259,7 +259,7 @@ const language = navigator.language;
           <span class="font-normal text-xs text-gray-500">{{ vital.unit }}</span>
         </span>
       </span>
-      <span class="grid p-3 sm:py-5 sm:!border-b">
+      <span class="grid p-3 sm:py-5 sm:border-b!">
         <span class="text-xs uppercase text-gray-500">Measurements</span>
         <span class="font-bold">{{ filteredMeasurements.length }}</span>
       </span>

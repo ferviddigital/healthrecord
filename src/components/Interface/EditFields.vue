@@ -24,7 +24,7 @@ const runUpdateCallback = (event: FocusEvent, field: FormField) => {
             :name="field.name"
             :placeholder="field.placeholder"
             :value="field.currentValue"
-            class="border-none bg-none !ring-0 !p-3 !px-4 w-full"
+            class="border-none bg-none ring-0! p-3! px-4! w-full"
             :class="field.classes"
             @blur="(event: FocusEvent) => runUpdateCallback(event, field)"
           />

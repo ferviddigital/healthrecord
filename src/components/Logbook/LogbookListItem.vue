@@ -14,7 +14,7 @@ const props = defineProps<{
   <div class="grid grid-cols-[min-content_auto] gap-3 items-start">
     <ChartBarIcon class="h-5 w-5 mt-4" v-if="(props.logEntry instanceof MeasurementLogEntry)" />
     <DocumentTextIcon class="h-5 w-5 mt-4" v-else-if="(props.logEntry instanceof NoteLogEntry)" />
-    <div class="bg-gray-50 shadow-sm p-4 rounded-xl">
+    <div class="bg-gray-50 shadow-xs p-4 rounded-xl">
       <p class="leading-tight">
         A <span class="font-semibold">{{ props.logEntry.description }}</span> was logged on
         {{ dayjs(logEntry.date).format('MMM D, YYYY') }}.

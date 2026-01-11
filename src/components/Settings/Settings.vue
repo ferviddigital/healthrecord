@@ -166,7 +166,7 @@ const appVersion = APP_VERSION;
                   }}
                   <span
                     class="h-2 w-2 ml-1 inline-block bg-orange-300 rounded-full"
-                    :class="{ '!bg-green-500': peers > 0 }"
+                    :class="{ 'bg-green-500!': peers > 0 }"
                     :title="
                       peers > 0
                         ? pluralize('peer', peers, true) + ' connected'
